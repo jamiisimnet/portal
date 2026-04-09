@@ -364,10 +364,6 @@
             transform: scale(0.96);
         }
 
-        .action-btn-success {
-            background: #2b7e5a;
-        }
-
         .empty-state {
             text-align: center;
             padding: 2rem;
@@ -471,7 +467,38 @@
 
 <script>
     // ==================== CONFIGURATION ====================
-    const API_BASE_URL = "https://script.google.com/macros/s/AKfycbyHaOUYDQIeXhEW0xgjNQqUpZo0d6X8myUFHSdkAVaYnIpcR_EuNGeKmzik6DAH1mzb/exec";
+    const API_BASE_URL = "https://script.google.com/macros/s/AKfycbx-ggpKM1cMYW48ojsD3wuy8vkyJP4sLe31KDi4w8sF559e22i8ZvVFydnooGu4lnpQ/exec";
+    
+    // ==================== CACHE SYSTEM ====================
+    const AppCache = {
+        data: {},
+        timestamps: {},
+        ttl: 30000, // 30 seconds cache
+        
+        get(key) {
+            if (this.data[key] && (Date.now() - this.timestamps[key]) < this.ttl) {
+                console.log(`⚡ Cache hit: ${key}`);
+                return this.data[key];
+            }
+            return null;
+        },
+        
+        set(key, value) {
+            this.data[key] = value;
+            this.timestamps[key] = Date.now();
+        },
+        
+        clear(key) {
+            if (key) {
+                delete this.data[key];
+                delete this.timestamps[key];
+            } else {
+                this.data = {};
+                this.timestamps = {};
+                console.log("🗑️ Cache cleared");
+            }
+        }
+    };
     
     function showToast(message, isError = false) {
         const existing = document.querySelector('.toast-message');
@@ -495,7 +522,17 @@
         return normalized;
     }
 
-    async function apiGet(action, params = {}) {
+    // Enhanced API with caching - NO AbortController
+    async function apiGet(action, params = {}, skipCache = false) {
+        const cacheKey = `${action}_${JSON.stringify(params)}`;
+        const readActions = ["getLines", "getTills", "getStats"];
+        
+        // Check cache for read operations
+        if (!skipCache && readActions.includes(action)) {
+            const cached = AppCache.get(cacheKey);
+            if (cached) return cached;
+        }
+        
         let url = `${API_BASE_URL}?action=${action}`;
         
         Object.keys(params).forEach(key => {
@@ -510,9 +547,7 @@
             const response = await fetch(url, {
                 method: 'GET',
                 mode: 'cors',
-                headers: {
-                    'Accept': 'application/json'
-                }
+                headers: { 'Accept': 'application/json' }
             });
             
             if (!response.ok) {
@@ -521,16 +556,30 @@
             
             const data = await response.json();
             console.log("API Response:", data);
+            
+            // Cache successful read responses
+            if (data.success && readActions.includes(action)) {
+                AppCache.set(cacheKey, data);
+            }
+            
             return data;
         } catch (err) {
             console.error("API Error:", err);
             return { success: false, error: err.message };
         }
     }
+    
+    // For mutations (writes) - clears cache automatically
+    async function apiMutate(action, params = {}) {
+        const result = await apiGet(action, params, true); // Skip cache
+        AppCache.clear(); // Clear all cached data
+        return result;
+    }
 
     let currentUser = null;
     let activeMenu = "Home";
     let reportSub = "Line";
+    let searchTimeout = null;
 
     function render() {
         const app = document.getElementById("app");
@@ -720,10 +769,10 @@
             
             html += `<tr>
                         <td><strong>${escapeHtml(till.name || "-")}</strong></td>
-                        <td>${escapeHtml(till.tillNumber)}</td>
-                        <td>${escapeHtml(till.storeNumber)}</td>
-                        <td>${statusBadge}</td>
-                        <td>${actionButton}</td>
+                        <td>${escapeHtml(till.tillNumber)}</div>
+                        <td>${escapeHtml(till.storeNumber)}</div>
+                        <td>${statusBadge}</div>
+                        <td>${actionButton}</div>
                      </tr>`;
         });
         
@@ -734,7 +783,7 @@
             btn.addEventListener("click", async () => {
                 const pin = prompt("🔐 Enter Start PIN (4-6 digits):");
                 if (pin && pin.length >= 4) {
-                    const res = await apiGet("activateTill", { rowIndex: parseInt(btn.dataset.row), startPin: pin });
+                    const res = await apiMutate("activateTill", { rowIndex: parseInt(btn.dataset.row), startPin: pin });
                     if (res.success) { showToast("✅ Till activated!"); await loadActivationTable(); }
                     else showToast("❌ Activation failed", true);
                 } else showToast("PIN required (min 4 digits)", true);
@@ -760,10 +809,10 @@
         
         tills.forEach(till => {
             html += `<tr>
-                        <td><strong>${escapeHtml(till.name || "-")}</strong></td>
-                        <td>${escapeHtml(till.tillNumber)}</td>
-                        <td><span class="status-badge status-active" style="background:#e8f5e9;"><i class="fas fa-cubes"></i> ${till.units || 0} units</span></td>
-                        <td><button class="action-btn update-units-btn" data-row="${till.rowIndex}"><i class="fas fa-plus-circle"></i> Add Units</button></td>
+                        <td><strong>${escapeHtml(till.name || "-")}</strong></div>
+                        <td>${escapeHtml(till.tillNumber)}</div>
+                        <td><span class="status-badge status-active" style="background:#e8f5e9;"><i class="fas fa-cubes"></i> ${till.units || 0} units</span></div>
+                        <td><button class="action-btn update-units-btn" data-row="${till.rowIndex}"><i class="fas fa-plus-circle"></i> Add Units</button></div>
                      </tr>`;
         });
         
@@ -774,9 +823,8 @@
             btn.addEventListener("click", async () => {
                 const add = prompt("➕ Enter number of units to ADD:");
                 if (add && !isNaN(parseFloat(add))) {
-                    const res = await apiGet("updateUnits", { rowIndex: parseInt(btn.dataset.row), addUnits: parseFloat(add) });
+                    const res = await apiMutate("updateUnits", { rowIndex: parseInt(btn.dataset.row), addUnits: parseFloat(add) });
                     if (res.success) {
-                        document.getElementById(`units-${btn.dataset.row}`).innerText = res.newUnits;
                         showToast(`📊 Units updated to ${res.newUnits}`);
                         await loadTransactionsTable();
                     } else showToast("Error updating units", true);
@@ -805,11 +853,11 @@
             
             lines.forEach(l => {
                 html += `<tr>
-                            <td><strong>${escapeHtml(l.name)}</strong></td>
-                            <td>${escapeHtml(l.idNumber)}</td>
-                            <td>${escapeHtml(l.phone)}</td>
-                            <td>${escapeHtml(l.dob)}</td>
-                            <td>${new Date(l.dateCreated).toLocaleDateString()}</td>
+                            <td><strong>${escapeHtml(l.name)}</strong></div>
+                            <td>${escapeHtml(l.idNumber)}</div>
+                            <td>${escapeHtml(l.phone)}</div>
+                            <td>${escapeHtml(l.dob)}</div>
+                            <td>${new Date(l.dateCreated).toLocaleDateString()}</div>
                          </tr>`;
             });
             
@@ -837,12 +885,12 @@
                     : '<span class="status-badge status-inactive"><i class="fas fa-clock"></i> Inactive</span>';
                 
                 html += `<tr>
-                            <td><strong>${escapeHtml(t.name)}</strong></td>
-                            <td>${escapeHtml(t.tillNumber)}</td>
-                            <td>${escapeHtml(t.storeNumber)}</td>
-                            <td><span class="status-badge status-active" style="background:#e8f5e9;"><i class="fas fa-cubes"></i> ${t.units || 0} units</span></td>
-                            <td>${statusBadge}</td>
-                            <td>${new Date(t.dateCreated).toLocaleDateString()}</td>
+                            <td><strong>${escapeHtml(t.name)}</strong></div>
+                            <td>${escapeHtml(t.tillNumber)}</div>
+                            <td>${escapeHtml(t.storeNumber)}</div>
+                            <td><span class="status-badge status-active" style="background:#e8f5e9;"><i class="fas fa-cubes"></i> ${t.units || 0} units</span></div>
+                            <td>${statusBadge}</div>
+                            <td>${new Date(t.dateCreated).toLocaleDateString()}</div>
                          </tr>`;
             });
             
@@ -861,6 +909,15 @@
         });
     }
 
+    // Preload data for faster navigation
+    async function preloadCommonData() {
+        Promise.all([
+            apiGet("getLines", {}, true),
+            apiGet("getTills", {}, true),
+            apiGet("getStats", {}, true)
+        ]).catch(console.error);
+    }
+
     async function loadDynamicData() {
         if (activeMenu === "Home") await loadHomeStats();
         if (activeMenu === "Activation") await loadActivationTable();
@@ -872,7 +929,7 @@
         document.querySelectorAll("[data-menu]").forEach(btn => {
             btn.addEventListener("click", () => { activeMenu = btn.dataset.menu; render(); });
         });
-        document.getElementById("logoutBtnSide")?.addEventListener("click", () => { currentUser = null; showToast("Logged out"); render(); });
+        document.getElementById("logoutBtnSide")?.addEventListener("click", () => { currentUser = null; AppCache.clear(); showToast("Logged out"); render(); });
         
         if (activeMenu === "LineRegistration") {
             const saveBtn = document.getElementById("saveLineBtn");
@@ -893,7 +950,7 @@
                     
                     feedback.innerHTML = '<div class="loading" style="padding:0.5rem;"><i class="fas fa-spinner fa-pulse"></i> Registering...</div>';
                     
-                    const res = await apiGet("registerLine", { name, idNumber, phone, dob });
+                    const res = await apiMutate("registerLine", { name, idNumber, phone, dob });
                     
                     if (res.success) {
                         feedback.innerHTML = '<div class="feedback-success">✓ Line registered successfully!</div>';
@@ -903,6 +960,7 @@
                         document.getElementById("lineDob").value = "";
                         showToast("🎉 Line registered!");
                         setTimeout(() => feedback.innerHTML = "", 2000);
+                        await loadHomeStats();
                     } else {
                         feedback.innerHTML = `<div class="feedback-error">✗ ${res.error || "Registration failed"}</div>`;
                         showToast("Registration failed", true);
@@ -912,6 +970,20 @@
         }
         
         if (activeMenu === "TillRegistration") {
+            // Debounced search for phone input
+            const fetchPhoneInput = document.getElementById("fetchPhone");
+            if (fetchPhoneInput) {
+                fetchPhoneInput.addEventListener("input", () => {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(async () => {
+                        const phone = fetchPhoneInput.value.trim();
+                        if (phone.length >= 6) {
+                            document.getElementById("fetchLineBtn").click();
+                        }
+                    }, 500);
+                });
+            }
+            
             const fetchBtn = document.getElementById("fetchLineBtn");
             if (fetchBtn) {
                 fetchBtn.addEventListener("click", async () => {
@@ -982,7 +1054,7 @@
                     
                     feedback.innerHTML = '<div class="loading" style="padding:0.5rem;"><i class="fas fa-spinner fa-pulse"></i> Registering...</div>';
                     
-                    const res = await apiGet("registerTill", payload);
+                    const res = await apiMutate("registerTill", payload);
                     
                     if (res.success) {
                         feedback.innerHTML = '<div class="feedback-success">✓ Till registered successfully!</div>';
@@ -1032,6 +1104,7 @@
                     activeMenu = "Home";
                     render();
                     showToast(`Welcome back, ${username}!`);
+                    preloadCommonData();
                 } else {
                     errorDiv.innerHTML = result.error || "Invalid credentials";
                 }
@@ -1042,4 +1115,4 @@
     render();
 </script>
 </body>
-</html>s
+</html>
