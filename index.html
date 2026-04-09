@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Flow | Google Sheets Backend</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: #f0f2f5; }
+        .login-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0b2b26 0%, #1e4a3b 100%); }
+        .login-card { background: rgba(255,255,255,0.96); border-radius: 40px; padding: 2.5rem; width: 100%; max-width: 420px; box-shadow: 0 25px 45px rgba(0,0,0,0.2); }
+        .login-card h2 { font-size: 2rem; font-weight: 700; background: linear-gradient(120deg, #0b2b26, #2c7a5e); -webkit-background-clip: text; background-clip: text; color: transparent; text-align: center; margin-bottom: 1.5rem; }
+        .input-group { margin-bottom: 1.2rem; }
+        .input-group label { font-weight: 500; color: #1f2e2a; display: block; margin-bottom: 0.4rem; }
+        .input-group input { width: 100%; padding: 14px 16px; border-radius: 28px; border: 1px solid #d1d9d6; font-size: 1rem; }
+        .btn-animated { background: #1e4a3b; color: white; border: none; padding: 12px 24px; border-radius: 40px; font-weight: 600; width: 100%; cursor: pointer; transition: all 0.2s; }
+        .btn-animated:hover { background: #0f3b2f; transform: scale(0.98); }
+        .dashboard { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background: #0c2b25; color: #e2f0ec; padding: 2rem 1rem; }
+        .sidebar .logo-area { font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem; padding-left: 1rem; background: linear-gradient(135deg,#fff, #b9f3e0); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .sidebar nav ul { list-style: none; }
+        .sidebar nav ul li { margin: 1.2rem 0; }
+        .sidebar nav ul li button { background: transparent; border: none; color: #d0e6e0; width: 100%; text-align: left; padding: 12px 16px; border-radius: 32px; cursor: pointer; display: flex; align-items: center; gap: 12px; font-size: 1rem; }
+        .sidebar nav ul li button:hover, .sidebar nav ul li .active-menu { background: #2c7a5e; color: white; }
+        .main-content { flex: 1; padding: 2rem; background: #f8fafc; overflow-y: auto; }
+        .card-panel { background: white; border-radius: 32px; padding: 1.8rem 2rem; margin-bottom: 2rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: linear-gradient(145deg, #ffffff, #f5f9f8); border-radius: 28px; padding: 1.5rem; text-align: center; border: 1px solid rgba(44,122,94,0.15); transition: all 0.3s; }
+        .stat-card:hover { transform: translateY(-5px); border-color: #2c7a5e; }
+        .stat-icon { font-size: 2.5rem; color: #1e4a3b; margin-bottom: 1rem; }
+        .stat-value { font-size: 2.4rem; font-weight: 800; color: #0b2b26; }
+        .stat-label { font-size: 0.9rem; font-weight: 500; color: #5b6e69; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 1.2rem; margin-top: 1rem; }
+        input { border-radius: 28px; border: 1px solid #cfdfda; padding: 12px 16px; width: 100%; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; background: white; border-radius: 24px; overflow: hidden; }
+        th, td { text-align: left; padding: 14px 12px; border-bottom: 1px solid #e9efec; }
+        th { background: #eef3f0; }
+        .activate-btn, .update-units-btn { background: #1e4a3b; color: white; border: none; padding: 6px 16px; border-radius: 30px; cursor: pointer; }
+        .badge-active { background: #2b7e5a; color: white; padding: 4px 10px; border-radius: 50px; font-size: 0.75rem; }
+        .badge-inactive { background: #a5573e; color: white; padding: 4px 10px; border-radius: 50px; }
+        .submenu { display: flex; gap: 20px; margin-bottom: 20px; }
+        .submenu button { background: #eef3f0; border: none; padding: 10px 20px; border-radius: 40px; cursor: pointer; }
+        .submenu button.active-sub { background: #1e4a3b; color: white; }
+        .logout-btn { margin-top: 3rem; border-top: 1px solid #2a5a4c; padding-top: 1.5rem; }
+        .loading { text-align: center; padding: 2rem; color: #2c7a5e; }
+        @media (max-width: 780px) { .sidebar { width: 80px; } .sidebar nav ul li button span { display: none; } .logo-area span { display: none; } }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+    // ==================== CONFIGURATION ====================
+    // ⚠️ REPLACE THIS WITH YOUR ACTUAL APPS SCRIPT WEB APP URL ⚠️
+    const API_BASE_URL = "https://script.google.com/macros/s/AKfycbyv6_nA4GiJNt_Qw1qSDynHZpb8MU5uQRMkxLgu_oVzWM0qqeQ-T044f9tBvYbE9C2B/exec";
+    
+    // ==================== API HELPER ====================
+    async function apiCall(action, method = "GET", body = null) {
+        const url = method === "GET" 
+            ? `${API_BASE_URL}?action=${action}${body ? '&' + new URLSearchParams(body).toString() : ''}`
+            : API_BASE_URL;
+        
+        const options = { method: method };
+        if (method === "POST" && body) {
+            options.body = JSON.stringify(body);
+            options.headers = { "Content-Type": "application/json" };
+        }
+        
+        try {
+            const response = await fetch(url, options);
+            return await response.json();
+        } catch (err) {
+            console.error("API Error:", err);
+            return { success: false, error: err.message };
+        }
+    }
+    
+    async function apiPost(action, data) {
+        return apiCall(action, "POST", { action, ...data });
+    }
+    
+    async function apiGet(action, params = {}) {
+        return apiCall(action, "GET", params);
+    }
+    
+    // ==================== APP STATE ====================
+    let currentUser = null;
+    let activeMenu = "Home";
+    let reportSub = "Line";
+    let cachedLines = [];
+    let cachedTills = [];
+    
+    // ==================== RENDER ====================
+    function render() {
+        const app = document.getElementById("app");
+        if (!currentUser) {
+            app.innerHTML = renderLogin();
+            attachLoginEvents();
+            return;
+        }
+        app.innerHTML = renderDashboard();
+        attachDashboardEvents();
+        loadDynamicData();
+    }
+    
+    function renderLogin() {
+        return `
+            <div class="login-container">
+                <div class="login-card">
+                    <h2><i class="fas fa-charging-station"></i> NexusFlow</h2>
+                    <div class="input-group"><label>Username</label><input type="text" id="loginUsername" placeholder="admin"></div>
+                    <div class="input-group"><label>Password</label><input type="password" id="loginPassword" placeholder="••••••"></div>
+                    <button class="btn-animated" id="loginBtn">Login</button>
+                    <p style="margin-top:1rem; font-size:0.8rem; text-align:center;">Use credentials from 'users' sheet</p>
+                </div>
+            </div>
+        `;
+    }
+    
+    function renderDashboard() {
+        const menuItems = ["Home", "Line Registration", "Till Registration", "Activation", "Transactions", "Report"];
+        const menuMap = { "Home": "Home", "Line Registration": "LineRegistration", "Till Registration": "TillRegistration", "Activation": "Activation", "Transactions": "Transactions", "Report": "Report" };
+        
+        let content = "";
+        if (activeMenu === "Home") content = renderHomeStats();
+        else if (activeMenu === "LineRegistration") content = renderLineRegistration();
+        else if (activeMenu === "TillRegistration") content = renderTillRegistration();
+        else if (activeMenu === "Activation") content = '<h2>Activation</h2><div id="activationTableContainer"><div class="loading">Loading...</div></div>';
+        else if (activeMenu === "Transactions") content = '<h2>Transactions</h2><div id="transactionsTableContainer"><div class="loading">Loading...</div></div>';
+        else if (activeMenu === "Report") content = renderReport();
+        
+        return `
+            <div class="dashboard">
+                <div class="sidebar">
+                    <div class="logo-area"><i class="fas fa-chart-line"></i> <span>NexusFlow</span></div>
+                    <nav><ul>
+                        ${menuItems.map(item => `<li><button class="${activeMenu === menuMap[item] ? 'active-menu' : ''}" data-menu="${menuMap[item]}"><i class="fas ${getIcon(menuMap[item])}"></i> <span>${item}</span></button></li>`).join('')}
+                        <li class="logout-btn"><button id="logoutBtnSide"><i class="fas fa-sign-out-alt"></i> Logout</button></li>
+                    </ul></nav>
+                </div>
+                <div class="main-content"><div class="card-panel">${content}</div></div>
+            </div>
+        `;
+    }
+    
+    function getIcon(menu) {
+        const icons = { Home: "fa-home", LineRegistration: "fa-user-plus", TillRegistration: "fa-cash-register", Activation: "fa-toggle-on", Transactions: "fa-exchange-alt", Report: "fa-chart-simple" };
+        return icons[menu] || "fa-circle";
+    }
+    
+    async function renderHomeStats() {
+        const stats = await apiGet("getStats");
+        return `
+            <h2 style="margin-bottom:1.5rem;">Dashboard Overview</h2>
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-value">${stats.totalLines || 0}</div><div class="stat-label">Total Lines</div></div>
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-cash-register"></i></div><div class="stat-value">${stats.activeTills || 0}</div><div class="stat-label">Active Tills</div></div>
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-coins"></i></div><div class="stat-value">KES ${(stats.commission || 0).toLocaleString()}</div><div class="stat-label">Commission (Lines × 50)</div></div>
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-wallet"></i></div><div class="stat-value">KES ${(stats.salary || 0).toLocaleString()}</div><div class="stat-label">Salary (Active Tills × 200)</div></div>
+            </div>
+        `;
+    }
+    
+    function renderLineRegistration() {
+        return `
+            <h2>Line Registration</h2>
+            <div class="form-grid">
+                <div><label>Full Name</label><input type="text" id="lineName" placeholder="John Doe"></div>
+                <div><label>ID Number</label><input type="text" id="lineIdNumber" placeholder="ID123456"></div>
+                <div><label>Phone Number</label><input type="tel" id="linePhone" placeholder="0712345678"></div>
+                <div><label>Date of Birth</label><input type="date" id="lineDob"></div>
+            </div>
+            <button class="btn-animated" id="saveLineBtn">Register Line</button>
+            <div id="lineFeedback"></div>
+        `;
+    }
+    
+    function renderTillRegistration() {
+        return `
+            <h2>Till Registration</h2>
+            <div class="form-grid">
+                <div><label>Phone Number</label><input type="tel" id="fetchPhone" placeholder="0712345678"><button class="btn-animated" id="fetchLineBtn" style="margin-top:6px;">Fetch Line</button><div id="fetchInfo"></div></div>
+                <div><label>Name</label><input type="text" id="tillName" readonly></div>
+                <div><label>ID Number</label><input type="text" id="tillIdNumber" readonly></div>
+                <div><label>Date of Birth</label><input type="text" id="tillDob" readonly></div>
+                <div><label>Till Number</label><input type="text" id="tillNumber" placeholder="T001"></div>
+                <div><label>Store Number</label><input type="text" id="storeNumber" placeholder="STR01"></div>
+                <div><label>Operator ID</label><input type="text" id="operatorId" readonly></div>
+            </div>
+            <button class="btn-animated" id="saveTillBtn">Register Till</button>
+            <div id="tillFeedback"></div>
+        `;
+    }
+    
+    function renderReport() {
+        return `
+            <h2>Reports</h2>
+            <div class="submenu"><button class="${reportSub === 'Line' ? 'active-sub' : ''}" data-sub="Line">Line Report</button><button class="${reportSub === 'Till' ? 'active-sub' : ''}" data-sub="Till">Till Report</button></div>
+            <div id="reportContainer"><div class="loading">Loading...</div></div>
+        `;
+    }
+    
+    async function loadDynamicData() {
+        if (activeMenu === "Activation") await loadActivationTable();
+        if (activeMenu === "Transactions") await loadTransactionsTable();
+        if (activeMenu === "Report") await loadReportContent();
+    }
+    
+    async function loadActivationTable() {
+        const result = await apiGet("getTills");
+        const tills = result.tills || [];
+        if (!tills.length) { document.getElementById("activationTableContainer").innerHTML = "<p>No tills registered.</p>"; return; }
+        
+        let html = `<table><thead><tr><th>Name</th><th>Till Number</th><th>Store</th><th>Status</th><th>Action</th></tr></thead><tbody>`;
+        tills.forEach(till => {
+            const status = till.status === "active" ? '<span class="badge-active">Active</span>' : '<span class="badge-inactive">Inactive</span>';
+            html += `<tr>
+                        <td>${till.name || "-"}</td>
+                        <td>${till.tillNumber}</td>
+                        <td>${till.storeNumber}</td>
+                        <td>${status}</td>
+                        <td>${till.status !== "active" ? `<button class="activate-btn" data-row="${till.rowIndex}">Activate</button>` : "Activated"}</td>
+                     </tr>`;
+        });
+        html += `</tbody></table>`;
+        document.getElementById("activationTableContainer").innerHTML = html;
+        
+        document.querySelectorAll(".activate-btn").forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                const pin = prompt("Enter Start PIN (4-6 digits):");
+                if (pin) {
+                    const result = await apiPost("activateTill", { rowIndex: parseInt(btn.dataset.row), startPin: pin });
+                    if (result.success) { alert("Till activated!"); loadActivationTable(); }
+                    else alert("Activation failed: " + result.error);
+                }
+            });
+        });
+    }
+    
+    async function loadTransactionsTable() {
+        const result = await apiGet("getTills");
+        const tills = result.tills || [];
+        if (!tills.length) { document.getElementById("transactionsTableContainer").innerHTML = "<p>No tills.</p>"; return; }
+        
+        let html = `<table><thead><tr><th>Name</th><th>Till Number</th><th>Units</th><th>Action</th></tr></thead><tbody>`;
+        tills.forEach(till => {
+            html += `<tr>
+                        <td>${till.name || "-"}</td>
+                        <td>${till.tillNumber}</td>
+                        <td id="units-${till.rowIndex}">${till.units || 0}</td>
+                        <td><button class="update-units-btn" data-row="${till.rowIndex}">Add Units</button></td>
+                     </tr>`;
+        });
+        html += `</tbody></table>`;
+        document.getElementById("transactionsTableContainer").innerHTML = html;
+        
+        document.querySelectorAll(".update-units-btn").forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                const addUnits = prompt("Enter units to add:");
+                if (addUnits && !isNaN(parseFloat(addUnits))) {
+                    const result = await apiPost("updateUnits", { rowIndex: parseInt(btn.dataset.row), addUnits: parseFloat(addUnits) });
+                    if (result.success) {
+                        document.getElementById(`units-${btn.dataset.row}`).innerText = result.newUnits;
+                        alert("Units updated!");
+                    } else alert("Failed: " + result.error);
+                }
+            });
+        });
+    }
+    
+    async function loadReportContent() {
+        const container = document.getElementById("reportContainer");
+        if (reportSub === "Line") {
+            const result = await apiGet("getLines");
+            const lines = result.lines || [];
+            let html = `<table><thead><tr><th>Name</th><th>Phone</th><th>Date Created</th></tr></thead><tbody>`;
+            lines.forEach(line => html += `<tr><td>${line.name}</td><td>${line.phone}</td><td>${new Date(line.dateCreated).toLocaleDateString()}</td></tr>`);
+            html += `</tbody></table>`;
+            container.innerHTML = html;
+        } else {
+            const result = await apiGet("getTills");
+            const tills = result.tills || [];
+            let html = `<table><thead><tr><th>Name</th><th>Till Number</th><th>Store</th><th>Units</th><th>Status</th><th>Date Created</th></tr></thead><tbody>`;
+            tills.forEach(t => html += `<tr><td>${t.name}</td><td>${t.tillNumber}</td><td>${t.storeNumber}</td><td>${t.units || 0}</td><td>${t.status === "active" ? '<span class="badge-active">Active</span>' : '<span class="badge-inactive">Inactive</span>'}</td><td>${new Date(t.dateCreated).toLocaleDateString()}</td></tr>`);
+            html += `</tbody></table>`;
+            container.innerHTML = html;
+        }
+    }
+    
+    function attachDashboardEvents() {
+        document.querySelectorAll("[data-menu]").forEach(btn => btn.addEventListener("click", (e) => { activeMenu = btn.dataset.menu; render(); }));
+        document.getElementById("logoutBtnSide")?.addEventListener("click", () => { currentUser = null; render(); });
+        
+        if (activeMenu === "LineRegistration") {
+            document.getElementById("saveLineBtn")?.addEventListener("click", async () => {
+                const name = document.getElementById("lineName").value;
+                const idNumber = document.getElementById("lineIdNumber").value;
+                const phone = document.getElementById("linePhone").value;
+                const dob = document.getElementById("lineDob").value;
+                if (!name || !idNumber || !phone || !dob) { alert("All fields required"); return; }
+                const result = await apiPost("registerLine", { name, idNumber, phone, dob });
+                document.getElementById("lineFeedback").innerHTML = result.success ? '<p style="color:green;">Line registered!</p>' : `<p style="color:red;">${result.error}</p>`;
+                if (result.success) { document.getElementById("lineName").value = ""; document.getElementById("lineIdNumber").value = ""; document.getElementById("linePhone").value = ""; document.getElementById("lineDob").value = ""; }
+            });
+        }
+        
+        if (activeMenu === "TillRegistration") {
+            document.getElementById("fetchLineBtn")?.addEventListener("click", async () => {
+                const phone = document.getElementById("fetchPhone").value;
+                const result = await apiGet("getLines");
+                const found = result.lines?.find(l => l.phone === phone);
+                if (found) {
+                    document.getElementById("tillName").value = found.name;
+                    document.getElementById("tillIdNumber").value = found.idNumber;
+                    document.getElementById("tillDob").value = found.dob;
+                    const parts = found.name.trim().split(/\s+/);
+                    const opId = parts.length === 1 ? parts[0].substring(0,2).toUpperCase() : (parts[0].charAt(0) + parts[parts.length-1].charAt(0)).toUpperCase();
+                    document.getElementById("operatorId").value = opId;
+                    document.getElementById("fetchInfo").innerHTML = '<span style="color:green;">Line found!</span>';
+                } else { document.getElementById("fetchInfo").innerHTML = '<span style="color:red;">No line with this phone</span>'; }
+            });
+            
+            document.getElementById("saveTillBtn")?.addEventListener("click", async () => {
+                const result = await apiPost("registerTill", {
+                    phone: document.getElementById("fetchPhone").value,
+                    name: document.getElementById("tillName").value,
+                    idNumber: document.getElementById("tillIdNumber").value,
+                    dob: document.getElementById("tillDob").value,
+                    tillNumber: document.getElementById("tillNumber").value,
+                    storeNumber: document.getElementById("storeNumber").value,
+                    operatorId: document.getElementById("operatorId").value
+                });
+                document.getElementById("tillFeedback").innerHTML = result.success ? '<p style="color:green;">Till registered!</p>' : `<p style="color:red;">${result.error}</p>`;
+            });
+        }
+        
+        if (activeMenu === "Report") {
+            document.querySelectorAll("[data-sub]").forEach(btn => btn.addEventListener("click", (e) => { reportSub = btn.dataset.sub; loadReportContent(); document.querySelectorAll("[data-sub]").forEach(b => b.classList.remove("active-sub")); btn.classList.add("active-sub"); }));
+        }
+    }
+    
+    async function attachLoginEvents() {
+        document.getElementById("loginBtn")?.addEventListener("click", async () => {
+            const username = document.getElementById("loginUsername").value;
+            const password = document.getElementById("loginPassword").value;
+            const result = await apiGet("login", { username, password });
+            if (result.success) { currentUser = username; activeMenu = "Home"; render(); }
+            else alert("Invalid credentials");
+        });
+    }
+    
+    render();
+</script>
+</body>
+</html>
