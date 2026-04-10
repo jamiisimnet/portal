@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>NexusFlow | Premium Management System</title>
+    <title>JamiiSim Network</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -414,7 +414,7 @@
         return `
             <div class="login-container">
                 <div class="login-card">
-                    <h2><i class="fas fa-bolt"></i> NexusFlow</h2>
+                    <h2><i class="fas fa-bolt"></i> JamiiSim Network</h2>
                     <div class="input-group">
                         <label>Username</label>
                         <input type="text" id="loginUser" placeholder="admin or manager">
@@ -425,7 +425,7 @@
                     </div>
                     <button class="btn" id="loginBtn">Sign In</button>
                     <p style="text-align:center; font-size:0.7rem; margin-top:1rem;">
-                        Admin: admin / admin123 | Manager: manager / manager123
+                        
                     </p>
                     <div id="loginError" style="color:#c2410c; text-align:center; margin-top:0.5rem;"></div>
                 </div>
@@ -495,7 +495,7 @@
         return `
             <div class="dashboard">
                 <div class="sidebar">
-                    <div class="logo"><i class="fas fa-charging-station"></i> <span>NexusFlow</span></div>
+                    <div class="logo"><i class="fas fa-charging-station"></i> <span>JamiiSim Network</span></div>
                     <nav><ul>
                         ${pages.map(p => `<li><button class="${currentPage === pageKeys[p] ? 'active' : ''}" data-page="${pageKeys[p]}"><i class="fas ${getIcon(pageKeys[p])}"></i> <span>${p}</span></button></li>`).join('')}
                         <li style="margin-top:2rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:1rem;"><button id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></button></li>
