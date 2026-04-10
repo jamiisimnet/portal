@@ -55,6 +55,12 @@
             transition: all 0.3s;
         }
         .btn:hover { background: #0f3b2f; transform: translateY(-2px); }
+        .btn-secondary {
+            background: #eef3f0;
+            color: #1e4a3b;
+            margin-top: 0;
+        }
+        .btn-secondary:hover { background: #2c7a5e; color: white; }
         
         .dashboard { display: flex; min-height: 100vh; }
         .sidebar {
@@ -300,6 +306,21 @@
             opacity: 0.5;
         }
         
+        .fetch-info {
+            font-size: 0.75rem;
+            margin-top: 5px;
+            padding: 5px;
+            border-radius: 10px;
+        }
+        .fetch-info.success {
+            background: #e8f5e9;
+            color: #2b7e5a;
+        }
+        .fetch-info.error {
+            background: #ffebee;
+            color: #c2410c;
+        }
+        
         @media (max-width: 768px) {
             .sidebar { width: 80px; padding: 1rem 0.5rem; }
             .sidebar nav ul li button span { display: none; }
@@ -375,6 +396,20 @@
         });
     }
     
+    // ==================== FIXED PHONE NORMALIZATION ====================
+    function normalizePhone(phone) {
+        if (!phone) return "";
+        // Remove all non-digit characters
+        let normalized = String(phone).replace(/\D/g, '');
+        // Remove leading '0' or '254' (Kenya country code)
+        if (normalized.startsWith('254')) {
+            normalized = normalized.substring(3);
+        } else if (normalized.startsWith('0')) {
+            normalized = normalized.substring(1);
+        }
+        return normalized;
+    }
+    
     function exportToCSV(data, filename) {
         if (!data || data.length === 0) {
             showToast("No data to export", true);
@@ -445,19 +480,16 @@
         
         errorDiv.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Logging in...';
         
-        // Check local demo users first (role automatically detected by username)
         const user = DEMO_USERS[username];
         if (user && user.password === password) {
             currentUser = username;
-            currentUserRole = user.role; // Role automatically detected from username
+            currentUserRole = user.role;
             currentPage = "Home";
             render();
             showToast(`Welcome ${username} (${USER_ROLES[currentUserRole].name})!`);
         } else {
-            // Also try API login as fallback
             const result = await apiCall("login", { username, password });
             if (result.success) {
-                // For API, determine role based on username (customize as needed)
                 currentUser = username;
                 currentUserRole = username === "admin" ? "admin" : "manager";
                 currentPage = "Home";
@@ -536,7 +568,7 @@
                     <label><i class="fas fa-phone"></i> Phone Number (Lookup Line)</label>
                     <input type="tel" id="fetchPhone" placeholder="0712345678">
                     <button class="btn btn-secondary" id="fetchLineBtn" style="margin-top:5px;"><i class="fas fa-search"></i> Fetch Line Data</button>
-                    <div id="fetchInfo" style="font-size:0.75rem; margin-top:5px;"></div>
+                    <div id="fetchInfo" class="fetch-info"></div>
                 </div>
                 <div class="form-group"><label><i class="fas fa-user"></i> Full Name</label><input type="text" id="tillName" readonly></div>
                 <div class="form-group"><label><i class="fas fa-id-card"></i> ID Number</label><input type="text" id="tillId" readonly></div>
@@ -902,30 +934,74 @@
             });
         }
         
+        // ==================== FIXED TILL REGISTRATION FETCH ====================
         if (currentPage === "TillReg") {
             document.getElementById("fetchLineBtn")?.addEventListener("click", async () => {
                 const phone = document.getElementById("fetchPhone").value.trim();
                 const fetchInfo = document.getElementById("fetchInfo");
-                if (!phone) { fetchInfo.innerHTML = '<span style="color:#c2410c;"><i class="fas fa-exclamation-triangle"></i> Enter phone number</span>'; return; }
-                fetchInfo.innerHTML = '<span style="color:#2c7a5e;"><i class="fas fa-spinner fa-pulse"></i> Searching...</span>';
+                
+                if (!phone) {
+                    fetchInfo.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Enter a phone number';
+                    fetchInfo.className = 'fetch-info error';
+                    return;
+                }
+                
+                fetchInfo.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Searching for line...';
+                fetchInfo.className = 'fetch-info';
+                
                 const res = await apiCall("getLines");
-                const found = res.lines?.find(l => l.phone === phone || l.phone === phone.replace(/^0/, ''));
+                
+                if (!res.success || !res.lines) {
+                    fetchInfo.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error fetching lines';
+                    fetchInfo.className = 'fetch-info error';
+                    return;
+                }
+                
+                const normalizedInput = normalizePhone(phone);
+                
+                // Show debug info to console
+                console.log("Searching for phone:", phone);
+                console.log("Normalized input:", normalizedInput);
+                console.log("Available lines:", res.lines.map(l => ({ name: l.name, phone: l.phone, normalized: normalizePhone(l.phone) })));
+                
+                // Find matching line using normalized comparison
+                const found = res.lines.find(line => normalizePhone(line.phone) === normalizedInput);
+                
                 if (found) {
                     document.getElementById("tillName").value = found.name;
                     document.getElementById("tillId").value = found.idNumber;
                     document.getElementById("tillDob").value = found.dob;
-                    const parts = found.name.trim().split(/\s+/);
-                    const opId = parts.length === 1 ? parts[0].substring(0,2).toUpperCase() : (parts[0].charAt(0) + parts[parts.length-1].charAt(0)).toUpperCase();
-                    document.getElementById("operatorId").value = opId;
-                    fetchInfo.innerHTML = '<span style="color:#2b7e5a;"><i class="fas fa-check-circle"></i> Line found!</span>';
+                    
+                    const nameParts = found.name.trim().split(/\s+/);
+                    let operatorId = "";
+                    if (nameParts.length === 1) {
+                        operatorId = nameParts[0].substring(0, 2).toUpperCase();
+                    } else {
+                        operatorId = (nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0)).toUpperCase();
+                    }
+                    document.getElementById("operatorId").value = operatorId;
+                    
+                    fetchInfo.innerHTML = `<i class="fas fa-check-circle"></i> ✓ Line found: ${found.name} (${found.phone})`;
+                    fetchInfo.className = 'fetch-info success';
+                    showToast("Line found! You can now register the till.");
                 } else {
-                    fetchInfo.innerHTML = '<span style="color:#c2410c;"><i class="fas fa-exclamation-triangle"></i> No line found. Register the line first.</span>';
+                    const availablePhones = res.lines.map(l => l.phone).join(", ");
+                    fetchInfo.innerHTML = `<i class="fas fa-exclamation-triangle"></i> No line found for "${phone}".<br>
+                        <small>Try: ${res.lines.length > 0 ? availablePhones : "No lines registered yet"}</small>`;
+                    fetchInfo.className = 'fetch-info error';
+                    showToast("No line found with this phone number. Please register the line first.", true);
+                    
+                    document.getElementById("tillName").value = "";
+                    document.getElementById("tillId").value = "";
+                    document.getElementById("tillDob").value = "";
+                    document.getElementById("operatorId").value = "";
                 }
             });
             
             document.getElementById("saveTillBtn")?.addEventListener("click", async () => {
                 let phone = document.getElementById("fetchPhone").value.trim();
                 phone = phone.replace(/\D/g, '');
+                
                 const payload = {
                     phone: phone,
                     name: document.getElementById("tillName").value,
@@ -936,12 +1012,15 @@
                     operatorId: document.getElementById("operatorId").value
                 };
                 const feedback = document.getElementById("tillFeedback");
+                
                 if (!payload.phone || !payload.tillNumber || !payload.storeNumber || !payload.name) {
                     feedback.innerHTML = '<span style="color:#c2410c;"><i class="fas fa-exclamation-triangle"></i> Fetch a line first and fill all fields</span>';
                     return;
                 }
+                
                 feedback.innerHTML = '<span style="color:#2c7a5e;"><i class="fas fa-spinner fa-pulse"></i> Registering...</span>';
                 const res = await apiCall("registerTill", payload);
+                
                 if (res.success) {
                     feedback.innerHTML = '<span style="color:#2b7e5a;"><i class="fas fa-check-circle"></i> Till registered successfully!</span>';
                     document.getElementById("tillNumber").value = "";
