@@ -246,7 +246,7 @@
         return `
             <div class="login-container">
                 <div class="login-card">
-                    <h2><i class="fas fa-bolt"></i> NexusFlow</h2>
+                    <h2><i class="fas fa-bolt"></i> JamiiSimNetwork</h2>
                     <div class="input-group"><label>Username</label><input type="text" id="loginUser" placeholder="admin"></div>
                     <div class="input-group"><label>Password</label><input type="password" id="loginPass" placeholder="••••••"></div>
                     <button class="btn" id="loginBtn">Sign In</button>
@@ -295,7 +295,7 @@
         return `
             <div class="dashboard">
                 <div class="sidebar">
-                    <div class="logo"><i class="fas fa-charging-station"></i> <span>NexusFlow</span></div>
+                    <div class="logo"><i class="fas fa-charging-station"></i> <span>JamiiSimNetwrok</span></div>
                     <nav><ul>
                         ${pages.map(p => `<li><button class="${currentPage === pageKeys[p] ? 'active' : ''}" data-page="${pageKeys[p]}"><i class="fas ${getIcon(pageKeys[p])}"></i> <span>${p}</span></button></li>`).join('')}
                         <li style="margin-top:2rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:1rem;"><button id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></button></li>
