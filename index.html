@@ -3,86 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>JamiiSim Network</title>
+    <title>JamiiSim Network - Premium Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #f0f4f8; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #eef2f6 100%);
+            min-height: 100vh;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #e2edeb;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #1e4a3b;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0f3b2f;
+        }
         
         .login-container {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #0b2b26, #1e4a3b);
+            background: linear-gradient(135deg, #0b2b26 0%, #1e4a3b 100%);
             padding: 1rem;
+            position: relative;
+            overflow: hidden;
         }
-        .login-card {
-            background: white;
-            border-radius: 40px;
-            padding: 2rem;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-        }
-        .login-card h2 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #1e4a3b;
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-        .input-group { margin-bottom: 1rem; }
-        .input-group label { font-weight: 600; color: #1f2e2a; display: block; margin-bottom: 0.3rem; }
-        .input-group input {
-            width: 100%;
-            padding: 12px 16px;
-            border-radius: 30px;
-            border: 1.5px solid #e2e8f0;
-            font-size: 1rem;
-        }
-        .btn {
-            background: #1e4a3b;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 30px;
-            font-weight: 600;
-            width: 100%;
-            cursor: pointer;
-            margin-top: 0.5rem;
-            transition: all 0.3s;
-        }
-        .btn:hover { background: #0f3b2f; transform: translateY(-2px); }
-        .btn-secondary {
-            background: #eef3f0;
-            color: #1e4a3b;
-            margin-top: 0;
-        }
-        .btn-secondary:hover { background: #2c7a5e; color: white; }
         
-        .dashboard { display: flex; min-height: 100vh; }
+        .login-container::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: float 20s linear infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(40px, 40px); }
+        }
+        
+        .login-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 48px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            position: relative;
+            z-index: 1;
+            animation: slideUp 0.6s ease;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .login-card h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e4a3b, #2c7a5e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+        
         .sidebar {
             width: 280px;
-            background: linear-gradient(180deg, #0c2b25 0%, #0a221d 100%);
+            background: linear-gradient(180deg, #0a221d 0%, #0c2b25 100%);
+            backdrop-filter: blur(10px);
             color: white;
-            padding: 1.5rem;
+            padding: 2rem 1.5rem;
             position: sticky;
             top: 0;
             height: 100vh;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
         }
-        .sidebar .logo { font-size: 1.4rem; font-weight: 800; margin-bottom: 2rem; padding-left: 0.5rem; }
-        .sidebar nav ul { list-style: none; }
-        .sidebar nav ul li { margin: 0.3rem 0; }
+        
+        .sidebar .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 2.5rem;
+            padding: 0 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .sidebar .logo i {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #5bc0a3, #2c7a5e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .sidebar nav ul {
+            list-style: none;
+        }
+        
+        .sidebar nav ul li {
+            margin: 0.5rem 0;
+        }
+        
         .sidebar nav ul li button {
             background: transparent;
             border: none;
-            color: #cbdcd6;
+            color: #b8cdc5;
             width: 100%;
             text-align: left;
-            padding: 12px 15px;
-            border-radius: 30px;
+            padding: 12px 16px;
+            border-radius: 16px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -91,93 +160,541 @@
             font-weight: 500;
             transition: all 0.3s;
         }
-        .sidebar nav ul li button:hover, .sidebar nav ul li .active {
-            background: rgba(44,122,94,0.4);
+        
+        .sidebar nav ul li button i {
+            width: 24px;
+            font-size: 1.1rem;
+        }
+        
+        .sidebar nav ul li button:hover {
+            background: rgba(44, 122, 94, 0.3);
             color: white;
             transform: translateX(5px);
         }
-        .main-content { flex: 1; padding: 1.5rem; overflow-y: auto; }
-        .card { background: white; border-radius: 28px; padding: 1.8rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
         
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; margin-bottom: 1.5rem; }
-        .stat-card {
-            background: linear-gradient(145deg, #ffffff, #f8fbf9);
-            padding: 1.2rem;
-            border-radius: 24px;
-            text-align: center;
-            border: 1px solid rgba(44,122,94,0.1);
+        .sidebar nav ul li .active {
+            background: linear-gradient(135deg, #2c7a5e, #1e4a3b);
+            color: white;
+            box-shadow: 0 4px 12px rgba(44, 122, 94, 0.3);
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 32px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             transition: all 0.3s;
+            border: 1px solid rgba(44, 122, 94, 0.1);
         }
-        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
-        .stat-value { font-size: 2rem; font-weight: 800; color: #1e4a3b; }
-        .stat-label { font-size: 0.75rem; color: #5b6e69; text-transform: uppercase; letter-spacing: 0.5px; }
         
-        .vertical-form { max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
-        .form-group { display: flex; flex-direction: column; gap: 0.3rem; }
-        .form-group label { font-weight: 600; color: #1e4a3b; font-size: 0.85rem; }
-        .form-group input {
-            padding: 12px 16px;
-            border-radius: 28px;
-            border: 1.5px solid #e2edeb;
-            font-size: 0.9rem;
-            transition: all 0.2s;
+        .card:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
         }
-        .form-group input:focus { border-color: #2c7a5e; outline: none; box-shadow: 0 0 0 3px rgba(44,122,94,0.1); }
-        .form-group input:read-only { background: #f5f5f5; }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #ffffff 0%, #fafdfb 100%);
+            padding: 1.5rem;
+            border-radius: 28px;
+            border: 1px solid rgba(44, 122, 94, 0.15);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #2c7a5e, #5bc0a3);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(30, 74, 59, 0.15);
+        }
+        
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #e8f5e9, #d4ebd6);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-icon i {
+            font-size: 1.5rem;
+            color: #2c7a5e;
+        }
+        
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #1e4a3b;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #5b6e69;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+        
+        .stat-trend {
+            font-size: 0.7rem;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .trend-up {
+            color: #2b7e5a;
+        }
+        
+        .trend-down {
+            color: #c2410c;
+        }
+        
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #1e4a3b;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-group label i {
+            margin-right: 8px;
+            color: #2c7a5e;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e2edeb;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .form-group input:focus {
+            border-color: #2c7a5e;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(44, 122, 94, 0.1);
+        }
+        
+        .form-group input:read-only {
+            background: #f8fbf9;
+            cursor: not-allowed;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #1e4a3b, #0f3b2f);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(30, 74, 59, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #f0f4f2, #e8eeeb);
+            color: #1e4a3b;
+            border: 1px solid #cbdcd6;
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #e8eeeb, #dce6e2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 24px;
+            background: white;
+        }
         
         .modern-table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
             font-size: 0.85rem;
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
         }
+        
         .modern-table thead tr {
             background: linear-gradient(135deg, #1e4a3b, #0f3b2f);
         }
+        
         .modern-table th {
-            padding: 14px 16px;
+            padding: 16px 20px;
             text-align: left;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             letter-spacing: 0.5px;
             color: white;
+            text-transform: uppercase;
         }
+        
+        .modern-table th:first-child {
+            border-top-left-radius: 20px;
+        }
+        
+        .modern-table th:last-child {
+            border-top-right-radius: 20px;
+        }
+        
         .modern-table td {
-            padding: 12px 16px;
+            padding: 14px 20px;
             border-bottom: 1px solid #eef2f0;
             color: #1f2e2a;
         }
+        
+        .modern-table tbody tr {
+            transition: all 0.2s;
+        }
+        
         .modern-table tbody tr:hover {
             background: #f8fbf9;
         }
-        .modern-table tbody tr:last-child td {
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        .badge-success {
+            background: linear-gradient(135deg, #e8f5e9, #d4ebd6);
+            color: #2b7e5a;
+        }
+        
+        .badge-warning {
+            background: linear-gradient(135deg, #fff3e0, #ffe4b5);
+            color: #f59e0b;
+        }
+        
+        .badge-danger {
+            background: linear-gradient(135deg, #ffebee, #fed7d7);
+            color: #dc2626;
+        }
+        
+        .badge-info {
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+            color: #0ea5e9;
+        }
+        
+        .search-bar {
+            background: white;
+            padding: 1rem;
+            border-radius: 60px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #e2edeb;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .search-bar input:focus {
+            border-color: #2c7a5e;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(44, 122, 94, 0.1);
+        }
+        
+        .search-bar select {
+            padding: 12px 20px;
+            border: 2px solid #e2edeb;
+            border-radius: 50px;
+            background: white;
+            font-size: 0.9rem;
+        }
+        
+        .customer-header {
+            background: linear-gradient(135deg, #1e4a3b, #0f3b2f);
+            color: white;
+            padding: 2rem;
+            border-radius: 28px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        
+        .customer-avatar {
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .customer-info h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stats-badge {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px;
+            text-align: center;
+            min-width: 120px;
+        }
+        
+        .stats-badge .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .stats-badge .label {
+            font-size: 0.7rem;
+            opacity: 0.9;
+        }
+        
+        .info-card {
+            background: linear-gradient(135deg, #f8fbf9, #ffffff);
+            border-radius: 24px;
+            padding: 1.5rem;
+            border: 1px solid #e2edeb;
+            transition: all 0.3s;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+        
+        .info-card h4 {
+            color: #1e4a3b;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e2edeb;
+        }
+        
+        .info-row:last-child {
             border-bottom: none;
         }
         
-        .badge-active {
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            color: #1e4a3b;
+            padding: 1rem 1.5rem;
+            border-radius: 60px;
+            z-index: 1000;
+            animation: slideInRight 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            border-left: 4px solid #2c7a5e;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #2c7a5e;
+        }
+        
+        .loading i {
+            font-size: 2rem;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem;
+            color: #5b6e69;
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 80px;
+                padding: 1rem 0.5rem;
+            }
+            
+            .sidebar .logo span,
+            .sidebar nav ul li button span {
+                display: none;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .card {
+                padding: 1.2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .customer-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        
+        .submenu {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .submenu button {
+            background: white;
+            border: 2px solid #e2edeb;
+            padding: 10px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .submenu button:hover {
+            border-color: #2c7a5e;
+            transform: translateY(-2px);
+        }
+        
+        .submenu button.active {
+            background: linear-gradient(135deg, #1e4a3b, #0f3b2f);
+            color: white;
+            border-color: #1e4a3b;
+        }
+        
+        .fetch-info {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+        
+        .fetch-info.success {
             background: #e8f5e9;
             color: #2b7e5a;
-            padding: 5px 12px;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
         }
-        .badge-inactive {
+        
+        .fetch-info.error {
             background: #ffebee;
             color: #c2410c;
-            padding: 5px 12px;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
+        }
+        
+        .user-badge {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.75rem;
         }
         
         .action-btn {
@@ -194,141 +711,118 @@
             align-items: center;
             gap: 6px;
         }
+        
         .action-btn:hover {
             transform: scale(0.96);
             box-shadow: 0 2px 8px rgba(30,74,59,0.3);
         }
         
-        .submenu {
-            display: flex;
-            gap: 12px;
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
             margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-        .submenu button {
-            background: #f1f5f9;
-            border: none;
-            padding: 8px 24px;
-            border-radius: 40px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        .submenu button.active {
-            background: #1e4a3b;
-            color: white;
-            box-shadow: 0 2px 8px rgba(30,74,59,0.3);
         }
         
-        .search-bar {
-            display: flex;
-            gap: 12px;
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e4a3b;
             margin-bottom: 1.5rem;
-            flex-wrap: wrap;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid #e2edeb;
+            display: flex;
             align-items: center;
-        }
-        .search-bar input {
-            flex: 1;
-            min-width: 200px;
-            padding: 10px 18px;
-            border-radius: 40px;
-            border: 1.5px solid #e2edeb;
-            font-size: 0.85rem;
-        }
-        .search-bar input:focus {
-            border-color: #2c7a5e;
-            outline: none;
-        }
-        .search-bar select {
-            padding: 10px 18px;
-            border-radius: 40px;
-            border: 1.5px solid #e2edeb;
-            font-size: 0.85rem;
-            background: white;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
         
-        .table-container {
-            overflow-x: auto;
-            border-radius: 20px;
-            margin-top: 0.5rem;
+        .vertical-form {
+            max-width: 600px;
+            margin: 0 auto;
         }
         
-        .toast {
+        .units-black {
+            font-weight: 700;
+            color: #000000 !important;
+            font-size: 1rem;
+        }
+        
+        .search-btn-enhanced {
+            background: linear-gradient(135deg, #1e4a3b, #0f3b2f);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .search-btn-enhanced:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 74, 59, 0.3);
+        }
+        
+        .search-btn-enhanced i {
+            margin-right: 8px;
+        }
+        
+        /* Global Footer Clock Styles */
+        .global-footer-clock {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: #1e4a3b;
+            background: rgba(30, 74, 59, 0.95);
+            backdrop-filter: blur(10px);
             color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 0.85rem;
             z-index: 1000;
-            animation: slideIn 0.3s ease;
+            font-family: 'Inter', monospace;
+            letter-spacing: 0.5px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(100px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 2rem;
-            color: #2c7a5e;
-        }
-        .error {
-            color: #c2410c;
-            text-align: center;
-            padding: 2rem;
-            background: #ffebee;
-            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s;
         }
         
-        .user-badge {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
+        .global-footer-clock:hover {
+            transform: translateY(-2px);
+            background: rgba(30, 74, 59, 1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .global-footer-clock i {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .clock-time {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .clock-date {
             font-size: 0.7rem;
-            color: #9fd3c7;
-            background: rgba(0,0,0,0.2);
-            padding: 5px 12px;
-            border-radius: 20px;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: #5b6e69;
-        }
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
-        }
-        
-        .fetch-info {
-            font-size: 0.75rem;
-            margin-top: 5px;
-            padding: 5px;
-            border-radius: 10px;
-        }
-        .fetch-info.success {
-            background: #e8f5e9;
-            color: #2b7e5a;
-        }
-        .fetch-info.error {
-            background: #ffebee;
-            color: #c2410c;
+            opacity: 0.8;
         }
         
         @media (max-width: 768px) {
-            .sidebar { width: 80px; padding: 1rem 0.5rem; }
-            .sidebar nav ul li button span { display: none; }
-            .sidebar .logo span { display: none; }
-            .main-content { padding: 1rem; }
-            .card { padding: 1.2rem; }
-            .search-bar { flex-direction: column; }
-            .stats-grid { grid-template-columns: 1fr; }
+            .global-footer-clock {
+                bottom: 10px;
+                right: 10px;
+                padding: 6px 12px;
+                font-size: 0.7rem;
+            }
+            
+            .clock-time {
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -336,16 +830,13 @@
 <div id="app"></div>
 
 <script>
-    // ==================== CONFIGURATION ====================
     const API_BASE_URL = "https://script.google.com/macros/s/AKfycbx-ggpKM1cMYW48ojsD3wuy8vkyJP4sLe31KDi4w8sF559e22i8ZvVFydnooGu4lnpQ/exec";
     
-    // User Roles - Automatically detected by username
     const USER_ROLES = {
         admin: { name: "Admin", canActivate: true, canSeeCommission: true },
         manager: { name: "Manager", canActivate: false, canSeeCommission: false }
     };
     
-    // Demo users - role is determined by username
     const DEMO_USERS = {
         admin: { password: "admin123", role: "admin" },
         manager: { password: "manager123", role: "manager" }
@@ -361,8 +852,7 @@
         if (toast) toast.remove();
         toast = document.createElement('div');
         toast.className = 'toast';
-        toast.style.background = isError ? '#c2410c' : '#1e4a3b';
-        toast.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i> ${msg}`;
+        toast.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i> ${msg}`;
         document.body.appendChild(toast);
         setTimeout(() => toast.remove(), 3000);
     }
@@ -396,45 +886,15 @@
         });
     }
     
-    // ==================== FIXED PHONE NORMALIZATION ====================
     function normalizePhone(phone) {
         if (!phone) return "";
-        // Remove all non-digit characters
         let normalized = String(phone).replace(/\D/g, '');
-        // Remove leading '0' or '254' (Kenya country code)
         if (normalized.startsWith('254')) {
             normalized = normalized.substring(3);
         } else if (normalized.startsWith('0')) {
             normalized = normalized.substring(1);
         }
         return normalized;
-    }
-    
-    function exportToCSV(data, filename) {
-        if (!data || data.length === 0) {
-            showToast("No data to export", true);
-            return;
-        }
-        const headers = Object.keys(data[0]);
-        const csvRows = [headers.join(',')];
-        for (const row of data) {
-            const values = headers.map(header => {
-                let value = row[header] || "";
-                value = String(value).replace(/"/g, '""');
-                return `"${value}"`;
-            });
-            csvRows.push(values.join(','));
-        }
-        const blob = new Blob([csvRows.join('\n')], { type: 'text/csv' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${filename}_${new Date().toISOString().slice(0,19)}.csv`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        showToast(`Exported ${data.length} records`);
     }
     
     function hasActivationAccess() {
@@ -445,24 +905,38 @@
         return USER_ROLES[currentUserRole]?.canSeeCommission !== false;
     }
     
+    function getMenuPages() {
+        const pages = ["Home", "Line Registration", "Till Registration", "Customer 360", "Report"];
+        if (hasActivationAccess()) {
+            pages.splice(4, 0, "Activation", "Transactions");
+        }
+        return pages;
+    }
+    
+    function getIcon(page) {
+        const icons = { 
+            Home: "fa-home", LineReg: "fa-user-plus", TillReg: "fa-cash-register", 
+            Activation: "fa-toggle-on", Transactions: "fa-exchange-alt", 
+            Customer360: "fa-id-card", Report: "fa-chart-line" 
+        };
+        return icons[page] || "fa-circle";
+    }
+    
     function renderLogin() {
         return `
             <div class="login-container">
                 <div class="login-card">
                     <h2><i class="fas fa-bolt"></i> JamiiSim Network</h2>
-                    <div class="input-group">
-                        <label>Username</label>
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Username</label>
                         <input type="text" id="loginUser" placeholder="admin or manager">
                     </div>
-                    <div class="input-group">
-                        <label>Password</label>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Password</label>
                         <input type="password" id="loginPass" placeholder="••••••">
                     </div>
-                    <button class="btn" id="loginBtn">Sign In</button>
-                    <p style="text-align:center; font-size:0.7rem; margin-top:1rem;">
-                        
-                    </p>
-                    <div id="loginError" style="color:#c2410c; text-align:center; margin-top:0.5rem;"></div>
+                    <button class="btn" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+                    <div id="loginError" style="color:#c2410c; text-align:center; margin-top:1rem;"></div>
                 </div>
             </div>
         `;
@@ -474,11 +948,11 @@
         const errorDiv = document.getElementById("loginError");
         
         if (!username || !password) {
-            errorDiv.innerHTML = "Enter username and password";
+            errorDiv.innerHTML = "Please enter both username and password";
             return;
         }
         
-        errorDiv.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Logging in...';
+        errorDiv.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Verifying credentials...';
         
         const user = DEMO_USERS[username];
         if (user && user.password === password) {
@@ -486,129 +960,163 @@
             currentUserRole = user.role;
             currentPage = "Home";
             render();
-            showToast(`Welcome ${username} (${USER_ROLES[currentUserRole].name})!`);
+            showToast(`Welcome back, ${username}!`);
         } else {
-            const result = await apiCall("login", { username, password });
-            if (result.success) {
-                currentUser = username;
-                currentUserRole = username === "admin" ? "admin" : "manager";
-                currentPage = "Home";
-                render();
-                showToast(`Welcome ${username}!`);
-            } else {
-                errorDiv.innerHTML = "Invalid credentials";
-            }
+            errorDiv.innerHTML = "Invalid username or password";
         }
-    }
-    
-    function getMenuPages() {
-        const pages = ["Home", "Line Registration", "Till Registration", "Report"];
-        if (hasActivationAccess()) {
-            pages.splice(3, 0, "Activation", "Transactions");
-        }
-        return pages;
     }
     
     function renderDashboard() {
         const pages = getMenuPages();
         const pageKeys = { 
             "Home": "Home", "Line Registration": "LineReg", "Till Registration": "TillReg", 
-            "Activation": "Activation", "Transactions": "Transactions", "Report": "Report" 
+            "Activation": "Activation", "Transactions": "Transactions", 
+            "Customer 360": "Customer360", "Report": "Report" 
         };
         
         let content = "";
         if (currentPage === "Home") content = '<div id="pageContent"><div class="loading"><i class="fas fa-spinner fa-pulse"></i> Loading dashboard...</div></div>';
         else if (currentPage === "LineReg") content = renderLineReg();
         else if (currentPage === "TillReg") content = renderTillReg();
-        else if (currentPage === "Activation") content = '<h3 style="margin-bottom:1.2rem;"><i class="fas fa-toggle-on"></i> Till Activation</h3><div id="activationContent"><div class="loading"><i class="fas fa-spinner fa-pulse"></i> Loading tills...</div></div>';
-        else if (currentPage === "Transactions") content = '<h3 style="margin-bottom:1.2rem;"><i class="fas fa-exchange-alt"></i> Unit Transactions</h3><div id="transactionsContent"><div class="loading"><i class="fas fa-spinner fa-pulse"></i> Loading tills...</div></div>';
+        else if (currentPage === "Customer360") content = renderCustomer360();
+        else if (currentPage === "Activation") content = '<h3 class="section-title"><i class="fas fa-toggle-on"></i> Till Activation</h3><div id="activationContent"><div class="loading"><i class="fas fa-spinner fa-pulse"></i> Loading tills...</div></div>';
+        else if (currentPage === "Transactions") content = '<h3 class="section-title"><i class="fas fa-exchange-alt"></i> Unit Transactions</h3><div id="transactionsContent"><div class="loading"><i class="fas fa-spinner fa-pulse"></i> Loading tills...</div></div>';
         else if (currentPage === "Report") content = renderReportPage();
         
         return `
             <div class="dashboard">
                 <div class="sidebar">
-                    <div class="logo"><i class="fas fa-charging-station"></i> <span>JamiiSim Network</span></div>
-                    <nav><ul>
-                        ${pages.map(p => `<li><button class="${currentPage === pageKeys[p] ? 'active' : ''}" data-page="${pageKeys[p]}"><i class="fas ${getIcon(pageKeys[p])}"></i> <span>${p}</span></button></li>`).join('')}
-                        <li style="margin-top:2rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:1rem;"><button id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></button></li>
-                    </ul></nav>
+                    <div class="logo">
+                        <i class="fas fa-bolt"></i>
+                        <span>JamiiSim</span>
+                    </div>
+                    <nav>
+                        <ul>
+                            ${pages.map(p => `<li><button class="${currentPage === pageKeys[p] ? 'active' : ''}" data-page="${pageKeys[p]}"><i class="fas ${getIcon(pageKeys[p])}"></i> <span>${p}</span></button></li>`).join('')}
+                            <li style="margin-top:2rem;"><button id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></button></li>
+                        </ul>
+                    </nav>
                     <div class="user-badge">
                         <i class="fas fa-user-shield"></i> ${USER_ROLES[currentUserRole]?.name || currentUserRole}
                     </div>
                 </div>
-                <div class="main-content"><div class="card">${content}</div></div>
+                <div class="main-content">
+                    <div class="card">
+                        ${content}
+                    </div>
+                </div>
             </div>
         `;
     }
     
-    function getIcon(page) {
-        const icons = { Home: "fa-home", LineReg: "fa-user-plus", TillReg: "fa-cash-register", Activation: "fa-toggle-on", Transactions: "fa-exchange-alt", Report: "fa-chart-line" };
-        return icons[page] || "fa-circle";
-    }
-    
     function renderLineReg() {
         return `
-            <h3 style="margin-bottom:1.2rem;"><i class="fas fa-user-plus"></i> Register New Line</h3>
-            <div class="vertical-form">
-                <div class="form-group"><label><i class="fas fa-user"></i> Full Name</label><input type="text" id="lineName" placeholder="John Doe"></div>
-                <div class="form-group"><label><i class="fas fa-id-card"></i> ID Number</label><input type="text" id="lineId" placeholder="ID123456"></div>
-                <div class="form-group"><label><i class="fas fa-phone"></i> Phone Number</label><input type="tel" id="linePhone" placeholder="0712345678"></div>
-                <div class="form-group"><label><i class="fas fa-calendar"></i> Date of Birth</label><input type="date" id="lineDob"></div>
-                <button class="btn" id="saveLineBtn"><i class="fas fa-save"></i> Register Line</button>
-                <div id="lineFeedback"></div>
+            <div class="form-container">
+                <h3 class="section-title"><i class="fas fa-user-plus"></i> Register New Line</h3>
+                <div class="vertical-form">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="lineName" placeholder="Enter full name">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-id-card"></i> ID Number</label>
+                        <input type="text" id="lineId" placeholder="Enter ID number">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-phone"></i> Phone Number</label>
+                        <input type="tel" id="linePhone" placeholder="0712345678">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar"></i> Date of Birth</label>
+                        <input type="date" id="lineDob">
+                    </div>
+                    <button class="btn" id="saveLineBtn"><i class="fas fa-save"></i> Register Line</button>
+                    <div id="lineFeedback" style="margin-top: 1rem;"></div>
+                </div>
             </div>
         `;
     }
     
     function renderTillReg() {
         return `
-            <h3 style="margin-bottom:1.2rem;"><i class="fas fa-cash-register"></i> Register New Till</h3>
-            <div class="vertical-form">
-                <div class="form-group">
-                    <label><i class="fas fa-phone"></i> Phone Number (Lookup Line)</label>
-                    <input type="tel" id="fetchPhone" placeholder="0712345678">
-                    <button class="btn btn-secondary" id="fetchLineBtn" style="margin-top:5px;"><i class="fas fa-search"></i> Fetch Line Data</button>
-                    <div id="fetchInfo" class="fetch-info"></div>
+            <div class="form-container">
+                <h3 class="section-title"><i class="fas fa-cash-register"></i> Register New Till</h3>
+                <div class="vertical-form">
+                    <div class="form-group">
+                        <label><i class="fas fa-phone"></i> Phone Number (Lookup Line)</label>
+                        <input type="tel" id="fetchPhone" placeholder="0712345678">
+                        <button class="btn-secondary" id="fetchLineBtn" style="margin-top:0.5rem; width:auto; padding:10px 20px;">
+                            <i class="fas fa-search"></i> Fetch Line Data
+                        </button>
+                        <div id="fetchInfo" class="fetch-info"></div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="tillName" readonly placeholder="Will auto-fill">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-id-card"></i> ID Number</label>
+                        <input type="text" id="tillId" readonly placeholder="Will auto-fill">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar"></i> Date of Birth</label>
+                        <input type="text" id="tillDob" readonly placeholder="Will auto-fill">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-hashtag"></i> Till Number</label>
+                        <input type="text" id="tillNumber" placeholder="e.g., T001">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-store"></i> Store Number</label>
+                        <input type="text" id="storeNumber" placeholder="e.g., STR01">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-user-tag"></i> Operator ID</label>
+                        <input type="text" id="operatorId" readonly placeholder="Auto-generated">
+                    </div>
+                    <button class="btn" id="saveTillBtn"><i class="fas fa-save"></i> Register Till</button>
+                    <div id="tillFeedback" style="margin-top: 1rem;"></div>
                 </div>
-                <div class="form-group"><label><i class="fas fa-user"></i> Full Name</label><input type="text" id="tillName" readonly></div>
-                <div class="form-group"><label><i class="fas fa-id-card"></i> ID Number</label><input type="text" id="tillId" readonly></div>
-                <div class="form-group"><label><i class="fas fa-calendar"></i> Date of Birth</label><input type="text" id="tillDob" readonly></div>
-                <div class="form-group"><label><i class="fas fa-hashtag"></i> Till Number</label><input type="text" id="tillNumber" placeholder="T001"></div>
-                <div class="form-group"><label><i class="fas fa-store"></i> Store Number</label><input type="text" id="storeNumber" placeholder="STR01"></div>
-                <div class="form-group"><label><i class="fas fa-user-tag"></i> Operator ID</label><input type="text" id="operatorId" readonly></div>
-                <button class="btn" id="saveTillBtn"><i class="fas fa-save"></i> Register Till</button>
-                <div id="tillFeedback"></div>
             </div>
+        `;
+    }
+    
+    function renderCustomer360() {
+        return `
+            <h3 class="section-title"><i class="fas fa-id-card"></i> Customer 360° View</h3>
+            
+            <div class="search-bar">
+                <i class="fas fa-search" style="color:#1e4a3b;"></i>
+                <input type="text" id="customerSearchInput" placeholder="Search by name, phone number, or ID...">
+                <select id="searchType">
+                    <option value="all">All Fields</option>
+                    <option value="name">Name</option>
+                    <option value="phone">Phone Number</option>
+                    <option value="id">ID Number</option>
+                </select>
+                <button class="search-btn-enhanced" id="searchCustomerBtn">
+                    <i class="fas fa-search"></i> Search Customer
+                </button>
+            </div>
+            
+            <div id="customerSearchResults"></div>
+            <div id="customerDetailView"></div>
         `;
     }
     
     function renderReportPage() {
         return `
-            <h3 style="margin-bottom:1.2rem;"><i class="fas fa-chart-line"></i> Analytics Reports</h3>
+            <h3 class="section-title"><i class="fas fa-chart-line"></i> Analytics Reports</h3>
             <div class="submenu">
-                <button class="${reportType === 'Line' ? 'active' : ''}" data-report="Line"><i class="fas fa-users"></i> Line Report</button>
-                <button class="${reportType === 'Till' ? 'active' : ''}" data-report="Till"><i class="fas fa-cash-register"></i> Till Report</button>
-            </div>
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="🔍 Search by any field...">
-                <select id="filterField">
-                    <option value="">All Fields</option>
-                    <option value="Name">Name</option>
-                    <option value="Phone">Phone</option>
-                    <option value="Till Number">Till Number</option>
-                    <option value="Store">Store</option>
-                </select>
-                <button class="btn-secondary" id="exportBtn" style="width: auto; padding: 8px 20px;"><i class="fas fa-download"></i> Export CSV</button>
+                <button class="${reportType === 'Line' ? 'active' : ''}" data-report="Line">
+                    <i class="fas fa-users"></i> Line Report
+                </button>
+                <button class="${reportType === 'Till' ? 'active' : ''}" data-report="Till">
+                    <i class="fas fa-cash-register"></i> Till Report
+                </button>
             </div>
             <div id="reportContent"><div class="loading"><i class="fas fa-spinner fa-pulse"></i> Loading report...</div></div>
         `;
-    }
-    
-    async function loadPageData() {
-        if (currentPage === "Home") await loadHomeStats();
-        if (currentPage === "Activation" && hasActivationAccess()) await loadActivationTable();
-        if (currentPage === "Transactions" && hasActivationAccess()) await loadTransactionsTable();
-        if (currentPage === "Report") await loadReportContent();
     }
     
     async function loadHomeStats() {
@@ -617,31 +1125,60 @@
         
         const stats = await apiCall("getStats");
         if (stats.success) {
+            const tillsResult = await apiCall("getTills");
+            const tills = tillsResult.tills || [];
+            const lowUnitsCount = tills.filter(t => t.units < 50 && t.status === "active").length;
+            const activeTills = stats.activeTills || 0;
+            const actualCommission = activeTills * 200;
+            
             let statsHtml = `
-                <h3 style="margin-bottom:1.2rem;"><i class="fas fa-chart-pie"></i> Executive Dashboard</h3>
+                <h3 class="section-title">
+                    <i class="fas fa-chart-pie"></i> Executive Dashboard
+                    <button class="btn-secondary" id="refreshDashboard" style="width:auto; padding:8px 20px;">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </h3>
                 <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-value">${stats.totalLines || 0}</div><div class="stat-label">Total Lines</div></div>
-                    <div class="stat-card"><div class="stat-value">${stats.activeTills || 0}</div><div class="stat-label">Active Tills</div></div>`;
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="stat-value">${stats.totalLines || 0}</div>
+                        <div class="stat-label">Total Lines Registered</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-cash-register"></i></div>
+                        <div class="stat-value">${activeTills}</div>
+                        <div class="stat-label">Active Tills</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="stat-value">${lowUnitsCount}</div>
+                        <div class="stat-label">Low Units Alert</div>
+                    </div>`;
             
             if (canSeeCommission()) {
                 statsHtml += `
-                    <div class="stat-card"><div class="stat-value">KES ${(stats.commission || 0).toLocaleString()}</div><div class="stat-label">Commission (Lines × 50)</div></div>
-                    <div class="stat-card"><div class="stat-value">KES ${(stats.salary || 0).toLocaleString()}</div><div class="stat-label">Salary (Active Tills × 200)</div></div>`;
-            } else {
-                statsHtml += `
-                    <div class="stat-card"><div class="stat-value">—</div><div class="stat-label">Commission (Restricted)</div></div>
-                    <div class="stat-card"><div class="stat-value">—</div><div class="stat-label">Salary (Restricted)</div></div>`;
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="stat-value">KES ${actualCommission.toLocaleString()}</div>
+                        <div class="stat-label">Actual Commission</div>
+                    </div>`;
             }
+            
             statsHtml += `</div>`;
             container.innerHTML = statsHtml;
+            
+            document.getElementById("refreshDashboard")?.addEventListener("click", () => {
+                loadHomeStats();
+                showToast("Dashboard refreshed!");
+            });
         } else {
-            container.innerHTML = `<div class="error"><i class="fas fa-exclamation-triangle"></i> Error: ${stats.error}</div>`;
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><br>Error loading dashboard</div>`;
         }
     }
     
     async function loadActivationTable() {
         if (!hasActivationAccess()) {
-            document.getElementById("activationContent").innerHTML = `<div class="error"><i class="fas fa-lock"></i> Access Denied: Your role cannot access Till Activation</div>`;
+            document.getElementById("activationContent").innerHTML = `<div class="empty-state"><i class="fas fa-lock"></i><br>Access Denied</div>`;
             return;
         }
         
@@ -652,49 +1189,43 @@
         const tills = result.tills || [];
         
         if (!result.success || tills.length === 0) {
-            container.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><br>No tills registered yet.</div>`;
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><br>No tills registered yet</div>`;
             return;
         }
         
-        let html = `<div class="table-container">
-            <table class="modern-table">
-                <thead>
-                    <tr>
-                        <th><i class="fas fa-user"></i> Name</th>
-                        <th><i class="fas fa-hashtag"></i> Till Number</th>
-                        <th><i class="fas fa-store"></i> Store</th>
-                        <th><i class="fas fa-circle"></i> Status</th>
-                        <th><i class="fas fa-cog"></i> Action</th>
-                    </tr>
-                </thead>
-                <tbody>`;
+        let html = `<div class="table-wrapper"><table class="modern-table"><thead><tr>
+            <th>Name</th>
+            <th>Till Number</th>
+            <th>Store</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr></thead><tbody>`;
         
         tills.forEach(till => {
             const isActive = till.status === "active";
             html += `<tr>
-                        <td><strong>${escapeHtml(till.name || "-")}</strong></td>
-                        <td>${escapeHtml(till.tillNumber || "-")}</td>
-                        <td>${escapeHtml(till.storeNumber || "-")}</td>
-                        <td>${isActive ? '<span class="badge-active"><i class="fas fa-check-circle"></i> Active</span>' : '<span class="badge-inactive"><i class="fas fa-clock"></i> Inactive</span>'}</td>
-                        <td>${!isActive ? `<button class="action-btn activate-btn" data-row="${till.rowIndex}"><i class="fas fa-key"></i> Activate</button>` : '<span style="color:#2b7e5a;"><i class="fas fa-check-circle"></i> Activated</span>'}</td>
-                    </tr>`;
+                <td><strong>${escapeHtml(till.name || "-")}</strong></td>
+                <td>${escapeHtml(till.tillNumber || "-")}</td>
+                <td>${escapeHtml(till.storeNumber || "-")}</td>
+                <td>${isActive ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Inactive</span>'}</td>
+                <td>${!isActive ? `<button class="action-btn activate-btn" data-row="${till.rowIndex}">Activate</button>` : '<span class="badge badge-success">Activated</span>'}</td>
+            </tr>`;
         });
+        
         html += `</tbody></table></div>`;
         container.innerHTML = html;
         
         document.querySelectorAll(".activate-btn").forEach(btn => {
             btn.addEventListener("click", async () => {
-                const pin = prompt("🔐 Enter Start PIN (4-6 digits):");
+                const pin = prompt("Enter Start PIN (4-6 digits):");
                 if (pin && pin.length >= 4) {
                     const res = await apiCall("activateTill", { rowIndex: parseInt(btn.dataset.row), startPin: pin });
                     if (res.success) {
-                        showToast("✅ Till activated successfully!");
+                        showToast("Till activated successfully!");
                         await loadActivationTable();
                     } else {
-                        showToast("❌ Activation failed: " + res.error, true);
+                        showToast("Activation failed: " + res.error, true);
                     }
-                } else {
-                    showToast("PIN required (min 4 digits)", true);
                 }
             });
         });
@@ -702,7 +1233,7 @@
     
     async function loadTransactionsTable() {
         if (!hasActivationAccess()) {
-            document.getElementById("transactionsContent").innerHTML = `<div class="error"><i class="fas fa-lock"></i> Access Denied: Your role cannot access Transactions</div>`;
+            document.getElementById("transactionsContent").innerHTML = `<div class="empty-state"><i class="fas fa-lock"></i><br>Access Denied</div>`;
             return;
         }
         
@@ -713,181 +1244,427 @@
         const tills = result.tills || [];
         
         if (!result.success || tills.length === 0) {
-            container.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><br>No tills available.</div>`;
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><br>No tills available</div>`;
             return;
         }
         
-        let html = `<div class="table-container">
-            <table class="modern-table">
-                <thead>
-                    <tr>
-                        <th><i class="fas fa-user"></i> Name</th>
-                        <th><i class="fas fa-hashtag"></i> Till Number</th>
-                        <th><i class="fas fa-store"></i> Store</th>
-                        <th><i class="fas fa-cubes"></i> Current Units</th>
-                        <th><i class="fas fa-plus-circle"></i> Action</th>
-                    </tr>
-                </thead>
-                <tbody>`;
+        let html = `<div class="table-wrapper"><table class="modern-table"><thead><tr>
+            <th>Name</th>
+            <th>Till Number</th>
+            <th>Store</th>
+            <th>Current Units</th>
+            <th>Action</th>
+        </tr></thead><tbody>`;
         
         tills.forEach(till => {
             html += `<tr>
-                        <td><strong>${escapeHtml(till.name || "-")}</strong></td>
-                        <td>${escapeHtml(till.tillNumber || "-")}</td>
-                        <td>${escapeHtml(till.storeNumber || "-")}</td>
-                        <td><span style="font-size:1.1rem; font-weight:700; color:#1e4a3b;">${till.units || 0}</span> units</div>
-                        <td><button class="action-btn update-btn" data-row="${till.rowIndex}"><i class="fas fa-plus-circle"></i> Add Units</button></div>
-                    </tr>`;
+                <td><strong>${escapeHtml(till.name || "-")}</strong></td>
+                <td>${escapeHtml(till.tillNumber || "-")}</td>
+                <td>${escapeHtml(till.storeNumber || "-")}</td>
+                <td><span class="units-black">${till.units || 0} units</span></td>
+                <td><button class="action-btn update-btn" data-row="${till.rowIndex}">Add Units</button></td>
+            </tr>`;
         });
+        
         html += `</tbody></table></div>`;
         container.innerHTML = html;
         
         document.querySelectorAll(".update-btn").forEach(btn => {
             btn.addEventListener("click", async () => {
-                const add = prompt("➕ Enter number of units to ADD:");
+                const add = prompt("Enter number of units to ADD:");
                 if (add && !isNaN(parseFloat(add)) && parseFloat(add) > 0) {
                     const res = await apiCall("updateUnits", { rowIndex: parseInt(btn.dataset.row), addUnits: parseFloat(add) });
                     if (res.success) {
-                        showToast(`📊 Units updated to ${res.newUnits}`);
+                        showToast(`Units updated to ${res.newUnits}`);
                         await loadTransactionsTable();
-                    } else {
-                        showToast("❌ Update failed", true);
                     }
-                } else {
-                    showToast("Please enter a valid positive number", true);
                 }
             });
         });
     }
     
-    let currentReportData = [];
-    let searchTimeout = null;
+    async function searchCustomers() {
+        const searchTerm = document.getElementById("customerSearchInput")?.value.trim();
+        const searchType = document.getElementById("searchType")?.value;
+        const resultsContainer = document.getElementById("customerSearchResults");
+        const detailContainer = document.getElementById("customerDetailView");
+        
+        if (!searchTerm) {
+            resultsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-search"></i><br>Enter a name, phone number, or ID to search</div>';
+            detailContainer.innerHTML = '';
+            return;
+        }
+        
+        resultsContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-pulse"></i> Searching customers...</div>';
+        detailContainer.innerHTML = '';
+        
+        try {
+            const linesResult = await apiCall("getLines");
+            const lines = linesResult.lines || [];
+            
+            if (lines.length === 0) {
+                resultsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><br>No customers found. Please register some lines first.</div>';
+                return;
+            }
+            
+            let customers = lines.filter(line => {
+                const term = searchTerm.toLowerCase();
+                if (searchType === "name") {
+                    return line.name?.toLowerCase().includes(term);
+                } else if (searchType === "phone") {
+                    return line.phone?.includes(searchTerm);
+                } else if (searchType === "id") {
+                    return line.idNumber?.toLowerCase().includes(term);
+                } else {
+                    return line.name?.toLowerCase().includes(term) || 
+                           line.phone?.includes(searchTerm) || 
+                           line.idNumber?.toLowerCase().includes(term);
+                }
+            });
+            
+            if (customers.length === 0) {
+                resultsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-user-slash"></i><br>No customers found matching "' + escapeHtml(searchTerm) + '"</div>';
+                return;
+            }
+            
+            const tillsResult = await apiCall("getTills");
+            const tills = tillsResult.tills || [];
+            
+            resultsContainer.innerHTML = `
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="margin-bottom: 1rem; color: #1e4a3b;">
+                        <i class="fas fa-users"></i> Search Results 
+                        <span style="font-size: 0.9rem; color: #5b6e69;">(${customers.length} customer${customers.length !== 1 ? 's' : ''} found)</span>
+                    </h4>
+                    <div class="table-wrapper">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>ID Number</th>
+                                    <th>Total Tills</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${customers.map(customer => {
+                                    const customerTills = tills.filter(t => normalizePhone(t.phone) === normalizePhone(customer.phone));
+                                    return `
+                                        <tr>
+                                            <td><strong>${escapeHtml(customer.name)}</strong></td>
+                                            <td><i class="fas fa-phone"></i> ${escapeHtml(customer.phone)}</div>
+                                            <td>${escapeHtml(customer.idNumber)}</div>
+                                            <td><span class="badge badge-info">${customerTills.length} tills</span></div>
+                                            <td><button class="action-btn view-customer-btn" data-phone="${customer.phone}">View 360°</button></div>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+            
+            document.querySelectorAll('.view-customer-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const phone = btn.dataset.phone;
+                    await loadCustomerDetail(phone);
+                });
+            });
+            
+        } catch (error) {
+            console.error("Search error:", error);
+            resultsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><br>Error searching customers. Please try again.</div>';
+        }
+    }
+    
+    async function loadCustomerDetail(phone) {
+        const detailContainer = document.getElementById("customerDetailView");
+        if (!detailContainer) return;
+        
+        detailContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-pulse"></i> Loading customer data...</div>';
+        
+        try {
+            const [linesResult, tillsResult] = await Promise.all([
+                apiCall("getLines"),
+                apiCall("getTills")
+            ]);
+            
+            const lines = linesResult.lines || [];
+            const tills = tillsResult.tills || [];
+            
+            const normalizedSearchPhone = normalizePhone(phone);
+            const customer = lines.find(l => normalizePhone(l.phone) === normalizedSearchPhone);
+            
+            if (!customer) {
+                detailContainer.innerHTML = '<div class="empty-state"><i class="fas fa-user-slash"></i><br>Customer not found</div>';
+                return;
+            }
+            
+            const customerTills = tills.filter(t => normalizePhone(t.phone) === normalizedSearchPhone);
+            const totalUnits = customerTills.reduce((sum, t) => sum + (t.units || 0), 0);
+            const activeTills = customerTills.filter(t => t.status === "active").length;
+            
+            detailContainer.innerHTML = `
+                <div style="margin-top: 2rem;">
+                    <div class="customer-header">
+                        <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+                            <div class="customer-avatar">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <div class="customer-info">
+                                <h2>${escapeHtml(customer.name)}</h2>
+                                <p><i class="fas fa-phone"></i> ${escapeHtml(customer.phone)}</p>
+                                <p><i class="fas fa-id-card"></i> ID: ${escapeHtml(customer.idNumber)}</p>
+                                <p><i class="fas fa-calendar"></i> DOB: ${escapeHtml(customer.dob) || 'Not specified'}</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <div class="stats-badge">
+                                <div class="number">${customerTills.length}</div>
+                                <div class="label">Total Tills</div>
+                            </div>
+                            <div class="stats-badge">
+                                <div class="number">${activeTills}</div>
+                                <div class="label">Active Tills</div>
+                            </div>
+                            <div class="stats-badge">
+                                <div class="number">${totalUnits}</div>
+                                <div class="label">Total Units</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-grid">
+                        <div class="info-card">
+                            <h4><i class="fas fa-chart-line"></i> Performance Metrics</h4>
+                            <div class="info-row">
+                                <span class="info-label">Total Units Stocked:</span>
+                                <span class="info-value"><strong>${totalUnits}</strong> units</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Avg Units per Till:</span>
+                                <span class="info-value">${customerTills.length > 0 ? Math.round(totalUnits / customerTills.length) : 0} units</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Customer Since:</span>
+                                <span class="info-value">${customer.dateCreated ? new Date(customer.dateCreated).toLocaleDateString() : 'N/A'}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="info-card">
+                            <h4><i class="fas fa-chart-pie"></i> Business Impact</h4>
+                            <div class="info-row">
+                                <span class="info-label">Revenue Generated:</span>
+                                <span class="info-value">KES ${(totalUnits * 10).toLocaleString()}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Commission Earned:</span>
+                                <span class="info-value">KES ${(activeTills * 200).toLocaleString()}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4 style="margin: 1.5rem 0 1rem; color: #1e4a3b;">
+                        <i class="fas fa-cash-register"></i> Customer's Tills 
+                        <span style="font-size: 0.8rem; font-weight: normal;">(${customerTills.length} tills)</span>
+                    </h4>
+                    
+                    ${customerTills.length > 0 ? `
+                    <div class="table-wrapper">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Till Number</th>
+                                    <th>Store</th>
+                                    <th>Operator ID</th>
+                                    <th>Units</th>
+                                    <th>Status</th>
+                                    <th>Date Created</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${customerTills.map(till => `
+                                    <tr>
+                                        <td><strong>${escapeHtml(till.tillNumber || '-')}</strong></td>
+                                        <td>${escapeHtml(till.storeNumber || '-')}</td>
+                                        <td>${escapeHtml(till.operatorId || '-')}</td>
+                                        <td><span class="units-black">${till.units || 0} units</span></td>
+                                        <td>${till.status === "active" ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Inactive</span>'}</td>
+                                        <td>${till.dateCreated ? new Date(till.dateCreated).toLocaleDateString() : '-'}</td>
+                                        <td><button class="action-btn add-units-btn" data-row="${till.rowIndex}" data-phone="${phone}">Add Units</button></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    ` : '<div class="empty-state"><i class="fas fa-inbox"></i><br>No tills registered for this customer</div>'}
+                    
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: #f8fbf9; border-radius: 16px;">
+                        <h4 style="margin-bottom: 1rem;"><i class="fas fa-bolt"></i> Quick Actions</h4>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button class="btn-secondary" id="contactCustomerBtn" style="width: auto;">Contact Customer</button>
+                            <button class="btn-secondary" id="registerTillForCustomer" style="width: auto;">Register New Till</button>
+                            <button class="btn-secondary" id="refreshCustomerBtn" style="width: auto;">Refresh Data</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.querySelectorAll('.add-units-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const rowIndex = parseInt(btn.dataset.row);
+                    const customerPhone = btn.dataset.phone;
+                    const add = prompt("Enter number of units to add:");
+                    if (add && !isNaN(parseFloat(add)) && parseFloat(add) > 0) {
+                        const res = await apiCall("updateUnits", { rowIndex, addUnits: parseFloat(add) });
+                        if (res.success) {
+                            showToast(`Added ${add} units successfully!`);
+                            await loadCustomerDetail(customerPhone);
+                        } else {
+                            showToast("Failed to add units", true);
+                        }
+                    }
+                });
+            });
+            
+            document.getElementById("contactCustomerBtn")?.addEventListener("click", () => {
+                if (confirm(`Call ${customer.name} at ${customer.phone}?`)) {
+                    window.location.href = `tel:${customer.phone}`;
+                }
+            });
+            
+            document.getElementById("registerTillForCustomer")?.addEventListener("click", () => {
+                const fetchPhoneInput = document.getElementById("fetchPhone");
+                if (fetchPhoneInput) {
+                    fetchPhoneInput.value = customer.phone;
+                }
+                currentPage = "TillReg";
+                render();
+                showToast("Phone number pre-filled for till registration");
+            });
+            
+            document.getElementById("refreshCustomerBtn")?.addEventListener("click", () => {
+                loadCustomerDetail(phone);
+                showToast("Customer data refreshed!");
+            });
+            
+        } catch (error) {
+            console.error("Error loading customer detail:", error);
+            detailContainer.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><br>Error loading customer data. Please try again.</div>';
+        }
+    }
     
     async function loadReportContent() {
         const container = document.getElementById("reportContent");
         if (!container) return;
         
-        let rawData = [];
-        
         if (reportType === "Line") {
             const result = await apiCall("getLines");
-            rawData = result.lines || [];
-            if (rawData.length === 0) {
-                container.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><br>No lines registered yet.</div>`;
+            const lines = result.lines || [];
+            
+            if (lines.length === 0) {
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><br>No lines registered yet</div>`;
                 return;
             }
-            currentReportData = rawData.map(l => ({
+            
+            const reportData = lines.map(l => ({
                 Name: l.name || "-",
                 "ID Number": l.idNumber || "-",
                 Phone: l.phone || "-",
                 DOB: l.dob || "-",
                 "Date Created": l.dateCreated ? new Date(l.dateCreated).toLocaleDateString() : '-'
             }));
+            
+            container.innerHTML = `
+                <div class="table-wrapper">
+                    <table class="modern-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>ID Number</th>
+                                <th>Phone</th>
+                                <th>DOB</th>
+                                <th>Date Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${reportData.map(row => `
+                                <tr>
+                                    <td><strong>${escapeHtml(row.Name)}</strong></td>
+                                    <td>${escapeHtml(row["ID Number"])}</td>
+                                    <td>${escapeHtml(row.Phone)}</div>
+                                    <td>${escapeHtml(row.DOB)}</div>
+                                    <td>${escapeHtml(row["Date Created"])}</div>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
         } else {
-            const result = await apiCall("getTills");
-            rawData = result.tills || [];
-            if (rawData.length === 0) {
-                container.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><br>No tills registered yet.</div>`;
+            const tillsResult = await apiCall("getTills");
+            const tills = tillsResult.tills || [];
+            const linesResult = await apiCall("getLines");
+            const lines = linesResult.lines || [];
+            
+            if (tills.length === 0) {
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><br>No tills registered</div>`;
                 return;
             }
-            currentReportData = rawData.map(t => ({
-                Name: t.name || "-",
-                "Till Number": t.tillNumber || "-",
-                Store: t.storeNumber || "-",
-                Units: t.units || 0,
-                Status: t.status === "active" ? "Active" : "Inactive",
-                "Date Created": t.dateCreated ? new Date(t.dateCreated).toLocaleDateString() : '-'
-            }));
-        }
-        
-        renderReportTable(container);
-        
-        const searchInput = document.getElementById("searchInput");
-        const filterField = document.getElementById("filterField");
-        const exportBtn = document.getElementById("exportBtn");
-        
-        if (searchInput) {
-            searchInput.oninput = () => {
-                clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(() => renderReportTable(container), 300);
-            };
-        }
-        if (filterField) {
-            filterField.onchange = () => renderReportTable(container);
-        }
-        if (exportBtn) {
-            exportBtn.onclick = () => exportToCSV(currentReportData, `${reportType}_Report`);
-        }
-    }
-    
-    function renderReportTable(container) {
-        const searchTerm = document.getElementById("searchInput")?.value.toLowerCase() || "";
-        const filterField = document.getElementById("filterField")?.value || "";
-        
-        let filteredData = currentReportData;
-        
-        if (searchTerm) {
-            filteredData = currentReportData.filter(row => {
-                if (filterField && row[filterField]) {
-                    return String(row[filterField]).toLowerCase().includes(searchTerm);
-                }
-                return Object.values(row).some(val => String(val).toLowerCase().includes(searchTerm));
+            
+            const lineMap = new Map();
+            lines.forEach(line => {
+                const normalizedPhone = normalizePhone(line.phone);
+                lineMap.set(normalizedPhone, line);
             });
-        }
-        
-        if (filteredData.length === 0) {
-            container.innerHTML = `<div class="empty-state"><i class="fas fa-search"></i><br>No matching records found.</div>`;
-            return;
-        }
-        
-        const headers = Object.keys(filteredData[0]);
-        
-        let html = `<div class="table-container">
-            <table class="modern-table">
-                <thead>
-                    <tr>`;
-        headers.forEach(header => {
-            html += `<th><i class="fas ${getHeaderIcon(header)}"></i> ${header}</th>`;
-        });
-        html += `</tr>
-                </thead>
-                <tbody>`;
-        
-        filteredData.forEach(row => {
-            html += `<tr>`;
-            headers.forEach(header => {
-                let value = row[header];
-                if (header === "Status" && value === "Active") {
-                    value = '<span class="badge-active"><i class="fas fa-check-circle"></i> Active</span>';
-                } else if (header === "Status" && value === "Inactive") {
-                    value = '<span class="badge-inactive"><i class="fas fa-clock"></i> Inactive</span>';
-                } else if (header === "Units" && typeof value === 'number') {
-                    value = `<span style="font-weight:700; color:#1e4a3b;">${value}</span>`;
-                }
-                html += `<td>${value}</td>`;
+            
+            const reportData = tills.map(t => {
+                const ownerLine = lineMap.get(normalizePhone(t.phone || ''));
+                return {
+                    Name: t.name || "-",
+                    "Owner Phone": ownerLine ? ownerLine.phone : (t.phone || "-"),
+                    "Till Number": t.tillNumber || "-",
+                    Store: t.storeNumber || "-",
+                    Units: t.units || 0,
+                    Status: t.status === "active" ? "Active" : "Inactive",
+                    "Date Created": t.dateCreated ? new Date(t.dateCreated).toLocaleDateString() : '-'
+                };
             });
-            html += `</tr>`;
-        });
-        html += `</tbody>
-            </table>
-        </div>`;
-        
-        container.innerHTML = html;
-    }
-    
-    function getHeaderIcon(header) {
-        const icons = {
-            "Name": "fa-user",
-            "ID Number": "fa-id-card",
-            "Phone": "fa-phone",
-            "DOB": "fa-calendar",
-            "Date Created": "fa-clock",
-            "Till Number": "fa-hashtag",
-            "Store": "fa-store",
-            "Units": "fa-cubes",
-            "Status": "fa-circle"
-        };
-        return icons[header] || "fa-chart-simple";
+            
+            container.innerHTML = `
+                <div class="table-wrapper">
+                    <table class="modern-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Owner Phone</th>
+                                <th>Till Number</th>
+                                <th>Store</th>
+                                <th>Units</th>
+                                <th>Status</th>
+                                <th>Date Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${reportData.map(row => `
+                                <tr>
+                                    <td><strong>${escapeHtml(row.Name)}</strong></td>
+                                    <td>${escapeHtml(row["Owner Phone"])}</div>
+                                    <td>${escapeHtml(row["Till Number"])}</div>
+                                    <td>${escapeHtml(row.Store)}</div>
+                                    <td><span class="units-black">${row.Units} units</span></div>
+                                    <td><span class="badge ${row.Status === 'Active' ? 'badge-success' : 'badge-danger'}">${row.Status}</span></div>
+                                    <td>${escapeHtml(row["Date Created"])}</div>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
     }
     
     function attachMenuEvents() {
@@ -902,7 +1679,7 @@
             currentUser = null;
             currentUserRole = null;
             render();
-            showToast("Logged out");
+            showToast("Logged out successfully");
         });
         
         if (currentPage === "LineReg") {
@@ -914,57 +1691,50 @@
                 const feedback = document.getElementById("lineFeedback");
                 
                 if (!name || !idNumber || !phone || !dob) {
-                    feedback.innerHTML = '<span style="color:#c2410c;"><i class="fas fa-exclamation-triangle"></i> All fields required</span>';
+                    feedback.innerHTML = '<span style="color:#c2410c;">All fields are required</span>';
                     return;
                 }
+                
                 phone = phone.replace(/\D/g, '');
-                feedback.innerHTML = '<span style="color:#2c7a5e;"><i class="fas fa-spinner fa-pulse"></i> Registering...</span>';
+                feedback.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Registering...';
+                
                 const res = await apiCall("registerLine", { name, idNumber, phone, dob });
                 if (res.success) {
-                    feedback.innerHTML = '<span style="color:#2b7e5a;"><i class="fas fa-check-circle"></i> Line registered successfully!</span>';
+                    feedback.innerHTML = '<span style="color:#2b7e5a;">Line registered successfully!</span>';
                     document.getElementById("lineName").value = "";
                     document.getElementById("lineId").value = "";
                     document.getElementById("linePhone").value = "";
                     document.getElementById("lineDob").value = "";
-                    showToast("✅ Line registered!");
-                    setTimeout(() => feedback.innerHTML = "", 2000);
+                    showToast("Line registered successfully!");
+                    setTimeout(() => feedback.innerHTML = "", 3000);
                 } else {
-                    feedback.innerHTML = `<span style="color:#c2410c;"><i class="fas fa-exclamation-triangle"></i> ${res.error}</span>`;
+                    feedback.innerHTML = `<span style="color:#c2410c;">${res.error}</span>`;
                 }
             });
         }
         
-        // ==================== FIXED TILL REGISTRATION FETCH ====================
         if (currentPage === "TillReg") {
             document.getElementById("fetchLineBtn")?.addEventListener("click", async () => {
                 const phone = document.getElementById("fetchPhone").value.trim();
                 const fetchInfo = document.getElementById("fetchInfo");
                 
                 if (!phone) {
-                    fetchInfo.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Enter a phone number';
+                    fetchInfo.innerHTML = 'Enter a phone number';
                     fetchInfo.className = 'fetch-info error';
                     return;
                 }
                 
-                fetchInfo.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Searching for line...';
+                fetchInfo.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Searching...';
                 fetchInfo.className = 'fetch-info';
                 
                 const res = await apiCall("getLines");
-                
                 if (!res.success || !res.lines) {
-                    fetchInfo.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error fetching lines';
+                    fetchInfo.innerHTML = 'Error fetching lines';
                     fetchInfo.className = 'fetch-info error';
                     return;
                 }
                 
                 const normalizedInput = normalizePhone(phone);
-                
-                // Show debug info to console
-                console.log("Searching for phone:", phone);
-                console.log("Normalized input:", normalizedInput);
-                console.log("Available lines:", res.lines.map(l => ({ name: l.name, phone: l.phone, normalized: normalizePhone(l.phone) })));
-                
-                // Find matching line using normalized comparison
                 const found = res.lines.find(line => normalizePhone(line.phone) === normalizedInput);
                 
                 if (found) {
@@ -981,15 +1751,13 @@
                     }
                     document.getElementById("operatorId").value = operatorId;
                     
-                    fetchInfo.innerHTML = `<i class="fas fa-check-circle"></i> ✓ Line found: ${found.name} (${found.phone})`;
+                    fetchInfo.innerHTML = `Line found: ${found.name}`;
                     fetchInfo.className = 'fetch-info success';
                     showToast("Line found! You can now register the till.");
                 } else {
-                    const availablePhones = res.lines.map(l => l.phone).join(", ");
-                    fetchInfo.innerHTML = `<i class="fas fa-exclamation-triangle"></i> No line found for "${phone}".<br>
-                        <small>Try: ${res.lines.length > 0 ? availablePhones : "No lines registered yet"}</small>`;
+                    fetchInfo.innerHTML = `No line found for "${phone}"`;
                     fetchInfo.className = 'fetch-info error';
-                    showToast("No line found with this phone number. Please register the line first.", true);
+                    showToast("No line found with this phone number", true);
                     
                     document.getElementById("tillName").value = "";
                     document.getElementById("tillId").value = "";
@@ -1014,22 +1782,29 @@
                 const feedback = document.getElementById("tillFeedback");
                 
                 if (!payload.phone || !payload.tillNumber || !payload.storeNumber || !payload.name) {
-                    feedback.innerHTML = '<span style="color:#c2410c;"><i class="fas fa-exclamation-triangle"></i> Fetch a line first and fill all fields</span>';
+                    feedback.innerHTML = '<span style="color:#c2410c;">Please fetch a line first</span>';
                     return;
                 }
                 
-                feedback.innerHTML = '<span style="color:#2c7a5e;"><i class="fas fa-spinner fa-pulse"></i> Registering...</span>';
+                feedback.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Registering...';
                 const res = await apiCall("registerTill", payload);
                 
                 if (res.success) {
-                    feedback.innerHTML = '<span style="color:#2b7e5a;"><i class="fas fa-check-circle"></i> Till registered successfully!</span>';
+                    feedback.innerHTML = '<span style="color:#2b7e5a;">Till registered successfully!</span>';
                     document.getElementById("tillNumber").value = "";
                     document.getElementById("storeNumber").value = "";
-                    showToast("✅ Till registered!");
-                    setTimeout(() => feedback.innerHTML = "", 2000);
+                    showToast("Till registered successfully!");
+                    setTimeout(() => feedback.innerHTML = "", 3000);
                 } else {
-                    feedback.innerHTML = `<span style="color:#c2410c;"><i class="fas fa-exclamation-triangle"></i> ${res.error}</span>`;
+                    feedback.innerHTML = `<span style="color:#c2410c;">${res.error}</span>`;
                 }
+            });
+        }
+        
+        if (currentPage === "Customer360") {
+            document.getElementById("searchCustomerBtn")?.addEventListener("click", searchCustomers);
+            document.getElementById("customerSearchInput")?.addEventListener("keypress", (e) => {
+                if (e.key === "Enter") searchCustomers();
             });
         }
         
@@ -1043,16 +1818,74 @@
         }
     }
     
+    async function loadPageData() {
+        if (currentPage === "Home") await loadHomeStats();
+        if (currentPage === "Activation" && hasActivationAccess()) await loadActivationTable();
+        if (currentPage === "Transactions" && hasActivationAccess()) await loadTransactionsTable();
+        if (currentPage === "Report") await loadReportContent();
+        if (currentPage === "Customer360") {
+            const resultsContainer = document.getElementById("customerSearchResults");
+            if (resultsContainer) {
+                resultsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-search"></i><br>Search for a customer to see their 360° view</div>';
+            }
+        }
+    }
+    
+    // Global Footer Clock Function
+    function addGlobalFooterClock() {
+        // Check if clock already exists
+        if (document.querySelector('.global-footer-clock')) return;
+        
+        const clockDiv = document.createElement('div');
+        clockDiv.className = 'global-footer-clock';
+        clockDiv.innerHTML = `
+            <i class="fas fa-clock"></i>
+            <div>
+                <div class="clock-time" id="clockTime">--:--:--</div>
+                <div class="clock-date" id="clockDate">--- --, ----</div>
+            </div>
+        `;
+        document.body.appendChild(clockDiv);
+        
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit',
+                hour12: true 
+            });
+            const dateStr = now.toLocaleDateString('en-US', { 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+            
+            const timeElement = document.getElementById('clockTime');
+            const dateElement = document.getElementById('clockDate');
+            if (timeElement) timeElement.textContent = timeStr;
+            if (dateElement) dateElement.textContent = dateStr;
+        }
+        
+        updateClock();
+        setInterval(updateClock, 1000);
+    }
+    
     function render() {
         const app = document.getElementById("app");
         if (!currentUser) {
             app.innerHTML = renderLogin();
             document.getElementById("loginBtn")?.addEventListener("click", doLogin);
+            // Remove clock if exists on login page
+            const existingClock = document.querySelector('.global-footer-clock');
+            if (existingClock) existingClock.remove();
             return;
         }
         app.innerHTML = renderDashboard();
         attachMenuEvents();
         loadPageData();
+        addGlobalFooterClock();
     }
     
     render();
