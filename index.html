@@ -15,7 +15,7 @@
         
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+            background: linear-gradient(135deg, #f5f7fa 0%, #eef2f6 100%);
             min-height: 100vh;
         }
         
@@ -30,8 +30,12 @@
         }
         
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #2c7a5e, #1e4a3b);
+            background: #1e4a3b;
             border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0f3b2f;
         }
         
         .login-container {
@@ -39,7 +43,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #0b2b26 0%, #1e4a3b 50%, #2c7a5e 100%);
+            background: linear-gradient(135deg, #0b2b26 0%, #1e4a3b 100%);
             padding: 1rem;
             position: relative;
             overflow: hidden;
@@ -50,7 +54,7 @@
             position: absolute;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
             background-size: 40px 40px;
             animation: float 20s linear infinite;
         }
@@ -71,18 +75,23 @@
             position: relative;
             z-index: 1;
             animation: slideUp 0.6s ease;
-            border: 1px solid rgba(255,255,255,0.2);
         }
         
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .login-card h2 {
             font-size: 2rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #1e4a3b, #2c7a5e, #5bc0a3);
+            background: linear-gradient(135deg, #1e4a3b, #2c7a5e);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -90,35 +99,15 @@
             margin-bottom: 2rem;
         }
         
-        .login-card .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .login-card input {
-            width: 100%;
-            padding: 14px 18px;
-            border: 2px solid #e2edeb;
-            border-radius: 30px;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-        
-        .login-card input:focus {
-            border-color: #2c7a5e;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(44, 122, 94, 0.1);
-        }
-        
         .dashboard {
             display: flex;
             min-height: 100vh;
             position: relative;
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
         }
         
         .sidebar {
             width: 280px;
-            background: linear-gradient(180deg, #0a221d 0%, #0c2b25 50%, #0a1f1a 100%);
+            background: linear-gradient(180deg, #0a221d 0%, #0c2b25 100%);
             backdrop-filter: blur(10px);
             color: white;
             padding: 2rem 1.5rem;
@@ -127,25 +116,16 @@
             height: 100vh;
             box-shadow: 4px 0 20px rgba(0,0,0,0.1);
             transition: all 0.3s;
-            border-right: 1px solid rgba(255,255,255,0.1);
         }
         
         .sidebar .logo {
             font-size: 1.5rem;
             font-weight: 800;
             margin-bottom: 2.5rem;
-            padding: 0.5rem;
+            padding: 0 0.5rem;
             display: flex;
             align-items: center;
             gap: 12px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 20px;
-            transition: all 0.3s;
-        }
-        
-        .sidebar .logo:hover {
-            background: rgba(255,255,255,0.1);
-            transform: translateX(5px);
         }
         
         .sidebar .logo i {
@@ -184,14 +164,10 @@
         .sidebar nav ul li button i {
             width: 24px;
             font-size: 1.1rem;
-            transition: transform 0.3s;
-        }
-        
-        .sidebar nav ul li button:hover i {
-            transform: scale(1.1);
         }
         
         .sidebar nav ul li button:hover {
+            background: rgba(44, 122, 94, 0.3);
             color: white;
             transform: translateX(5px);
         }
@@ -206,12 +182,6 @@
             flex: 1;
             padding: 2rem;
             overflow-y: auto;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
         }
         
         .card {
@@ -222,29 +192,10 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             transition: all 0.3s;
             border: 1px solid rgba(44, 122, 94, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #2c7a5e, #5bc0a3, #2c7a5e);
-            background-size: 200% 100%;
-            animation: gradientShift 3s ease infinite;
-        }
-        
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
         }
         
         .card:hover {
-            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
             transform: translateY(-2px);
         }
         
@@ -263,7 +214,6 @@
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
-            cursor: pointer;
         }
         
         .stat-card::before {
@@ -300,10 +250,7 @@
         .stat-value {
             font-size: 2.2rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #1e4a3b, #2c7a5e);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: #1e4a3b;
             margin-bottom: 0.25rem;
         }
         
@@ -313,6 +260,67 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             font-weight: 600;
+        }
+        
+        .stat-trend {
+            font-size: 0.7rem;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .trend-up {
+            color: #2b7e5a;
+        }
+        
+        .trend-down {
+            color: #c2410c;
+        }
+        
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #1e4a3b;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-group label i {
+            margin-right: 8px;
+            color: #2c7a5e;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e2edeb;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .form-group input:focus {
+            border-color: #2c7a5e;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(44, 122, 94, 0.1);
+        }
+        
+        .form-group input:read-only {
+            background: #f8fbf9;
+            cursor: not-allowed;
         }
         
         .btn {
@@ -352,7 +360,6 @@
             overflow-x: auto;
             border-radius: 24px;
             background: white;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
         }
         
         .modern-table {
@@ -390,6 +397,10 @@
             color: #1f2e2a;
         }
         
+        .modern-table tbody tr {
+            transition: all 0.2s;
+        }
+        
         .modern-table tbody tr:hover {
             background: #f8fbf9;
         }
@@ -409,6 +420,11 @@
             color: #2b7e5a;
         }
         
+        .badge-warning {
+            background: linear-gradient(135deg, #fff3e0, #ffe4b5);
+            color: #f59e0b;
+        }
+        
         .badge-danger {
             background: linear-gradient(135deg, #ffebee, #fed7d7);
             color: #dc2626;
@@ -419,308 +435,121 @@
             color: #0ea5e9;
         }
         
-        .action-btn {
-            background: linear-gradient(135deg, #1e4a3b, #0f3b2f);
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin: 0 4px;
-        }
-        
-        .action-btn:hover {
-            transform: scale(0.96);
-            box-shadow: 0 2px 8px rgba(30,74,59,0.3);
-        }
-        
-        .section-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #1e4a3b, #2c7a5e);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+        .search-bar {
+            background: white;
+            padding: 1rem;
+            border-radius: 60px;
             margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 3px solid #e2edeb;
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
             gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            background: linear-gradient(135deg, #1e4a3b, #2c7a5e);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 0.5rem;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .form-group input {
-            width: 100%;
-            padding: 14px 18px;
+        .search-bar input {
+            flex: 1;
+            padding: 12px 20px;
             border: 2px solid #e2edeb;
-            border-radius: 20px;
-            font-size: 0.95rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
             transition: all 0.3s;
         }
         
-        .form-group input:focus {
+        .search-bar input:focus {
             border-color: #2c7a5e;
             outline: none;
             box-shadow: 0 0 0 3px rgba(44, 122, 94, 0.1);
         }
         
-        /* ENHANCED MODAL STYLES */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            animation: fadeIn 0.3s ease;
+        .search-bar select {
+            padding: 12px 20px;
+            border: 2px solid #e2edeb;
+            border-radius: 50px;
+            background: white;
+            font-size: 0.9rem;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .modal-content {
-            background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%);
-            border-radius: 40px;
-            padding: 0;
-            max-width: 800px;
-            width: 90%;
-            max-height: 85vh;
-            overflow-y: auto;
-            animation: modalSlideUp 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.4);
-            border: 1px solid rgba(44, 122, 94, 0.2);
-        }
-        
-        @keyframes modalSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px) scale(0.96);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        
-        .modal-header {
+        .customer-header {
             background: linear-gradient(135deg, #1e4a3b, #0f3b2f);
-            padding: 1.5rem 2rem;
-            border-radius: 40px 40px 0 0;
+            color: white;
+            padding: 2rem;
+            border-radius: 28px;
+            margin-bottom: 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 10;
+            flex-wrap: wrap;
+            gap: 1.5rem;
         }
         
-        .modal-header h3 {
-            color: white;
-            margin: 0;
-            font-size: 1.3rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .modal-header h3 i {
-            font-size: 1.5rem;
-            color: #5bc0a3;
-        }
-        
-        .modal-close {
+        .customer-avatar {
+            width: 100px;
+            height: 100px;
             background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            width: 36px;
-            height: 36px;
             border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 3rem;
+            backdrop-filter: blur(10px);
         }
         
-        .modal-close:hover {
-            background: rgba(255,255,255,0.3);
-            transform: rotate(90deg);
+        .customer-info h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
         }
         
-        .modal-body {
-            padding: 2rem;
+        .stats-badge {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px;
+            text-align: center;
+            min-width: 120px;
         }
         
-        .info-card-modal {
+        .stats-badge .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .stats-badge .label {
+            font-size: 0.7rem;
+            opacity: 0.9;
+        }
+        
+        .info-card {
             background: linear-gradient(135deg, #f8fbf9, #ffffff);
             border-radius: 24px;
             padding: 1.5rem;
-            margin-bottom: 1.5rem;
             border: 1px solid #e2edeb;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: all 0.3s;
         }
         
-        .info-card-modal p {
-            margin: 0.5rem 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 0;
-            border-bottom: 1px dashed #e2edeb;
+        .info-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
         
-        .info-card-modal p:last-child {
-            border-bottom: none;
-        }
-        
-        .info-card-modal strong {
-            color: #1e4a3b;
-            font-weight: 600;
-        }
-        
-        .info-card-modal span {
-            color: #2c7a5e;
-            font-weight: 500;
-        }
-        
-        .modal-section-title {
-            font-size: 1rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #1e4a3b, #2c7a5e);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin: 1.5rem 0 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e2edeb;
-        }
-        
-        .authorized-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-        }
-        
-        .authorized-table th {
-            background: #f0f4f2;
-            padding: 12px;
-            text-align: left;
-            font-weight: 600;
-            color: #1e4a3b;
-        }
-        
-        .authorized-table td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #eef2f0;
-        }
-        
-        .authorized-table tr:hover {
-            background: #f8fbf9;
-        }
-        
-        .send-units-section {
-            background: linear-gradient(135deg, #f0f7f4, #f8fbf9);
-            border-radius: 24px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        
-        .send-units-section h4 {
+        .info-card h4 {
             color: #1e4a3b;
             margin-bottom: 1rem;
+            font-size: 1rem;
             display: flex;
             align-items: center;
             gap: 8px;
         }
         
-        .number-input-group {
+        .info-row {
             display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e2edeb;
         }
         
-        .number-input-group select,
-        .number-input-group input {
-            flex: 1;
-            padding: 12px 16px;
-            border: 2px solid #e2edeb;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-            background: white;
-        }
-        
-        .number-input-group select:focus,
-        .number-input-group input:focus {
-            border-color: #2c7a5e;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(44, 122, 94, 0.1);
-        }
-        
-        .transfer-feedback {
-            margin-top: 0.75rem;
-            font-size: 0.8rem;
-            padding: 8px 12px;
-            border-radius: 12px;
-        }
-        
-        .transfer-feedback.success {
-            background: #e8f5e9;
-            color: #2b7e5a;
-        }
-        
-        .transfer-feedback.error {
-            background: #ffebee;
-            color: #c2410c;
-        }
-        
-        .empty-state-modal {
-            text-align: center;
-            padding: 2rem;
-            color: #5b6e69;
-        }
-        
-        .empty-state-modal i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            opacity: 0.3;
+        .info-row:last-child {
+            border-bottom: none;
         }
         
         .toast {
@@ -739,13 +568,17 @@
             gap: 10px;
             font-weight: 500;
             border-left: 4px solid #2c7a5e;
-            backdrop-filter: blur(10px);
-            background: rgba(255,255,255,0.95);
         }
         
         @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(100px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
         
         .loading {
@@ -776,181 +609,33 @@
             opacity: 0.3;
         }
         
-        .user-badge {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            padding: 8px 16px;
-            border-radius: 30px;
-            font-size: 0.75rem;
-        }
-        
-        .units-black {
-            font-weight: 700;
-            color: #000000 !important;
-            font-size: 1rem;
-        }
-        
-        .global-footer-clock {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(30, 74, 59, 0.95);
-            backdrop-filter: blur(10px);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 40px;
-            font-size: 0.85rem;
-            z-index: 1000;
-            font-family: 'Inter', monospace;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.3s;
-        }
-        
-        .global-footer-clock:hover {
-            transform: translateY(-2px);
-            background: rgba(30, 74, 59, 1);
-        }
-        
-        .search-bar {
-            background: white;
-            padding: 1rem;
-            border-radius: 60px;
-            margin-bottom: 1.5rem;
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-            flex-wrap: wrap;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        
-        .search-bar input {
-            flex: 1;
-            padding: 12px 20px;
-            border: 2px solid #e2edeb;
-            border-radius: 50px;
-            font-size: 0.9rem;
-        }
-        
-        .search-bar select {
-            padding: 12px 20px;
-            border: 2px solid #e2edeb;
-            border-radius: 50px;
-            background: white;
-        }
-        
-        .search-btn-enhanced {
-            background: linear-gradient(135deg, #1e4a3b, #0f3b2f);
-            color: white;
-            padding: 12px 28px;
-            border-radius: 50px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .ledger-entry {
-            padding: 12px;
-            border-bottom: 1px solid #e2edeb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            transition: all 0.2s;
-        }
-        
-        .ledger-entry:hover {
-            background: #f8fbf9;
-        }
-        
-        .ledger-sender {
-            background: linear-gradient(135deg, #e8f5e9, #d4ebd6);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-            color: #2b7e5a;
-        }
-        
-        .ledger-receiver {
-            background: linear-gradient(135deg, #e3f2fd, #bbdef5);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-            color: #1565c0;
-        }
-        
-        .ledger-units {
-            font-weight: 700;
-            background: linear-gradient(135deg, #1e4a3b, #2c7a5e);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-size: 1.1rem;
-        }
-        
-        .customer-header {
-            background: linear-gradient(135deg, #1e4a3b, #0f3b2f);
-            color: white;
-            padding: 2rem;
-            border-radius: 28px;
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-        }
-        
-        .customer-avatar {
-            width: 100px;
-            height: 100px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-        }
-        
-        .stats-badge {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            padding: 0.75rem 1.5rem;
-            border-radius: 20px;
-            text-align: center;
-            min-width: 120px;
-        }
-        
-        .stats-badge .number {
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-        
-        .info-card {
-            background: linear-gradient(135deg, #f8fbf9, #ffffff);
-            border-radius: 24px;
-            padding: 1.5rem;
-            border: 1px solid #e2edeb;
-        }
-        
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid #e2edeb;
-        }
-        
-        .number-input {
-            flex: 1;
-            padding: 10px 15px;
-            border: 2px solid #e2edeb;
-            border-radius: 30px;
-            font-size: 0.9rem;
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 80px;
+                padding: 1rem 0.5rem;
+            }
+            
+            .sidebar .logo span,
+            .sidebar nav ul li button span {
+                display: none;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .card {
+                padding: 1.2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .customer-header {
+                flex-direction: column;
+                text-align: center;
+            }
         }
         
         .submenu {
@@ -969,12 +654,67 @@
             font-size: 0.85rem;
             font-weight: 600;
             transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .submenu button:hover {
+            border-color: #2c7a5e;
+            transform: translateY(-2px);
         }
         
         .submenu button.active {
             background: linear-gradient(135deg, #1e4a3b, #0f3b2f);
             color: white;
             border-color: #1e4a3b;
+        }
+        
+        .fetch-info {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+        
+        .fetch-info.success {
+            background: #e8f5e9;
+            color: #2b7e5a;
+        }
+        
+        .fetch-info.error {
+            background: #ffebee;
+            color: #c2410c;
+        }
+        
+        .user-badge {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+        }
+        
+        .action-btn {
+            background: linear-gradient(135deg, #1e4a3b, #0f3b2f);
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .action-btn:hover {
+            transform: scale(0.96);
+            box-shadow: 0 2px 8px rgba(30,74,59,0.3);
         }
         
         .dashboard-grid {
@@ -984,36 +724,49 @@
             margin-bottom: 1.5rem;
         }
         
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e4a3b;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid #e2edeb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
         .vertical-form {
             max-width: 600px;
             margin: 0 auto;
         }
         
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 80px;
-                padding: 1rem 0.5rem;
-            }
-            .sidebar .logo span,
-            .sidebar nav ul li button span {
-                display: none;
-            }
-            .main-content {
-                padding: 1rem;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            .modal-content {
-                width: 95%;
-                max-height: 90vh;
-            }
-            .modal-header {
-                padding: 1rem 1.5rem;
-            }
-            .modal-body {
-                padding: 1.5rem;
-            }
+        .units-black {
+            font-weight: 700;
+            color: #000000 !important;
+            font-size: 1rem;
+        }
+        
+        .search-btn-enhanced {
+            background: linear-gradient(135deg, #1e4a3b, #0f3b2f);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .search-btn-enhanced:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 74, 59, 0.3);
+        }
+        
+        .search-btn-enhanced i {
+            margin-right: 8px;
         }
     </style>
 </head>
@@ -1037,54 +790,6 @@
     let currentUserRole = null;
     let currentPage = "Home";
     let reportType = "Line";
-    
-    // Local Storage Functions for Ledger
-    function getStoredAuthNumbers() {
-        const stored = localStorage.getItem('jamii_auth_numbers');
-        return stored ? JSON.parse(stored) : {};
-    }
-    
-    function saveAuthNumber(tillNumber, phone, name) {
-        const authData = getStoredAuthNumbers();
-        if (!authData[tillNumber]) {
-            authData[tillNumber] = [];
-        }
-        
-        const exists = authData[tillNumber].some(a => normalizePhone(a.phone) === normalizePhone(phone));
-        if (exists) {
-            return { success: false, error: 'Number already authorized' };
-        }
-        
-        authData[tillNumber].push({
-            phone: phone,
-            name: name || 'Unknown',
-            dateAdded: new Date().toISOString()
-        });
-        
-        localStorage.setItem('jamii_auth_numbers', JSON.stringify(authData));
-        return { success: true };
-    }
-    
-    function getAuthNumbersForTill(tillNumber) {
-        const authData = getStoredAuthNumbers();
-        return authData[tillNumber] || [];
-    }
-    
-    function getLedgerEntries() {
-        const stored = localStorage.getItem('jamii_ledger_entries');
-        return stored ? JSON.parse(stored) : [];
-    }
-    
-    function addLedgerEntry(entry) {
-        const entries = getLedgerEntries();
-        entries.unshift(entry);
-        localStorage.setItem('jamii_ledger_entries', JSON.stringify(entries));
-    }
-    
-    function getLedgerForTill(tillNumber) {
-        const entries = getLedgerEntries();
-        return entries.filter(entry => entry.tillNumber === tillNumber);
-    }
     
     function showToast(msg, isError = false) {
         let toast = document.querySelector('.toast');
@@ -1145,9 +850,9 @@
     }
     
     function getMenuPages() {
-        const pages = ["Home", "Line Registration", "Till Registration", "Customer 360", "Ledger", "Report"];
+        const pages = ["Home", "Line Registration", "Till Registration", "Customer 360", "Report"];
         if (hasActivationAccess()) {
-            pages.splice(5, 0, "Activation", "Transactions");
+            pages.splice(4, 0, "Activation", "Transactions");
         }
         return pages;
     }
@@ -1156,7 +861,7 @@
         const icons = { 
             Home: "fa-home", LineReg: "fa-user-plus", TillReg: "fa-cash-register", 
             Activation: "fa-toggle-on", Transactions: "fa-exchange-alt", 
-            Customer360: "fa-id-card", Ledger: "fa-book", Report: "fa-chart-line" 
+            Customer360: "fa-id-card", Report: "fa-chart-line" 
         };
         return icons[page] || "fa-circle";
     }
@@ -1167,14 +872,14 @@
                 <div class="login-card">
                     <h2><i class="fas fa-bolt"></i> JamiiSim Network</h2>
                     <div class="form-group">
-                        <label>Username</label>
+                        <label><i class="fas fa-user"></i> Username</label>
                         <input type="text" id="loginUser" placeholder="admin or manager">
                     </div>
                     <div class="form-group">
-                        <label>Password</label>
+                        <label><i class="fas fa-lock"></i> Password</label>
                         <input type="password" id="loginPass" placeholder="••••••">
                     </div>
-                    <button class="btn" id="loginBtn">Sign In</button>
+                    <button class="btn" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Sign In</button>
                     <div id="loginError" style="color:#c2410c; text-align:center; margin-top:1rem;"></div>
                 </div>
             </div>
@@ -1208,9 +913,9 @@
     function renderDashboard() {
         const pages = getMenuPages();
         const pageKeys = { 
-            "Home": "Home", "LineReg": "LineReg", "TillReg": "TillReg", 
+            "Home": "Home", "Line Registration": "LineReg", "Till Registration": "TillReg", 
             "Activation": "Activation", "Transactions": "Transactions", 
-            "Customer360": "Customer360", "Ledger": "Ledger", "Report": "Report" 
+            "Customer 360": "Customer360", "Report": "Report" 
         };
         
         let content = "";
@@ -1218,7 +923,6 @@
         else if (currentPage === "LineReg") content = renderLineReg();
         else if (currentPage === "TillReg") content = renderTillReg();
         else if (currentPage === "Customer360") content = renderCustomer360();
-        else if (currentPage === "Ledger") content = renderLedgerPage();
         else if (currentPage === "Activation") content = '<h3 class="section-title"><i class="fas fa-toggle-on"></i> Till Activation</h3><div id="activationContent"><div class="loading"><i class="fas fa-spinner fa-pulse"></i> Loading tills...</div></div>';
         else if (currentPage === "Transactions") content = '<h3 class="section-title"><i class="fas fa-exchange-alt"></i> Unit Transactions</h3><div id="transactionsContent"><div class="loading"><i class="fas fa-spinner fa-pulse"></i> Loading tills...</div></div>';
         else if (currentPage === "Report") content = renderReportPage();
@@ -1226,14 +930,25 @@
         return `
             <div class="dashboard">
                 <div class="sidebar">
-                    <div class="logo"><i class="fas fa-bolt"></i><span>JamiiSim</span></div>
-                    <nav><ul>
-                        ${pages.map(p => `<li><button class="${currentPage === pageKeys[p.replace(/ /g, '')] ? 'active' : ''}" data-page="${pageKeys[p.replace(/ /g, '')]}"><i class="fas ${getIcon(pageKeys[p.replace(/ /g, '')])}"></i> <span>${p}</span></button></li>`).join('')}
-                        <li style="margin-top:2rem;"><button id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></button></li>
-                    </ul></nav>
-                    <div class="user-badge"><i class="fas fa-user-shield"></i> ${USER_ROLES[currentUserRole]?.name || currentUserRole}</div>
+                    <div class="logo">
+                        <i class="fas fa-bolt"></i>
+                        <span>JamiiSim</span>
+                    </div>
+                    <nav>
+                        <ul>
+                            ${pages.map(p => `<li><button class="${currentPage === pageKeys[p] ? 'active' : ''}" data-page="${pageKeys[p]}"><i class="fas ${getIcon(pageKeys[p])}"></i> <span>${p}</span></button></li>`).join('')}
+                            <li style="margin-top:2rem;"><button id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></button></li>
+                        </ul>
+                    </nav>
+                    <div class="user-badge">
+                        <i class="fas fa-user-shield"></i> ${USER_ROLES[currentUserRole]?.name || currentUserRole}
+                    </div>
                 </div>
-                <div class="main-content"><div class="card">${content}</div></div>
+                <div class="main-content">
+                    <div class="card">
+                        ${content}
+                    </div>
+                </div>
             </div>
         `;
     }
@@ -1243,12 +958,24 @@
             <div class="form-container">
                 <h3 class="section-title"><i class="fas fa-user-plus"></i> Register New Line</h3>
                 <div class="vertical-form">
-                    <div class="form-group"><label>Full Name</label><input type="text" id="lineName" placeholder="Enter full name"></div>
-                    <div class="form-group"><label>ID Number</label><input type="text" id="lineId" placeholder="Enter ID number"></div>
-                    <div class="form-group"><label>Phone Number</label><input type="tel" id="linePhone" placeholder="0712345678"></div>
-                    <div class="form-group"><label>Date of Birth</label><input type="date" id="lineDob"></div>
-                    <button class="btn" id="saveLineBtn">Register Line</button>
-                    <div id="lineFeedback" style="margin-top:1rem;"></div>
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="lineName" placeholder="Enter full name">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-id-card"></i> ID Number</label>
+                        <input type="text" id="lineId" placeholder="Enter ID number">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-phone"></i> Phone Number</label>
+                        <input type="tel" id="linePhone" placeholder="0712345678">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar"></i> Date of Birth</label>
+                        <input type="date" id="lineDob">
+                    </div>
+                    <button class="btn" id="saveLineBtn"><i class="fas fa-save"></i> Register Line</button>
+                    <div id="lineFeedback" style="margin-top: 1rem;"></div>
                 </div>
             </div>
         `;
@@ -1260,19 +987,39 @@
                 <h3 class="section-title"><i class="fas fa-cash-register"></i> Register New Till</h3>
                 <div class="vertical-form">
                     <div class="form-group">
-                        <label>Phone Number (Lookup Line)</label>
+                        <label><i class="fas fa-phone"></i> Phone Number (Lookup Line)</label>
                         <input type="tel" id="fetchPhone" placeholder="0712345678">
-                        <button class="btn-secondary" id="fetchLineBtn" style="margin-top:0.5rem; width:auto; padding:10px 20px;">Fetch Line Data</button>
+                        <button class="btn-secondary" id="fetchLineBtn" style="margin-top:0.5rem; width:auto; padding:10px 20px;">
+                            <i class="fas fa-search"></i> Fetch Line Data
+                        </button>
                         <div id="fetchInfo" class="fetch-info"></div>
                     </div>
-                    <div class="form-group"><label>Full Name</label><input type="text" id="tillName" readonly placeholder="Will auto-fill"></div>
-                    <div class="form-group"><label>ID Number</label><input type="text" id="tillId" readonly placeholder="Will auto-fill"></div>
-                    <div class="form-group"><label>Date of Birth</label><input type="text" id="tillDob" readonly placeholder="Will auto-fill"></div>
-                    <div class="form-group"><label>Till Number</label><input type="text" id="tillNumber" placeholder="e.g., T001"></div>
-                    <div class="form-group"><label>Store Number</label><input type="text" id="storeNumber" placeholder="e.g., STR01"></div>
-                    <div class="form-group"><label>Operator ID</label><input type="text" id="operatorId" readonly placeholder="Auto-generated"></div>
-                    <button class="btn" id="saveTillBtn">Register Till</button>
-                    <div id="tillFeedback" style="margin-top:1rem;"></div>
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="tillName" readonly placeholder="Will auto-fill">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-id-card"></i> ID Number</label>
+                        <input type="text" id="tillId" readonly placeholder="Will auto-fill">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar"></i> Date of Birth</label>
+                        <input type="text" id="tillDob" readonly placeholder="Will auto-fill">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-hashtag"></i> Till Number</label>
+                        <input type="text" id="tillNumber" placeholder="e.g., T001">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-store"></i> Store Number</label>
+                        <input type="text" id="storeNumber" placeholder="e.g., STR01">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-user-tag"></i> Operator ID</label>
+                        <input type="text" id="operatorId" readonly placeholder="Auto-generated">
+                    </div>
+                    <button class="btn" id="saveTillBtn"><i class="fas fa-save"></i> Register Till</button>
+                    <div id="tillFeedback" style="margin-top: 1rem;"></div>
                 </div>
             </div>
         `;
@@ -1281,7 +1028,9 @@
     function renderCustomer360() {
         return `
             <h3 class="section-title"><i class="fas fa-id-card"></i> Customer 360° View</h3>
+            
             <div class="search-bar">
+                <i class="fas fa-search" style="color:#1e4a3b;"></i>
                 <input type="text" id="customerSearchInput" placeholder="Search by name, phone number, or ID...">
                 <select id="searchType">
                     <option value="all">All Fields</option>
@@ -1289,37 +1038,13 @@
                     <option value="phone">Phone Number</option>
                     <option value="id">ID Number</option>
                 </select>
-                <button class="search-btn-enhanced" id="searchCustomerBtn">Search Customer</button>
+                <button class="search-btn-enhanced" id="searchCustomerBtn">
+                    <i class="fas fa-search"></i> Search Customer
+                </button>
             </div>
+            
             <div id="customerSearchResults"></div>
             <div id="customerDetailView"></div>
-        `;
-    }
-    
-    // LEDGER PAGE
-    function renderLedgerPage() {
-        return `
-            <h3 class="section-title">
-                <i class="fas fa-book"></i> Unit Transfer Ledger
-                <button class="btn-secondary" id="refreshLedgerBtn" style="width: auto; padding: 8px 20px;">Refresh</button>
-            </h3>
-            <div class="table-wrapper">
-                <table class="modern-table">
-                    <thead>
-                        <tr>
-                            <th><i class="fas fa-user"></i> Name</th>
-                            <th><i class="fas fa-phone"></i> Phone Number</th>
-                            <th><i class="fas fa-hashtag"></i> Till Number</th>
-                            <th><i class="fas fa-store"></i> Store Number</th>
-                            <th><i class="fas fa-cubes"></i> Current Units</th>
-                            <th><i class="fas fa-cog"></i> Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ledgerTableBody">
-                        <tr><td colspan="6" class="loading"><i class="fas fa-spinner fa-pulse"></i> Loading tills...<\/td><\/tr>
-                    </tbody>
-                </table>
-            </div>
         `;
     }
     
@@ -1327,261 +1052,21 @@
         return `
             <h3 class="section-title"><i class="fas fa-chart-line"></i> Analytics Reports</h3>
             <div class="submenu">
-                <button class="${reportType === 'Line' ? 'active' : ''}" data-report="Line">Line Report</button>
-                <button class="${reportType === 'Till' ? 'active' : ''}" data-report="Till">Till Report</button>
+                <button class="${reportType === 'Line' ? 'active' : ''}" data-report="Line">
+                    <i class="fas fa-users"></i> Line Report
+                </button>
+                <button class="${reportType === 'Till' ? 'active' : ''}" data-report="Till">
+                    <i class="fas fa-cash-register"></i> Till Report
+                </button>
             </div>
             <div id="reportContent"><div class="loading"><i class="fas fa-spinner fa-pulse"></i> Loading report...</div></div>
         `;
     }
     
-    // LEDGER FUNCTIONS WITH ENHANCED MODALS
-    async function loadLedgerData() {
-        const tableBody = document.getElementById("ledgerTableBody");
-        if (!tableBody) return;
-        
-        const result = await apiCall("getTills");
-        const tills = result.tills || [];
-        
-        if (tills.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="6" class="empty-state"><i class="fas fa-inbox"></i><br>No tills registered yet<\/td><\/tr>';
-            return;
-        }
-        
-        tableBody.innerHTML = tills.map(till => `
-            <tr>
-                <td><strong>${escapeHtml(till.name || '-')}<\/strong><\/td>
-                <td>${escapeHtml(till.phone || '-')}<\/td>
-                <td>${escapeHtml(till.tillNumber || '-')}<\/td>
-                <td>${escapeHtml(till.storeNumber || '-')}<\/td>
-                <td><span class="units-black">${till.units || 0} units<\/span><\/td>
-                <td>
-                    <button class="action-btn add-number-btn" data-till='${JSON.stringify(till)}'><i class="fas fa-plus-circle"></i> Add Number</button>
-                    <button class="action-btn view-ledger-btn" data-till='${JSON.stringify(till)}'><i class="fas fa-book-open"></i> Open Ledger</button>
-                <\/td>
-            <\/tr>
-        `).join('');
-        
-        document.querySelectorAll('.add-number-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const till = JSON.parse(btn.dataset.till);
-                showAddNumberModal(till);
-            });
-        });
-        
-        document.querySelectorAll('.view-ledger-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const till = JSON.parse(btn.dataset.till);
-                showLedgerModal(till);
-            });
-        });
-        
-        document.getElementById("refreshLedgerBtn")?.addEventListener("click", () => {
-            loadLedgerData();
-            showToast("Ledger refreshed!");
-        });
-    }
-    
-    // ENHANCED ADD NUMBER MODAL
-    function showAddNumberModal(till) {
-        const modal = document.createElement('div');
-        modal.className = 'modal-overlay';
-        modal.innerHTML = `
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3><i class="fas fa-plus-circle"></i> Add Authorized Number</h3>
-                    <button class="modal-close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="info-card-modal">
-                        <p><strong><i class="fas fa-cash-register"></i> Till Number:</strong> <span>${escapeHtml(till.tillNumber)}</span></p>
-                        <p><strong><i class="fas fa-store"></i> Store Number:</strong> <span>${escapeHtml(till.storeNumber)}</span></p>
-                        <p><strong><i class="fas fa-user"></i> Owner:</strong> <span>${escapeHtml(till.name)}</span></p>
-                        <p><strong><i class="fas fa-cubes"></i> Current Units:</strong> <span>${till.units || 0} units</span></p>
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-phone"></i> Phone Number to Authorize</label>
-                        <input type="tel" id="authorizedNumber" class="number-input" placeholder="e.g., 0712345678">
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-user"></i> Name (Optional)</label>
-                        <input type="text" id="authorizedName" class="number-input" placeholder="Enter name for this number">
-                    </div>
-                    <button class="btn" id="saveAuthorizedNumberBtn"><i class="fas fa-save"></i> Authorize Number</button>
-                    <div id="authFeedback" style="margin-top:1rem;"></div>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(modal);
-        
-        modal.querySelector('.modal-close').onclick = () => modal.remove();
-        
-        modal.querySelector('#saveAuthorizedNumberBtn').onclick = () => {
-            const phone = modal.querySelector('#authorizedNumber').value.trim();
-            const name = modal.querySelector('#authorizedName').value.trim();
-            const feedback = modal.querySelector('#authFeedback');
-            
-            if (!phone) {
-                feedback.innerHTML = '<span style="color:#c2410c;"><i class="fas fa-exclamation-circle"></i> Please enter a phone number</span>';
-                return;
-            }
-            
-            const result = saveAuthNumber(till.tillNumber, phone, name);
-            
-            if (result.success) {
-                showToast(`✅ ${phone} authorized successfully!`);
-                modal.remove();
-                loadLedgerData();
-            } else {
-                feedback.innerHTML = `<span style="color:#c2410c;"><i class="fas fa-exclamation-circle"></i> ${result.error}</span>`;
-            }
-        };
-    }
-    
-    // ENHANCED LEDGER MODAL
-    function showLedgerModal(till) {
-        const modal = document.createElement('div');
-        modal.className = 'modal-overlay';
-        
-        const tillLedger = getLedgerForTill(till.tillNumber);
-        const authorizedNumbers = getAuthNumbersForTill(till.tillNumber);
-        
-        modal.innerHTML = `
-            <div class="modal-content" style="max-width:700px;">
-                <div class="modal-header">
-                    <h3><i class="fas fa-book-open"></i> Open Ledger - ${escapeHtml(till.tillNumber)}</h3>
-                    <button class="modal-close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="info-card-modal">
-                        <p><strong><i class="fas fa-cash-register"></i> Till Number:</strong> <span>${escapeHtml(till.tillNumber)}</span></p>
-                        <p><strong><i class="fas fa-store"></i> Store Number:</strong> <span>${escapeHtml(till.storeNumber)}</span></p>
-                        <p><strong><i class="fas fa-user"></i> Owner Name:</strong> <span>${escapeHtml(till.name)}</span></p>
-                        <p><strong><i class="fas fa-phone"></i> Phone:</strong> <span>${escapeHtml(till.phone)}</span></p>
-                        <p><strong><i class="fas fa-cubes"></i> Current Balance:</strong> <span style="font-size:1.2rem; font-weight:700;">${till.units || 0} units</span></p>
-                    </div>
-                    
-                    <div class="modal-section-title">
-                        <span><i class="fas fa-users"></i> Authorized Numbers</span>
-                        <button class="action-btn" id="addNumberFromModal"><i class="fas fa-plus"></i> Add Number</button>
-                    </div>
-                    <div id="authorizedNumbersList">
-                        ${renderAuthorizedNumbersList(authorizedNumbers)}
-                    </div>
-                    
-                    <div class="modal-section-title">
-                        <i class="fas fa-history"></i> Transaction History
-                    </div>
-                    <div id="transactionList" style="max-height:300px; overflow-y:auto;">
-                        ${tillLedger.length > 0 ? renderLedgerEntriesList(tillLedger) : '<div class="empty-state-modal"><i class="fas fa-inbox"></i><br>No transactions yet</div>'}
-                    </div>
-                    
-                    <div class="send-units-section">
-                        <h4><i class="fas fa-exchange-alt"></i> Send Units</h4>
-                        <div class="number-input-group">
-                            <select id="targetNumber" class="number-input">
-                                <option value="">Select authorized number...</option>
-                                ${renderAuthorizedOptions(authorizedNumbers)}
-                            </select>
-                            <input type="number" id="transferUnits" class="number-input" placeholder="Units" min="1">
-                            <button class="action-btn" id="sendUnitsBtn"><i class="fas fa-paper-plane"></i> Send</button>
-                        </div>
-                        <div id="transferFeedback" class="transfer-feedback"></div>
-                    </div>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(modal);
-        
-        modal.querySelector('.modal-close').onclick = () => modal.remove();
-        
-        modal.querySelector('#addNumberFromModal')?.addEventListener('click', () => {
-            modal.remove();
-            showAddNumberModal(till);
-        });
-        
-        modal.querySelector('#sendUnitsBtn')?.addEventListener('click', async () => {
-            const targetNumber = modal.querySelector('#targetNumber').value;
-            const units = parseInt(modal.querySelector('#transferUnits').value);
-            const feedback = modal.querySelector('#transferFeedback');
-            
-            if (!targetNumber) {
-                feedback.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please select a number';
-                feedback.className = 'transfer-feedback error';
-                return;
-            }
-            
-            if (!units || units <= 0) {
-                feedback.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please enter valid units (min 1)';
-                feedback.className = 'transfer-feedback error';
-                return;
-            }
-            
-            if (units > (till.units || 0)) {
-                feedback.innerHTML = `<i class="fas fa-exclamation-circle"></i> Insufficient units! Available: ${till.units || 0}`;
-                feedback.className = 'transfer-feedback error';
-                return;
-            }
-            
-            const authorized = authorizedNumbers.find(a => a.phone === targetNumber);
-            const targetName = authorized ? authorized.name : targetNumber;
-            
-            const updateRes = await apiCall("updateUnits", {
-                rowIndex: till.rowIndex,
-                addUnits: -units
-            });
-            
-            if (updateRes.success) {
-                addLedgerEntry({
-                    id: Date.now(),
-                    tillNumber: till.tillNumber,
-                    tillName: till.name,
-                    fromNumber: till.phone,
-                    fromName: till.name,
-                    toNumber: targetNumber,
-                    toName: targetName,
-                    units: units,
-                    timestamp: new Date().toISOString(),
-                    type: 'transfer_out'
-                });
-                
-                showToast(`✅ Sent ${units} units to ${targetNumber}`);
-                modal.remove();
-                loadLedgerData();
-            } else {
-                feedback.innerHTML = `<i class="fas fa-exclamation-circle"></i> Transfer failed: ${updateRes.error}`;
-                feedback.className = 'transfer-feedback error';
-            }
-        });
-    }
-    
-    function renderAuthorizedNumbersList(authorized) {
-        if (!authorized || authorized.length === 0) {
-            return '<div class="empty-state-modal" style="padding:1rem;"><i class="fas fa-users"></i><br>No authorized numbers yet</div>';
-        }
-        return `<table class="authorized-table"><thead><tr><th><i class="fas fa-phone"></i> Phone Number</th><th><i class="fas fa-user"></i> Name</th><th><i class="fas fa-calendar"></i> Date Added</th></tr></thead><tbody>${authorized.map(a => `<tr><td>${escapeHtml(a.phone)}<\/td><td>${escapeHtml(a.name)}<\/td><td>${new Date(a.dateAdded).toLocaleDateString()}<\/td><\/tr>`).join('')}</tbody><\/table>`;
-    }
-    
-    function renderAuthorizedOptions(authorized) {
-        if (!authorized || authorized.length === 0) {
-            return '<option value="">No authorized numbers yet. Add one first!</option>';
-        }
-        return authorized.map(a => `<option value="${escapeHtml(a.phone)}">${escapeHtml(a.phone)} - ${escapeHtml(a.name)}</option>`).join('');
-    }
-    
-    function renderLedgerEntriesList(entries) {
-        return entries.map(e => `
-            <div class="ledger-entry">
-                <div><span class="ledger-sender"><i class="fas fa-arrow-right"></i> From: ${escapeHtml(e.fromNumber)}</span> <span class="ledger-receiver"><i class="fas fa-arrow-left"></i> To: ${escapeHtml(e.toNumber)}</span></div>
-                <div class="ledger-units">-${e.units} units</div>
-                <div class="ledger-time"><i class="far fa-clock"></i> ${new Date(e.timestamp).toLocaleString()}</div>
-            </div>
-        `).join('');
-    }
-    
-    // MAIN FUNCTIONS
     async function loadHomeStats() {
         const container = document.getElementById("pageContent");
         if (!container) return;
+        
         const stats = await apiCall("getStats");
         if (stats.success) {
             const tillsResult = await apiCall("getTills");
@@ -1589,75 +1074,154 @@
             const lowUnitsCount = tills.filter(t => t.units < 50 && t.status === "active").length;
             const activeTills = stats.activeTills || 0;
             const actualCommission = activeTills * 200;
-            container.innerHTML = `
-                <h3 class="section-title">Executive Dashboard <button class="btn-secondary" id="refreshDashboard" style="width:auto; padding:8px 20px;">Refresh</button></h3>
+            
+            let statsHtml = `
+                <h3 class="section-title">
+                    <i class="fas fa-chart-pie"></i> Executive Dashboard
+                    <button class="btn-secondary" id="refreshDashboard" style="width:auto; padding:8px 20px;">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </h3>
                 <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-value">${stats.totalLines || 0}</div><div class="stat-label">Total Lines</div></div>
-                    <div class="stat-card"><div class="stat-icon"><i class="fas fa-cash-register"></i></div><div class="stat-value">${activeTills}</div><div class="stat-label">Active Tills</div></div>
-                    <div class="stat-card"><div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div><div class="stat-value">${lowUnitsCount}</div><div class="stat-label">Low Units Alert</div></div>
-                    <div class="stat-card"><div class="stat-icon"><i class="fas fa-chart-line"></i></div><div class="stat-value">KES ${actualCommission.toLocaleString()}</div><div class="stat-label">Commission</div></div>
-                </div>
-            `;
-            document.getElementById("refreshDashboard")?.addEventListener("click", () => loadHomeStats());
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="stat-value">${stats.totalLines || 0}</div>
+                        <div class="stat-label">Total Lines Registered</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-cash-register"></i></div>
+                        <div class="stat-value">${activeTills}</div>
+                        <div class="stat-label">Active Tills</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="stat-value">${lowUnitsCount}</div>
+                        <div class="stat-label">Low Units Alert</div>
+                    </div>`;
+            
+            if (canSeeCommission()) {
+                statsHtml += `
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="stat-value">KES ${actualCommission.toLocaleString()}</div>
+                        <div class="stat-label">Actual Commission</div>
+                    </div>`;
+            }
+            
+            statsHtml += `</div>`;
+            container.innerHTML = statsHtml;
+            
+            document.getElementById("refreshDashboard")?.addEventListener("click", () => {
+                loadHomeStats();
+                showToast("Dashboard refreshed!");
+            });
+        } else {
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><br>Error loading dashboard</div>`;
         }
     }
     
     async function loadActivationTable() {
-        if (!hasActivationAccess()) return;
+        if (!hasActivationAccess()) {
+            document.getElementById("activationContent").innerHTML = `<div class="empty-state"><i class="fas fa-lock"></i><br>Access Denied</div>`;
+            return;
+        }
+        
         const container = document.getElementById("activationContent");
         if (!container) return;
+        
         const result = await apiCall("getTills");
         const tills = result.tills || [];
-        if (tills.length === 0) { container.innerHTML = '<div class="empty-state">No tills registered</div>'; return; }
-        let html = '<div class="table-wrapper"><table class="modern-table"><thead><tr><th>Name</th><th>Till Number</th><th>Store</th><th>Status</th><th>Action</th></tr></thead><tbody>';
+        
+        if (!result.success || tills.length === 0) {
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><br>No tills registered yet</div>`;
+            return;
+        }
+        
+        let html = `<div class="table-wrapper"><table class="modern-table"><thead><tr>
+            <th>Name</th>
+            <th>Till Number</th>
+            <th>Store</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr></thead><tbody>`;
+        
         tills.forEach(till => {
             const isActive = till.status === "active";
             html += `<tr>
-                <td><strong>${escapeHtml(till.name || "-")}<\/strong><\/td>
-                <td>${escapeHtml(till.tillNumber || "-")}<\/td>
-                <td>${escapeHtml(till.storeNumber || "-")}<\/td>
-                <td>${isActive ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Inactive</span>'}<\/td>
-                <td>${!isActive ? `<button class="action-btn activate-btn" data-row="${till.rowIndex}">Activate</button>` : '<span class="badge badge-success">Activated</span>'}<\/td>
-            <\/tr>`;
+                <td><strong>${escapeHtml(till.name || "-")}</strong></td>
+                <td>${escapeHtml(till.tillNumber || "-")}</td>
+                <td>${escapeHtml(till.storeNumber || "-")}</td>
+                <td>${isActive ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Inactive</span>'}</td>
+                <td>${!isActive ? `<button class="action-btn activate-btn" data-row="${till.rowIndex}">Activate</button>` : '<span class="badge badge-success">Activated</span>'}</td>
+            </tr>`;
         });
-        html += '</tbody><\/table><\/div>';
+        
+        html += `</tbody></table></div>`;
         container.innerHTML = html;
+        
         document.querySelectorAll(".activate-btn").forEach(btn => {
             btn.addEventListener("click", async () => {
                 const pin = prompt("Enter Start PIN (4-6 digits):");
                 if (pin && pin.length >= 4) {
                     const res = await apiCall("activateTill", { rowIndex: parseInt(btn.dataset.row), startPin: pin });
-                    if (res.success) { showToast("Till activated!"); await loadActivationTable(); }
+                    if (res.success) {
+                        showToast("Till activated successfully!");
+                        await loadActivationTable();
+                    } else {
+                        showToast("Activation failed: " + res.error, true);
+                    }
                 }
             });
         });
     }
     
     async function loadTransactionsTable() {
-        if (!hasActivationAccess()) return;
+        if (!hasActivationAccess()) {
+            document.getElementById("transactionsContent").innerHTML = `<div class="empty-state"><i class="fas fa-lock"></i><br>Access Denied</div>`;
+            return;
+        }
+        
         const container = document.getElementById("transactionsContent");
         if (!container) return;
+        
         const result = await apiCall("getTills");
         const tills = result.tills || [];
-        if (tills.length === 0) { container.innerHTML = '<div class="empty-state">No tills available</div>'; return; }
-        let html = '<div class="table-wrapper"><table class="modern-table"><thead><tr><th>Name</th><th>Till Number</th><th>Store</th><th>Current Units</th><th>Action</th></tr></thead><tbody>';
+        
+        if (!result.success || tills.length === 0) {
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><br>No tills available</div>`;
+            return;
+        }
+        
+        let html = `<div class="table-wrapper"><table class="modern-table"><thead><tr>
+            <th>Name</th>
+            <th>Till Number</th>
+            <th>Store</th>
+            <th>Current Units</th>
+            <th>Action</th>
+        </tr></thead><tbody>`;
+        
         tills.forEach(till => {
             html += `<tr>
-                <td><strong>${escapeHtml(till.name || "-")}<\/strong><\/td>
-                <td>${escapeHtml(till.tillNumber || "-")}<\/td>
-                <td>${escapeHtml(till.storeNumber || "-")}<\/td>
-                <td><span class="units-black">${till.units || 0} units<\/span><\/td>
-                <td><button class="action-btn update-btn" data-row="${till.rowIndex}">Add Units<\/button><\/td>
-            <\/tr>`;
+                <td><strong>${escapeHtml(till.name || "-")}</strong></td>
+                <td>${escapeHtml(till.tillNumber || "-")}</td>
+                <td>${escapeHtml(till.storeNumber || "-")}</td>
+                <td><span class="units-black">${till.units || 0} units</span></td>
+                <td><button class="action-btn update-btn" data-row="${till.rowIndex}">Add Units</button></td>
+            </tr>`;
         });
-        html += '</tbody><\/table><\/div>';
+        
+        html += `</tbody></table></div>`;
         container.innerHTML = html;
+        
         document.querySelectorAll(".update-btn").forEach(btn => {
             btn.addEventListener("click", async () => {
                 const add = prompt("Enter number of units to ADD:");
                 if (add && !isNaN(parseFloat(add)) && parseFloat(add) > 0) {
                     const res = await apiCall("updateUnits", { rowIndex: parseInt(btn.dataset.row), addUnits: parseFloat(add) });
-                    if (res.success) { showToast(`Units updated to ${res.newUnits}`); await loadTransactionsTable(); }
+                    if (res.success) {
+                        showToast(`Units updated to ${res.newUnits}`);
+                        await loadTransactionsTable();
+                    }
                 }
             });
         });
@@ -1668,80 +1232,382 @@
         const searchType = document.getElementById("searchType")?.value;
         const resultsContainer = document.getElementById("customerSearchResults");
         const detailContainer = document.getElementById("customerDetailView");
-        if (!searchTerm) { resultsContainer.innerHTML = '<div class="empty-state">Enter search term</div>'; return; }
-        resultsContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-pulse"></i> Searching...</div>';
-        const linesResult = await apiCall("getLines");
-        const lines = linesResult.lines || [];
-        let customers = lines.filter(line => {
-            const term = searchTerm.toLowerCase();
-            if (searchType === "name") return line.name?.toLowerCase().includes(term);
-            if (searchType === "phone") return line.phone?.includes(searchTerm);
-            if (searchType === "id") return line.idNumber?.toLowerCase().includes(term);
-            return line.name?.toLowerCase().includes(term) || line.phone?.includes(searchTerm) || line.idNumber?.toLowerCase().includes(term);
-        });
-        if (customers.length === 0) { resultsContainer.innerHTML = '<div class="empty-state">No customers found</div>'; return; }
-        const tillsResult = await apiCall("getTills");
-        const tills = tillsResult.tills || [];
-        resultsContainer.innerHTML = `<div><h4>${customers.length} Customer(s) Found</h4><div class="table-wrapper"><table class="modern-table"><thead><tr><th>Name</th><th>Phone</th><th>ID</th><th>Tills</th><th>Action</th></tr></thead><tbody>${customers.map(c => { const ct = tills.filter(t => normalizePhone(t.phone) === normalizePhone(c.phone)); return `<tr>
-                <td><strong>${escapeHtml(c.name)}<\/strong><\/td>
-                <td>${escapeHtml(c.phone)}<\/td>
-                <td>${escapeHtml(c.idNumber)}<\/td>
-                <td>${ct.length}<\/td>
-                <td><button class="action-btn view-customer-btn" data-phone="${c.phone}">View<\/button><\/td>
-            <\/tr>`; }).join('')}</tbody><\/table><\/div><\/div>`;
-        document.querySelectorAll('.view-customer-btn').forEach(btn => btn.addEventListener('click', async () => await loadCustomerDetail(btn.dataset.phone)));
+        
+        if (!searchTerm) {
+            resultsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-search"></i><br>Enter a name, phone number, or ID to search</div>';
+            detailContainer.innerHTML = '';
+            return;
+        }
+        
+        resultsContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-pulse"></i> Searching customers...</div>';
+        detailContainer.innerHTML = '';
+        
+        try {
+            const linesResult = await apiCall("getLines");
+            const lines = linesResult.lines || [];
+            
+            if (lines.length === 0) {
+                resultsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><br>No customers found. Please register some lines first.</div>';
+                return;
+            }
+            
+            let customers = lines.filter(line => {
+                const term = searchTerm.toLowerCase();
+                if (searchType === "name") {
+                    return line.name?.toLowerCase().includes(term);
+                } else if (searchType === "phone") {
+                    return line.phone?.includes(searchTerm);
+                } else if (searchType === "id") {
+                    return line.idNumber?.toLowerCase().includes(term);
+                } else {
+                    return line.name?.toLowerCase().includes(term) || 
+                           line.phone?.includes(searchTerm) || 
+                           line.idNumber?.toLowerCase().includes(term);
+                }
+            });
+            
+            if (customers.length === 0) {
+                resultsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-user-slash"></i><br>No customers found matching "' + escapeHtml(searchTerm) + '"</div>';
+                return;
+            }
+            
+            const tillsResult = await apiCall("getTills");
+            const tills = tillsResult.tills || [];
+            
+            resultsContainer.innerHTML = `
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="margin-bottom: 1rem; color: #1e4a3b;">
+                        <i class="fas fa-users"></i> Search Results 
+                        <span style="font-size: 0.9rem; color: #5b6e69;">(${customers.length} customer${customers.length !== 1 ? 's' : ''} found)</span>
+                    </h4>
+                    <div class="table-wrapper">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>ID Number</th>
+                                    <th>Total Tills</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${customers.map(customer => {
+                                    const customerTills = tills.filter(t => normalizePhone(t.phone) === normalizePhone(customer.phone));
+                                    return `
+                                        <tr>
+                                            <td><strong>${escapeHtml(customer.name)}</strong></td>
+                                            <td><i class="fas fa-phone"></i> ${escapeHtml(customer.phone)}</td>
+                                            <td>${escapeHtml(customer.idNumber)}</td>
+                                            <td><span class="badge badge-info">${customerTills.length} tills</span></td>
+                                            <td><button class="action-btn view-customer-btn" data-phone="${customer.phone}">View 360°</button></td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+            
+            document.querySelectorAll('.view-customer-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const phone = btn.dataset.phone;
+                    await loadCustomerDetail(phone);
+                });
+            });
+            
+        } catch (error) {
+            console.error("Search error:", error);
+            resultsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><br>Error searching customers. Please try again.</div>';
+        }
     }
     
     async function loadCustomerDetail(phone) {
         const detailContainer = document.getElementById("customerDetailView");
-        detailContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-pulse"></i> Loading...</div>';
-        const [linesResult, tillsResult] = await Promise.all([apiCall("getLines"), apiCall("getTills")]);
-        const customer = linesResult.lines?.find(l => normalizePhone(l.phone) === normalizePhone(phone));
-        if (!customer) { detailContainer.innerHTML = '<div class="empty-state">Not found</div>'; return; }
-        const customerTills = tillsResult.tills?.filter(t => normalizePhone(t.phone) === normalizePhone(phone)) || [];
-        const totalUnits = customerTills.reduce((s, t) => s + (t.units || 0), 0);
-        detailContainer.innerHTML = `
-            <div class="customer-header">
-                <div><div class="customer-avatar"><i class="fas fa-user-circle"></i></div><div><h2>${escapeHtml(customer.name)}</h2><p>${escapeHtml(customer.phone)}</p><p>ID: ${escapeHtml(customer.idNumber)}</p></div></div>
-                <div><div class="stats-badge"><div class="number">${customerTills.length}</div><div class="label">Tills</div></div><div class="stats-badge"><div class="number">${totalUnits}</div><div class="label">Units</div></div></div>
-            </div>
-            <div class="table-wrapper"><table class="modern-table"><thead><tr><th>Till Number</th><th>Store</th><th>Units</th><th>Status</th></tr></thead><tbody>
-                ${customerTills.map(t => `<tr>
-                    <td>${escapeHtml(t.tillNumber)}<\/td>
-                    <td>${escapeHtml(t.storeNumber)}<\/td>
-                    <td>${t.units || 0}<\/td>
-                    <td>${t.status === "active" ? 'Active' : 'Inactive'}<\/td>
-                <\/tr>`).join('')}
-            </tbody><\/table><\/div>`;
+        if (!detailContainer) return;
+        
+        detailContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-pulse"></i> Loading customer data...</div>';
+        
+        try {
+            const [linesResult, tillsResult] = await Promise.all([
+                apiCall("getLines"),
+                apiCall("getTills")
+            ]);
+            
+            const lines = linesResult.lines || [];
+            const tills = tillsResult.tills || [];
+            
+            const normalizedSearchPhone = normalizePhone(phone);
+            const customer = lines.find(l => normalizePhone(l.phone) === normalizedSearchPhone);
+            
+            if (!customer) {
+                detailContainer.innerHTML = '<div class="empty-state"><i class="fas fa-user-slash"></i><br>Customer not found</div>';
+                return;
+            }
+            
+            const customerTills = tills.filter(t => normalizePhone(t.phone) === normalizedSearchPhone);
+            const totalUnits = customerTills.reduce((sum, t) => sum + (t.units || 0), 0);
+            const activeTills = customerTills.filter(t => t.status === "active").length;
+            
+            detailContainer.innerHTML = `
+                <div style="margin-top: 2rem;">
+                    <div class="customer-header">
+                        <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+                            <div class="customer-avatar">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <div class="customer-info">
+                                <h2>${escapeHtml(customer.name)}</h2>
+                                <p><i class="fas fa-phone"></i> ${escapeHtml(customer.phone)}</p>
+                                <p><i class="fas fa-id-card"></i> ID: ${escapeHtml(customer.idNumber)}</p>
+                                <p><i class="fas fa-calendar"></i> DOB: ${escapeHtml(customer.dob) || 'Not specified'}</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <div class="stats-badge">
+                                <div class="number">${customerTills.length}</div>
+                                <div class="label">Total Tills</div>
+                            </div>
+                            <div class="stats-badge">
+                                <div class="number">${activeTills}</div>
+                                <div class="label">Active Tills</div>
+                            </div>
+                            <div class="stats-badge">
+                                <div class="number">${totalUnits}</div>
+                                <div class="label">Total Units</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-grid">
+                        <div class="info-card">
+                            <h4><i class="fas fa-chart-line"></i> Performance Metrics</h4>
+                            <div class="info-row">
+                                <span class="info-label">Total Units Stocked:</span>
+                                <span class="info-value"><strong>${totalUnits}</strong> units</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Avg Units per Till:</span>
+                                <span class="info-value">${customerTills.length > 0 ? Math.round(totalUnits / customerTills.length) : 0} units</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Customer Since:</span>
+                                <span class="info-value">${customer.dateCreated ? new Date(customer.dateCreated).toLocaleDateString() : 'N/A'}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="info-card">
+                            <h4><i class="fas fa-chart-pie"></i> Business Impact</h4>
+                            <div class="info-row">
+                                <span class="info-label">Revenue Generated:</span>
+                                <span class="info-value">KES ${(totalUnits * 10).toLocaleString()}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Commission Earned:</span>
+                                <span class="info-value">KES ${(activeTills * 200).toLocaleString()}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4 style="margin: 1.5rem 0 1rem; color: #1e4a3b;">
+                        <i class="fas fa-cash-register"></i> Customer's Tills 
+                        <span style="font-size: 0.8rem; font-weight: normal;">(${customerTills.length} tills)</span>
+                    </h4>
+                    
+                    ${customerTills.length > 0 ? `
+                    <div class="table-wrapper">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Till Number</th>
+                                    <th>Store</th>
+                                    <th>Operator ID</th>
+                                    <th>Units</th>
+                                    <th>Status</th>
+                                    <th>Date Created</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${customerTills.map(till => `
+                                    <tr>
+                                        <td><strong>${escapeHtml(till.tillNumber || '-')}</strong></td>
+                                        <td>${escapeHtml(till.storeNumber || '-')}</td>
+                                        <td>${escapeHtml(till.operatorId || '-')}</td>
+                                        <td><span class="units-black">${till.units || 0} units</span></td>
+                                        <td>${till.status === "active" ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Inactive</span>'}</td>
+                                        <td>${till.dateCreated ? new Date(till.dateCreated).toLocaleDateString() : '-'}</td>
+                                        <td><button class="action-btn add-units-btn" data-row="${till.rowIndex}" data-phone="${phone}">Add Units</button></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    ` : '<div class="empty-state"><i class="fas fa-inbox"></i><br>No tills registered for this customer</div>'}
+                    
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: #f8fbf9; border-radius: 16px;">
+                        <h4 style="margin-bottom: 1rem;"><i class="fas fa-bolt"></i> Quick Actions</h4>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button class="btn-secondary" id="contactCustomerBtn" style="width: auto;">Contact Customer</button>
+                            <button class="btn-secondary" id="registerTillForCustomer" style="width: auto;">Register New Till</button>
+                            <button class="btn-secondary" id="refreshCustomerBtn" style="width: auto;">Refresh Data</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.querySelectorAll('.add-units-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const rowIndex = parseInt(btn.dataset.row);
+                    const customerPhone = btn.dataset.phone;
+                    const add = prompt("Enter number of units to add:");
+                    if (add && !isNaN(parseFloat(add)) && parseFloat(add) > 0) {
+                        const res = await apiCall("updateUnits", { rowIndex, addUnits: parseFloat(add) });
+                        if (res.success) {
+                            showToast(`Added ${add} units successfully!`);
+                            await loadCustomerDetail(customerPhone);
+                        } else {
+                            showToast("Failed to add units", true);
+                        }
+                    }
+                });
+            });
+            
+            document.getElementById("contactCustomerBtn")?.addEventListener("click", () => {
+                if (confirm(`Call ${customer.name} at ${customer.phone}?`)) {
+                    window.location.href = `tel:${customer.phone}`;
+                }
+            });
+            
+            document.getElementById("registerTillForCustomer")?.addEventListener("click", () => {
+                const fetchPhoneInput = document.getElementById("fetchPhone");
+                if (fetchPhoneInput) {
+                    fetchPhoneInput.value = customer.phone;
+                }
+                currentPage = "TillReg";
+                render();
+                showToast("Phone number pre-filled for till registration");
+            });
+            
+            document.getElementById("refreshCustomerBtn")?.addEventListener("click", () => {
+                loadCustomerDetail(phone);
+                showToast("Customer data refreshed!");
+            });
+            
+        } catch (error) {
+            console.error("Error loading customer detail:", error);
+            detailContainer.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><br>Error loading customer data. Please try again.</div>';
+        }
     }
     
     async function loadReportContent() {
         const container = document.getElementById("reportContent");
         if (!container) return;
+        
         if (reportType === "Line") {
             const result = await apiCall("getLines");
             const lines = result.lines || [];
-            if (lines.length === 0) { container.innerHTML = '<div class="empty-state">No lines</div>'; return; }
-            container.innerHTML = `<div class="table-wrapper"><table class="modern-table"><thead><tr><th>Name</th><th>ID</th><th>Phone</th><th>DOB</th><th>Date</th></tr></thead><tbody>${lines.map(l => `<tr>
-                <td>${escapeHtml(l.name)}<\/td>
-                <td>${escapeHtml(l.idNumber)}<\/td>
-                <td>${escapeHtml(l.phone)}<\/td>
-                <td>${escapeHtml(l.dob)}<\/td>
-                <td>${l.dateCreated ? new Date(l.dateCreated).toLocaleDateString() : '-'}<\/td>
-            <\/tr>`).join('')}</tbody><\/table><\/div>`;
+            
+            if (lines.length === 0) {
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><br>No lines registered yet</div>`;
+                return;
+            }
+            
+            const reportData = lines.map(l => ({
+                Name: l.name || "-",
+                "ID Number": l.idNumber || "-",
+                Phone: l.phone || "-",
+                DOB: l.dob || "-",
+                "Date Created": l.dateCreated ? new Date(l.dateCreated).toLocaleDateString() : '-'
+            }));
+            
+            container.innerHTML = `
+                <div class="table-wrapper">
+                    <table class="modern-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>ID Number</th>
+                                <th>Phone</th>
+                                <th>DOB</th>
+                                <th>Date Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${reportData.map(row => `
+                                <tr>
+                                    <td><strong>${escapeHtml(row.Name)}</strong></td>
+                                    <td>${escapeHtml(row["ID Number"])}</td>
+                                    <td>${escapeHtml(row.Phone)}</td>
+                                    <td>${escapeHtml(row.DOB)}</td>
+                                    <td>${escapeHtml(row["Date Created"])}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
         } else {
-            const result = await apiCall("getTills");
-            const tills = result.tills || [];
-            if (tills.length === 0) { container.innerHTML = '<div class="empty-state">No tills</div>'; return; }
-            container.innerHTML = `<div class="table-wrapper"><table class="modern-table"><thead><tr><th>Name</th><th>Owner Phone</th><th>Till Number</th><th>Store</th><th>Units</th><th>Status</th><th>Date</th></tr></thead><tbody>${tills.map(t => `<tr>
-                <td>${escapeHtml(t.name)}<\/td>
-                <td>${escapeHtml(t.phone)}<\/td>
-                <td>${escapeHtml(t.tillNumber)}<\/td>
-                <td>${escapeHtml(t.storeNumber)}<\/td>
-                <td>${t.units || 0}<\/td>
-                <td><span class="badge ${t.status === 'active' ? 'badge-success' : 'badge-danger'}">${t.status === 'active' ? 'Active' : 'Inactive'}<\/span><\/td>
-                <td>${t.dateCreated ? new Date(t.dateCreated).toLocaleDateString() : '-'}<\/td>
-            <\/tr>`).join('')}</tbody><\/table><\/div>`;
+            const tillsResult = await apiCall("getTills");
+            const tills = tillsResult.tills || [];
+            const linesResult = await apiCall("getLines");
+            const lines = linesResult.lines || [];
+            
+            if (tills.length === 0) {
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><br>No tills registered</div>`;
+                return;
+            }
+            
+            const lineMap = new Map();
+            lines.forEach(line => {
+                const normalizedPhone = normalizePhone(line.phone);
+                lineMap.set(normalizedPhone, line);
+            });
+            
+            const reportData = tills.map(t => {
+                const ownerLine = lineMap.get(normalizePhone(t.phone || ''));
+                return {
+                    Name: t.name || "-",
+                    "Owner Phone": ownerLine ? ownerLine.phone : (t.phone || "-"),
+                    "Till Number": t.tillNumber || "-",
+                    Store: t.storeNumber || "-",
+                    Units: t.units || 0,
+                    Status: t.status === "active" ? "Active" : "Inactive",
+                    "Date Created": t.dateCreated ? new Date(t.dateCreated).toLocaleDateString() : '-'
+                };
+            });
+            
+            container.innerHTML = `
+                <div class="table-wrapper">
+                    <table class="modern-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Owner Phone</th>
+                                <th>Till Number</th>
+                                <th>Store</th>
+                                <th>Units</th>
+                                <th>Status</th>
+                                <th>Date Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${reportData.map(row => `
+                                <tr>
+                                    <td><strong>${escapeHtml(row.Name)}</strong></td>
+                                    <td>${escapeHtml(row["Owner Phone"])}</td>
+                                    <td>${escapeHtml(row["Till Number"])}</td>
+                                    <td>${escapeHtml(row.Store)}</td>
+                                    <td><span class="units-black">${row.Units} units</span></td>
+                                    <td><span class="badge ${row.Status === 'Active' ? 'badge-success' : 'badge-danger'}">${row.Status}</span></td>
+                                    <td>${escapeHtml(row["Date Created"])}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
         }
     }
     
@@ -1752,11 +1618,12 @@
                 render();
             });
         });
+        
         document.getElementById("logoutBtn")?.addEventListener("click", () => {
             currentUser = null;
             currentUserRole = null;
             render();
-            showToast("Logged out");
+            showToast("Logged out successfully");
         });
         
         if (currentPage === "LineReg") {
@@ -1766,11 +1633,27 @@
                 let phone = document.getElementById("linePhone").value.trim();
                 const dob = document.getElementById("lineDob").value;
                 const feedback = document.getElementById("lineFeedback");
-                if (!name || !idNumber || !phone || !dob) { feedback.innerHTML = '<span style="color:#c2410c;">All fields required</span>'; return; }
+                
+                if (!name || !idNumber || !phone || !dob) {
+                    feedback.innerHTML = '<span style="color:#c2410c;">All fields are required</span>';
+                    return;
+                }
+                
                 phone = phone.replace(/\D/g, '');
+                feedback.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Registering...';
+                
                 const res = await apiCall("registerLine", { name, idNumber, phone, dob });
-                if (res.success) { feedback.innerHTML = '<span style="color:#2b7e5a;">Success!</span>'; document.getElementById("lineName").value = ""; document.getElementById("lineId").value = ""; document.getElementById("linePhone").value = ""; document.getElementById("lineDob").value = ""; showToast("Line registered!"); setTimeout(() => feedback.innerHTML = "", 3000); }
-                else { feedback.innerHTML = `<span style="color:#c2410c;">${res.error}</span>`; }
+                if (res.success) {
+                    feedback.innerHTML = '<span style="color:#2b7e5a;">Line registered successfully!</span>';
+                    document.getElementById("lineName").value = "";
+                    document.getElementById("lineId").value = "";
+                    document.getElementById("linePhone").value = "";
+                    document.getElementById("lineDob").value = "";
+                    showToast("Line registered successfully!");
+                    setTimeout(() => feedback.innerHTML = "", 3000);
+                } else {
+                    feedback.innerHTML = `<span style="color:#c2410c;">${res.error}</span>`;
+                }
             });
         }
         
@@ -1778,44 +1661,95 @@
             document.getElementById("fetchLineBtn")?.addEventListener("click", async () => {
                 const phone = document.getElementById("fetchPhone").value.trim();
                 const fetchInfo = document.getElementById("fetchInfo");
-                if (!phone) { fetchInfo.innerHTML = 'Enter phone number'; fetchInfo.className = 'fetch-info error'; return; }
+                
+                if (!phone) {
+                    fetchInfo.innerHTML = 'Enter a phone number';
+                    fetchInfo.className = 'fetch-info error';
+                    return;
+                }
+                
                 fetchInfo.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Searching...';
+                fetchInfo.className = 'fetch-info';
+                
                 const res = await apiCall("getLines");
-                if (!res.success || !res.lines) { fetchInfo.innerHTML = 'Error'; return; }
-                const found = res.lines.find(line => normalizePhone(line.phone) === normalizePhone(phone));
+                if (!res.success || !res.lines) {
+                    fetchInfo.innerHTML = 'Error fetching lines';
+                    fetchInfo.className = 'fetch-info error';
+                    return;
+                }
+                
+                const normalizedInput = normalizePhone(phone);
+                const found = res.lines.find(line => normalizePhone(line.phone) === normalizedInput);
+                
                 if (found) {
                     document.getElementById("tillName").value = found.name;
                     document.getElementById("tillId").value = found.idNumber;
                     document.getElementById("tillDob").value = found.dob;
+                    
                     const nameParts = found.name.trim().split(/\s+/);
-                    let operatorId = nameParts.length === 1 ? nameParts[0].substring(0,2).toUpperCase() : (nameParts[0].charAt(0) + nameParts[nameParts.length-1].charAt(0)).toUpperCase();
+                    let operatorId = "";
+                    if (nameParts.length === 1) {
+                        operatorId = nameParts[0].substring(0, 2).toUpperCase();
+                    } else {
+                        operatorId = (nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0)).toUpperCase();
+                    }
                     document.getElementById("operatorId").value = operatorId;
-                    fetchInfo.innerHTML = `Found: ${found.name}`;
+                    
+                    fetchInfo.innerHTML = `Line found: ${found.name}`;
                     fetchInfo.className = 'fetch-info success';
+                    showToast("Line found! You can now register the till.");
                 } else {
-                    fetchInfo.innerHTML = `No line found for ${phone}`;
+                    fetchInfo.innerHTML = `No line found for "${phone}"`;
                     fetchInfo.className = 'fetch-info error';
+                    showToast("No line found with this phone number", true);
+                    
+                    document.getElementById("tillName").value = "";
+                    document.getElementById("tillId").value = "";
+                    document.getElementById("tillDob").value = "";
+                    document.getElementById("operatorId").value = "";
                 }
             });
+            
             document.getElementById("saveTillBtn")?.addEventListener("click", async () => {
                 let phone = document.getElementById("fetchPhone").value.trim();
                 phone = phone.replace(/\D/g, '');
-                const payload = { phone, name: document.getElementById("tillName").value, idNumber: document.getElementById("tillId").value, dob: document.getElementById("tillDob").value, tillNumber: document.getElementById("tillNumber").value.trim(), storeNumber: document.getElementById("storeNumber").value.trim(), operatorId: document.getElementById("operatorId").value };
+                
+                const payload = {
+                    phone: phone,
+                    name: document.getElementById("tillName").value,
+                    idNumber: document.getElementById("tillId").value,
+                    dob: document.getElementById("tillDob").value,
+                    tillNumber: document.getElementById("tillNumber").value.trim(),
+                    storeNumber: document.getElementById("storeNumber").value.trim(),
+                    operatorId: document.getElementById("operatorId").value
+                };
                 const feedback = document.getElementById("tillFeedback");
-                if (!payload.phone || !payload.tillNumber || !payload.storeNumber || !payload.name) { feedback.innerHTML = '<span style="color:#c2410c;">Fetch a line first</span>'; return; }
+                
+                if (!payload.phone || !payload.tillNumber || !payload.storeNumber || !payload.name) {
+                    feedback.innerHTML = '<span style="color:#c2410c;">Please fetch a line first</span>';
+                    return;
+                }
+                
+                feedback.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Registering...';
                 const res = await apiCall("registerTill", payload);
-                if (res.success) { feedback.innerHTML = '<span style="color:#2b7e5a;">Success!</span>'; document.getElementById("tillNumber").value = ""; document.getElementById("storeNumber").value = ""; showToast("Till registered!"); setTimeout(() => feedback.innerHTML = "", 3000); }
-                else { feedback.innerHTML = `<span style="color:#c2410c;">${res.error}</span>`; }
+                
+                if (res.success) {
+                    feedback.innerHTML = '<span style="color:#2b7e5a;">Till registered successfully!</span>';
+                    document.getElementById("tillNumber").value = "";
+                    document.getElementById("storeNumber").value = "";
+                    showToast("Till registered successfully!");
+                    setTimeout(() => feedback.innerHTML = "", 3000);
+                } else {
+                    feedback.innerHTML = `<span style="color:#c2410c;">${res.error}</span>`;
+                }
             });
         }
         
         if (currentPage === "Customer360") {
             document.getElementById("searchCustomerBtn")?.addEventListener("click", searchCustomers);
-            document.getElementById("customerSearchInput")?.addEventListener("keypress", (e) => { if (e.key === "Enter") searchCustomers(); });
-        }
-        
-        if (currentPage === "Ledger") {
-            loadLedgerData();
+            document.getElementById("customerSearchInput")?.addEventListener("keypress", (e) => {
+                if (e.key === "Enter") searchCustomers();
+            });
         }
         
         if (currentPage === "Report") {
@@ -1828,23 +1762,6 @@
         }
     }
     
-    function addGlobalFooterClock() {
-        if (document.querySelector('.global-footer-clock')) return;
-        const clockDiv = document.createElement('div');
-        clockDiv.className = 'global-footer-clock';
-        clockDiv.innerHTML = `<i class="fas fa-clock"></i><div><div id="clockTime">--:--:--</div><div id="clockDate">--- --, ----</div></div>`;
-        document.body.appendChild(clockDiv);
-        function updateClock() {
-            const now = new Date();
-            const timeEl = document.getElementById('clockTime');
-            const dateEl = document.getElementById('clockDate');
-            if (timeEl) timeEl.textContent = now.toLocaleTimeString();
-            if (dateEl) dateEl.textContent = now.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
-        }
-        updateClock();
-        setInterval(updateClock, 1000);
-    }
-    
     async function loadPageData() {
         if (currentPage === "Home") await loadHomeStats();
         if (currentPage === "Activation" && hasActivationAccess()) await loadActivationTable();
@@ -1852,9 +1769,10 @@
         if (currentPage === "Report") await loadReportContent();
         if (currentPage === "Customer360") {
             const resultsContainer = document.getElementById("customerSearchResults");
-            if (resultsContainer) resultsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-search"></i><br>Search for a customer</div>';
+            if (resultsContainer) {
+                resultsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-search"></i><br>Search for a customer to see their 360° view</div>';
+            }
         }
-        if (currentPage === "Ledger") await loadLedgerData();
     }
     
     function render() {
@@ -1862,17 +1780,13 @@
         if (!currentUser) {
             app.innerHTML = renderLogin();
             document.getElementById("loginBtn")?.addEventListener("click", doLogin);
-            const existingClock = document.querySelector('.global-footer-clock');
-            if (existingClock) existingClock.remove();
             return;
         }
         app.innerHTML = renderDashboard();
         attachMenuEvents();
         loadPageData();
-        addGlobalFooterClock();
     }
     
     render();
 </script>
 </body>
-</html>
