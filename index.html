@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>JamiiSim Network - Premium Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -18,6 +18,7 @@
             background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 50%, #dce3ec 100%);
             min-height: 100vh;
             position: relative;
+            overflow-x: hidden;
         }
         
         body::before {
@@ -154,7 +155,52 @@
             background: radial-gradient(circle at 0% 0%, rgba(44, 122, 94, 0.03) 0%, transparent 50%);
         }
         
-        /* Premium Sidebar - NO DOTS */
+        /* Mobile Menu Toggle Button */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1001;
+            background: linear-gradient(135deg, #1e4a3b, #0f3b2f);
+            border: none;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .mobile-menu-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(30,74,59,0.3);
+        }
+        
+        /* Mobile Overlay */
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Premium Sidebar - Responsive */
         .sidebar {
             width: 280px;
             background: linear-gradient(180deg, #0a221d 0%, #0c2b25 50%, #0a1f1a 100%);
@@ -165,9 +211,11 @@
             top: 0;
             height: 100vh;
             box-shadow: 4px 0 20px rgba(0,0,0,0.1);
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border-right: 1px solid rgba(255,255,255,0.1);
             animation: slideInLeft 0.5s ease;
+            overflow-y: auto;
+            z-index: 1000;
         }
         
         @keyframes slideInLeft {
@@ -312,6 +360,7 @@
             padding: 2rem;
             overflow-y: auto;
             animation: fadeIn 0.5s ease;
+            transition: all 0.3s;
         }
         
         @keyframes fadeIn {
@@ -368,7 +417,236 @@
             background: rgba(255, 255, 255, 1);
         }
         
-        /* Premium Stats Grid */
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        
+        /* Tablet Styles */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 260px;
+            }
+            
+            .main-content {
+                padding: 1.5rem;
+            }
+            
+            .stats-grid {
+                gap: 1rem;
+            }
+        }
+        
+        /* Mobile Styles - Collapsible Menu */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                top: 0;
+                width: 280px;
+                height: 100vh;
+                z-index: 1000;
+                transform: translateX(0);
+                transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: none;
+            }
+            
+            .sidebar.open {
+                left: 0;
+                box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+            }
+            
+            .main-content {
+                padding: 1rem;
+                width: 100%;
+                margin-left: 0;
+            }
+            
+            .card {
+                padding: 1.2rem;
+                border-radius: 24px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .stat-card {
+                padding: 1rem;
+            }
+            
+            .stat-value {
+                font-size: 1.8rem;
+            }
+            
+            .stat-icon {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .stat-icon i {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.1rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .section-title button {
+                width: 100%;
+            }
+            
+            .search-bar {
+                flex-direction: column;
+                border-radius: 30px;
+                padding: 1rem;
+            }
+            
+            .search-bar input,
+            .search-bar select,
+            .search-bar button {
+                width: 100%;
+            }
+            
+            .submenu {
+                flex-direction: column;
+            }
+            
+            .submenu button {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .customer-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.5rem;
+            }
+            
+            .customer-avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 2.5rem;
+            }
+            
+            .stats-badge {
+                min-width: 100px;
+                padding: 0.5rem 1rem;
+            }
+            
+            .stats-badge .number {
+                font-size: 1.4rem;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .form-container {
+                padding: 0;
+            }
+            
+            .vertical-form {
+                width: 100%;
+            }
+            
+            .action-btn {
+                padding: 5px 10px;
+                font-size: 0.65rem;
+            }
+            
+            .modern-table th,
+            .modern-table td {
+                padding: 10px 12px;
+                font-size: 0.75rem;
+            }
+            
+            .user-badge {
+                display: none;
+            }
+            
+            .global-footer-clock {
+                bottom: 10px;
+                right: 10px;
+                padding: 6px 12px;
+                font-size: 0.7rem;
+            }
+            
+            .toast {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+                width: auto;
+                font-size: 0.85rem;
+                padding: 0.8rem 1rem;
+            }
+        }
+        
+        /* Small Mobile Styles */
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 260px;
+                left: -260px;
+            }
+            
+            .main-content {
+                padding: 0.75rem;
+            }
+            
+            .card {
+                padding: 1rem;
+                border-radius: 20px;
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
+            }
+            
+            .stat-label {
+                font-size: 0.7rem;
+            }
+            
+            .section-title {
+                font-size: 1rem;
+            }
+            
+            .form-group input {
+                padding: 10px 14px;
+                font-size: 0.9rem;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .modern-table th,
+            .modern-table td {
+                padding: 8px 10px;
+                font-size: 0.7rem;
+            }
+            
+            .action-btn {
+                padding: 4px 8px;
+                font-size: 0.6rem;
+            }
+            
+            .mobile-menu-toggle {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+                top: 12px;
+                left: 12px;
+            }
+        }
+        
+        /* Keep the rest of the styles from previous version */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -455,25 +733,7 @@
             color: #2c7a5e;
         }
         
-        .stat-value {
-            font-size: 2.2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #1e4a3b, #2c7a5e);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 0.25rem;
-        }
-        
-        .stat-label {
-            font-size: 0.8rem;
-            color: #5b6e69;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 600;
-        }
-        
-        /* Premium Form Styles */
+        /* Form Styles */
         .form-container {
             max-width: 600px;
             margin: 0 auto;
@@ -541,7 +801,7 @@
             cursor: not-allowed;
         }
         
-        /* Premium Buttons */
+        /* Buttons */
         .btn {
             background: linear-gradient(135deg, #1e4a3b, #0f3b2f);
             color: white;
@@ -599,7 +859,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
         
-        /* Premium Tables */
+        /* Tables */
         .table-wrapper {
             overflow-x: auto;
             border-radius: 24px;
@@ -654,7 +914,7 @@
             transform: translateX(5px);
         }
         
-        /* Premium Badges */
+        /* Badges */
         .badge {
             display: inline-flex;
             align-items: center;
@@ -687,7 +947,7 @@
             color: #0ea5e9;
         }
         
-        /* Premium Search Bar */
+        /* Search Bar */
         .search-bar {
             background: white;
             padding: 1rem;
@@ -736,7 +996,7 @@
             outline: none;
         }
         
-        /* Premium Action Buttons */
+        /* Action Buttons */
         .action-btn {
             background: linear-gradient(135deg, #1e4a3b, #0f3b2f);
             color: white;
@@ -757,7 +1017,7 @@
             box-shadow: 0 2px 8px rgba(30,74,59,0.3);
         }
         
-        /* Premium Search Button */
+        /* Search Button */
         .search-btn-enhanced {
             background: linear-gradient(135deg, #1e4a3b, #0f3b2f);
             color: white;
@@ -774,7 +1034,7 @@
             box-shadow: 0 4px 12px rgba(30, 74, 59, 0.3);
         }
         
-        /* Premium Submenu */
+        /* Submenu */
         .submenu {
             display: flex;
             gap: 1rem;
@@ -809,7 +1069,7 @@
             border-color: #1e4a3b;
         }
         
-        /* Premium Customer Header */
+        /* Customer Header */
         .customer-header {
             background: linear-gradient(135deg, #1e4a3b, #0f3b2f);
             color: white;
@@ -843,7 +1103,7 @@
             background: rgba(255,255,255,0.3);
         }
         
-        /* Premium Stats Badge */
+        /* Stats Badge */
         .stats-badge {
             background: rgba(255,255,255,0.15);
             backdrop-filter: blur(10px);
@@ -869,7 +1129,7 @@
             opacity: 0.9;
         }
         
-        /* Premium Info Card */
+        /* Info Card */
         .info-card {
             background: linear-gradient(135deg, #f8fbf9, #ffffff);
             border-radius: 24px;
@@ -906,7 +1166,7 @@
             border-bottom: none;
         }
         
-        /* Premium Toast */
+        /* Toast */
         .toast {
             position: fixed;
             bottom: 20px;
@@ -937,7 +1197,7 @@
             }
         }
         
-        /* Premium Loading */
+        /* Loading */
         .loading {
             text-align: center;
             padding: 3rem;
@@ -954,7 +1214,7 @@
             to { transform: rotate(360deg); }
         }
         
-        /* Premium Empty State */
+        /* Empty State */
         .empty-state {
             text-align: center;
             padding: 4rem;
@@ -973,7 +1233,7 @@
             opacity: 0.5;
         }
         
-        /* Premium User Badge */
+        /* User Badge */
         .user-badge {
             position: absolute;
             bottom: 20px;
@@ -991,7 +1251,7 @@
             transform: translateY(-2px);
         }
         
-        /* Premium Section Title */
+        /* Section Title */
         .section-title {
             font-size: 1.3rem;
             font-weight: 700;
@@ -1021,7 +1281,7 @@
             }
         }
         
-        /* Premium Fetch Info */
+        /* Fetch Info */
         .fetch-info {
             margin-top: 0.5rem;
             padding: 0.5rem;
@@ -1040,7 +1300,7 @@
             color: #c2410c;
         }
         
-        /* Premium Dashboard Grid */
+        /* Dashboard Grid */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1048,55 +1308,45 @@
             margin-bottom: 1.5rem;
         }
         
-        /* Premium Units Black */
+        /* Units Black */
         .units-black {
             font-weight: 700;
             color: #000000 !important;
             font-size: 1rem;
         }
         
-        /* Sidebar No Bullet Points - Removed list-style */
-        .sidebar nav ul,
-        .sidebar nav ul li {
-            list-style: none;
+        /* Global Footer Clock */
+        .global-footer-clock {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(30, 74, 59, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            z-index: 1000;
+            font-family: 'Inter', monospace;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s;
         }
         
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 80px;
-                padding: 1rem 0.5rem;
-            }
-            
-            .sidebar .logo span,
-            .sidebar nav ul li button span {
-                display: none;
-            }
-            
-            .main-content {
-                padding: 1rem;
-            }
-            
-            .card {
-                padding: 1.2rem;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .customer-header {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .stat-card:hover {
-                transform: translateY(-3px);
-            }
-            
-            .card:hover {
-                transform: translateY(-1px);
-            }
+        .global-footer-clock:hover {
+            transform: translateY(-2px);
+            background: rgba(30, 74, 59, 1);
+        }
+        
+        .clock-time {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .clock-date {
+            font-size: 0.7rem;
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -1120,6 +1370,7 @@
     let currentUserRole = null;
     let currentPage = "Home";
     let reportType = "Line";
+    let mobileMenuOpen = false;
     
     function showToast(msg, isError = false) {
         let toast = document.querySelector('.toast');
@@ -1237,6 +1488,67 @@
             showToast(`Welcome back, ${username}!`);
         } else {
             errorDiv.innerHTML = "Invalid username or password";
+        }
+    }
+    
+    // Mobile Menu Functions
+    function initMobileMenu() {
+        // Remove existing elements if any
+        const existingToggle = document.querySelector('.mobile-menu-toggle');
+        const existingOverlay = document.querySelector('.mobile-overlay');
+        if (existingToggle) existingToggle.remove();
+        if (existingOverlay) existingOverlay.remove();
+        
+        // Create mobile menu toggle button
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'mobile-menu-toggle';
+        toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        toggleBtn.onclick = toggleMobileMenu;
+        document.body.appendChild(toggleBtn);
+        
+        // Create overlay
+        const overlay = document.createElement('div');
+        overlay.className = 'mobile-overlay';
+        overlay.onclick = closeMobileMenu;
+        document.body.appendChild(overlay);
+        
+        // Update sidebar
+        const sidebar = document.querySelector('.sidebar');
+        if (sidebar) {
+            sidebar.classList.remove('open');
+        }
+    }
+    
+    function toggleMobileMenu() {
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.querySelector('.mobile-overlay');
+        const toggleBtn = document.querySelector('.mobile-menu-toggle');
+        
+        if (sidebar && overlay) {
+            if (mobileMenuOpen) {
+                sidebar.classList.remove('open');
+                overlay.style.display = 'none';
+                if (toggleBtn) toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                mobileMenuOpen = false;
+            } else {
+                sidebar.classList.add('open');
+                overlay.style.display = 'block';
+                if (toggleBtn) toggleBtn.innerHTML = '<i class="fas fa-times"></i>';
+                mobileMenuOpen = true;
+            }
+        }
+    }
+    
+    function closeMobileMenu() {
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.querySelector('.mobile-overlay');
+        const toggleBtn = document.querySelector('.mobile-menu-toggle');
+        
+        if (sidebar && overlay) {
+            sidebar.classList.remove('open');
+            overlay.style.display = 'none';
+            if (toggleBtn) toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            mobileMenuOpen = false;
         }
     }
     
@@ -1862,7 +2174,7 @@
                                 <th>Phone</th>
                                 <th>DOB</th>
                                 <th>Date Created</th>
-                            </table>
+                            </tr>
                         </thead>
                         <tbody>
                             ${reportData.map(row => `
@@ -1945,6 +2257,9 @@
         document.querySelectorAll("[data-page]").forEach(btn => {
             btn.addEventListener("click", () => {
                 currentPage = btn.dataset.page;
+                if (window.innerWidth <= 768) {
+                    closeMobileMenu();
+                }
                 render();
             });
         });
@@ -2092,6 +2407,23 @@
         }
     }
     
+    function addGlobalFooterClock() {
+        if (document.querySelector('.global-footer-clock')) return;
+        const clockDiv = document.createElement('div');
+        clockDiv.className = 'global-footer-clock';
+        clockDiv.innerHTML = `<i class="fas fa-clock"></i><div><div id="clockTime">--:--:--</div><div id="clockDate">--- --, ----</div></div>`;
+        document.body.appendChild(clockDiv);
+        function updateClock() {
+            const now = new Date();
+            const timeEl = document.getElementById('clockTime');
+            const dateEl = document.getElementById('clockDate');
+            if (timeEl) timeEl.textContent = now.toLocaleTimeString();
+            if (dateEl) dateEl.textContent = now.toLocaleDateString();
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+    }
+    
     async function loadPageData() {
         if (currentPage === "Home") await loadHomeStats();
         if (currentPage === "Activation" && hasActivationAccess()) await loadActivationTable();
@@ -2110,11 +2442,19 @@
         if (!currentUser) {
             app.innerHTML = renderLogin();
             document.getElementById("loginBtn")?.addEventListener("click", doLogin);
+            const existingClock = document.querySelector('.global-footer-clock');
+            if (existingClock) existingClock.remove();
+            const existingToggle = document.querySelector('.mobile-menu-toggle');
+            if (existingToggle) existingToggle.remove();
+            const existingOverlay = document.querySelector('.mobile-overlay');
+            if (existingOverlay) existingOverlay.remove();
             return;
         }
         app.innerHTML = renderDashboard();
         attachMenuEvents();
         loadPageData();
+        addGlobalFooterClock();
+        initMobileMenu();
     }
     
     render();
