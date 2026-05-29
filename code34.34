@@ -1,0 +1,321 @@
+// ==================== FIXED BACKEND ====================
+
+function doGet(e) {
+  const action = e?.parameter?.action;
+  
+  console.log("Action received:", action);
+  
+  switch(action) {
+    case "login":
+      return handleLogin(e.parameter);
+    
+    case "getLines":
+      return handleGetLines();
+    
+    case "getTills":
+      return handleGetTills();
+    
+    case "getStats":
+      return handleGetStats();
+    
+    case "registerLine":
+      return handleRegisterLine(e.parameter);
+    
+    case "registerTill":
+      return handleRegisterTill(e.parameter);
+    
+    case "activateTill":
+      return handleActivateTill(e.parameter);
+    
+    case "updateUnits":
+      return handleUpdateUnits(e.parameter);
+    
+    case "test":
+      return buildResponse({ success: true, message: "API is working!" });
+    
+    default:
+      return buildResponse({ 
+        success: false, 
+        error: `Unknown action: "${action}"`
+      });
+  }
+}
+
+// ==================== LOGIN ====================
+function handleLogin(params) {
+  try {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    let sheet = ss.getSheetByName("users");
+    
+    if (!sheet) {
+      sheet = ss.insertSheet("users");
+      sheet.getRange("A1").setValue("Username");
+      sheet.getRange("B1").setValue("Password");
+      sheet.getRange("A2").setValue("admin");
+      sheet.getRange("B2").setValue("admin123");
+    }
+    
+    const data = sheet.getDataRange().getValues();
+    const username = params.username;
+    const password = params.password;
+    
+    for (let i = 1; i < data.length; i++) {
+      if (data[i][0] === username && data[i][1] === password) {
+        return buildResponse({ success: true, username: username });
+      }
+    }
+    
+    return buildResponse({ success: false, error: "Invalid username or password" });
+  } catch(err) {
+    return buildResponse({ success: false, error: err.toString() });
+  }
+}
+
+// ==================== GET LINES ====================
+function handleGetLines() {
+  try {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    let sheet = ss.getSheetByName("lines");
+    
+    if (!sheet) {
+      sheet = ss.insertSheet("lines");
+      sheet.getRange("A1:E1").setValues([["Name", "IDNumber", "Phone", "DateOfBirth", "DateCreated"]]);
+      return buildResponse({ lines: [], success: true });
+    }
+    
+    const data = sheet.getDataRange().getValues();
+    const lines = [];
+    
+    for (let i = 1; i < data.length; i++) {
+      if (data[i][0]) {
+        lines.push({
+          id: i,
+          name: data[i][0] || "",
+          idNumber: data[i][1] || "",
+          phone: data[i][2] || "",
+          dob: data[i][3] || "",
+          dateCreated: data[i][4] || new Date().toISOString()
+        });
+      }
+    }
+    
+    return buildResponse({ lines: lines, success: true });
+  } catch(err) {
+    return buildResponse({ lines: [], error: err.toString(), success: false });
+  }
+}
+
+// ==================== GET TILLS ====================
+function handleGetTills() {
+  try {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    let sheet = ss.getSheetByName("tills");
+    
+    if (!sheet) {
+      sheet = ss.insertSheet("tills");
+      sheet.getRange("A1:J1").setValues([["Phone", "Name", "IDNumber", "DateOfBirth", "TillNumber", "StoreNumber", "OperatorID", "Units", "Status", "DateCreated"]]);
+      return buildResponse({ tills: [], success: true });
+    }
+    
+    const data = sheet.getDataRange().getValues();
+    const tills = [];
+    
+    for (let i = 1; i < data.length; i++) {
+      if (data[i][0]) {
+        tills.push({
+          rowIndex: i + 1,
+          phone: data[i][0] || "",
+          name: data[i][1] || "",
+          idNumber: data[i][2] || "",
+          dob: data[i][3] || "",
+          tillNumber: data[i][4] || "",
+          storeNumber: data[i][5] || "",
+          operatorId: data[i][6] || "",
+          units: data[i][7] || 0,
+          status: data[i][8] || "inactive",
+          dateCreated: data[i][9] || new Date().toISOString()
+        });
+      }
+    }
+    
+    return buildResponse({ tills: tills, success: true });
+  } catch(err) {
+    return buildResponse({ tills: [], error: err.toString(), success: false });
+  }
+}
+
+// ==================== FIXED GET STATS ====================
+function handleGetStats() {
+  try {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const linesSheet = ss.getSheetByName("lines");
+    const tillsSheet = ss.getSheetByName("tills");
+    
+    // Calculate lines count
+    let linesCount = 0;
+    if (linesSheet) {
+      linesCount = Math.max(0, linesSheet.getLastRow() - 1);
+    }
+    
+    // Calculate active tills - DEBUG VERSION
+    let activeTills = 0;
+    let totalTills = 0;
+    let statuses = [];
+    
+    if (tillsSheet) {
+      const tillsData = tillsSheet.getDataRange().getValues();
+      totalTills = tillsData.length - 1;
+      
+      for (let i = 1; i < tillsData.length; i++) {
+        const status = tillsData[i][8]; // Column I (9th column, index 8)
+        statuses.push(`Row ${i}: "${status}"`);
+        if (status === "active") {
+          activeTills++;
+        }
+      }
+    }
+    
+    console.log(`Total tills: ${totalTills}, Active: ${activeTills}, Statuses: ${statuses.join(", ")}`);
+    
+    return buildResponse({
+      totalLines: linesCount,
+      activeTills: activeTills,
+      totalTills: totalTills,
+      commission: linesCount * 50,
+      salary: activeTills * 200,
+      success: true,
+      debug: { statuses: statuses } // Helps debug
+    });
+  } catch(err) {
+    return buildResponse({ error: err.toString(), success: false });
+  }
+}
+
+// ==================== REGISTER LINE ====================
+function handleRegisterLine(params) {
+  try {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    let sheet = ss.getSheetByName("lines");
+    
+    if (!sheet) {
+      sheet = ss.insertSheet("lines");
+      sheet.getRange("A1:E1").setValues([["Name", "IDNumber", "Phone", "DateOfBirth", "DateCreated"]]);
+    }
+    
+    sheet.appendRow([
+      params.name,
+      params.idNumber,
+      params.phone,
+      params.dob,
+      new Date().toISOString()
+    ]);
+    
+    return buildResponse({ success: true, message: "Line registered successfully" });
+  } catch(err) {
+    return buildResponse({ success: false, error: err.toString() });
+  }
+}
+
+// ==================== REGISTER TILL ====================
+function handleRegisterTill(params) {
+  try {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    let sheet = ss.getSheetByName("tills");
+    
+    if (!sheet) {
+      sheet = ss.insertSheet("tills");
+      sheet.getRange("A1:J1").setValues([["Phone", "Name", "IDNumber", "DateOfBirth", "TillNumber", "StoreNumber", "OperatorID", "Units", "Status", "DateCreated"]]);
+    }
+    
+    sheet.appendRow([
+      params.phone,
+      params.name,
+      params.idNumber,
+      params.dob,
+      params.tillNumber,
+      params.storeNumber,
+      params.operatorId,
+      0,
+      "inactive",
+      new Date().toISOString()
+    ]);
+    
+    return buildResponse({ success: true, message: "Till registered successfully" });
+  } catch(err) {
+    return buildResponse({ success: false, error: err.toString() });
+  }
+}
+
+// ==================== ACTIVATE TILL ====================
+function handleActivateTill(params) {
+  try {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const sheet = ss.getSheetByName("tills");
+    
+    if (!sheet) {
+      return buildResponse({ success: false, error: "Tills sheet not found" });
+    }
+    
+    // Column I (index 9) is Status
+    sheet.getRange(parseInt(params.rowIndex), 9).setValue("active");
+    
+    return buildResponse({ success: true, message: "Till activated" });
+  } catch(err) {
+    return buildResponse({ success: false, error: err.toString() });
+  }
+}
+
+// ==================== UPDATE UNITS ====================
+function handleUpdateUnits(params) {
+  try {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const sheet = ss.getSheetByName("tills");
+    
+    if (!sheet) {
+      return buildResponse({ success: false, error: "Tills sheet not found" });
+    }
+    
+    const currentUnits = sheet.getRange(parseInt(params.rowIndex), 8).getValue();
+    const newUnits = (currentUnits || 0) + parseFloat(params.addUnits);
+    sheet.getRange(parseInt(params.rowIndex), 8).setValue(newUnits);
+    
+    return buildResponse({ success: true, newUnits: newUnits });
+  } catch(err) {
+    return buildResponse({ success: false, error: err.toString() });
+  }
+}
+
+// ==================== SETUP SHEETS ====================
+function setupSheets() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  
+  let usersSheet = ss.getSheetByName("users");
+  if (!usersSheet) {
+    usersSheet = ss.insertSheet("users");
+    usersSheet.getRange("A1").setValue("Username");
+    usersSheet.getRange("B1").setValue("Password");
+    usersSheet.getRange("A2").setValue("admin");
+    usersSheet.getRange("B2").setValue("admin123");
+  }
+  
+  let linesSheet = ss.getSheetByName("lines");
+  if (!linesSheet) {
+    linesSheet = ss.insertSheet("lines");
+    linesSheet.getRange("A1:E1").setValues([["Name", "IDNumber", "Phone", "DateOfBirth", "DateCreated"]]);
+  }
+  
+  let tillsSheet = ss.getSheetByName("tills");
+  if (!tillsSheet) {
+    tillsSheet = ss.insertSheet("tills");
+    tillsSheet.getRange("A1:J1").setValues([["Phone", "Name", "IDNumber", "DateOfBirth", "TillNumber", "StoreNumber", "OperatorID", "Units", "Status", "DateCreated"]]);
+  }
+  
+  return "Setup complete!";
+}
+
+// ==================== HELPER ====================
+function buildResponse(data) {
+  return ContentService
+    .createTextOutput(JSON.stringify(data))
+    .setMimeType(ContentService.MimeType.JSON);
+}
